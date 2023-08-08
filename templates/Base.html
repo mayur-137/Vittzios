@@ -8,7 +8,6 @@
     <meta name="description" content="" />
     <title>{% block title %} {% endblock title %}</title>
     <link rel="stylesheet" href="{% static 'css/style.css' %}" media="screen" />
-    <link rel="stylesheet" href="{% static 'css/Home.css' %}" media="screen" />
     <script
       class="u-script"
       type="text/javascript"
@@ -47,15 +46,15 @@
     <meta property="og:title" content="Home" />
     <meta property="og:description" content="" />
     <meta property="og:type" content="website" />
-    <meta data-intl-tel-input-cdn-path="intlTelInput/" />
+    <!-- <meta data-intl-tel-input-cdn-path="intlTelInput/" /> -->
     {% block head %} {% endblock head %}
   </head>
 
   {% block header %}
+  <!--
   <header
-    class="u-clearfix u-header u-sticky u-header"
+    class="u-clearfix u-header u-header u-sticky-fixed"
     id="sec-7716"
-    data-href="/"
   >
     <a
       href="/"
@@ -74,7 +73,7 @@
       data-responsive-from="SM"
       data-submenu-level="on-click"
     >
-      <div class="menu-collapse" style="font-size: 1rem">
+      <div class="menu-collapse" style="font-size: 1rem; margin: 0px 50px;">
         <a
           class="u-button-style u-custom-active-color u-custom-border-radius u-custom-color u-custom-hover-color u-custom-left-right-menu-spacing u-custom-padding-bottom u-custom-text-active-color u-custom-text-color u-custom-text-hover-color u-custom-top-bottom-menu-spacing u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base u-text-white"
           href="#"
@@ -146,6 +145,10 @@
         </div>
         <div class="u-black u-menu-overlay u-opacity u-opacity-70"></div>
       </div>
+      <a href="Cart/" class="u-image u-logo u-image-2" data-image-width="437" data-image-height="440">
+        <img style="max-height: 50px;
+        margin: 22px 20px;" src="{% static 'assets/images/cart.png'%}" class="u-logo-image u-logo-image-2">
+      </a>
     </nav>
     <style class="u-sticky-style" data-style-id="c38e">
       .u-sticky-fixed.u-sticky-c38e:before,
@@ -155,6 +158,95 @@
         border-width: 2px !important;
       }
     </style>
+  </header>-->
+  <header class="u-clearfix u-header u-header" id="sec-33c3">
+    <div class="u-clearfix u-sheet u-sheet-1">
+      <a href="/" class="u-image u-logo u-image-1">
+        <img
+          src="{% static 'assets/images/vittLOGO-removebg-preview.png'%}"
+          class="u-logo-image u-logo-image-1"
+        />
+      </a>
+      <nav class="u-menu u-menu-one-level u-offcanvas u-menu-1">
+        <div class="menu-collapse" style="font-size: 1rem; letter-spacing: 0px">
+          <a
+            class="u-button-style u-custom-left-right-menu-spacing u-custom-padding-bottom u-custom-top-bottom-menu-spacing u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base"
+            href="#"
+          >
+            <svg class="u-svg-link" viewBox="0 0 24 24">
+              <use
+                xmlns:xlink="http://www.w3.org/1999/xlink"
+                xlink:href="#menu-hamburger"
+              ></use>
+            </svg>
+            <svg
+              class="u-svg-content"
+              version="1.1"
+              id="menu-hamburger"
+              viewBox="0 0 16 16"
+              x="0px"
+              y="0px"
+              xmlns:xlink="http://www.w3.org/1999/xlink"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <g>
+                <rect y="1" width="16" height="2"></rect>
+                <rect y="7" width="16" height="2"></rect>
+                <rect y="13" width="16" height="2"></rect>
+              </g>
+            </svg>
+          </a>
+        </div>
+        <div class="u-custom-menu u-nav-container">
+          <ul class="u-nav u-unstyled u-nav-1">
+            <li class="u-nav-item">
+              <a
+                class="u-button-style u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base"
+                href="/about/"
+                style="padding: 10px 20px"
+                >About</a
+              >
+            </li>
+            <li class="u-nav-item">
+              <a
+                class="u-button-style u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base"
+                href="/contact/"
+                style="padding: 10px 20px"
+                >Contact Us</a
+              >
+            </li>
+          </ul>
+        </div>
+        <div class="u-custom-menu u-nav-container-collapse">
+          <div
+            class="u-black u-container-style u-inner-container-layout u-opacity u-opacity-95 u-sidenav"
+          >
+            <div class="u-inner-container-layout u-sidenav-overflow">
+              <div class="u-menu-close"></div>
+              <ul
+                class="u-align-center u-nav u-popupmenu-items u-unstyled u-nav-2"
+              >
+                <li class="u-nav-item">
+                  <a class="u-button-style u-nav-link" href="/about">about</a>
+                </li>
+                <li class="u-nav-item">
+                  <a class="u-button-style u-nav-link" href="/contact/">Contact Us</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="u-black u-menu-overlay u-opacity u-opacity-70"></div>
+        </div>
+      </nav>
+      <a
+        href="/cart/"
+        class="u-image u-logo u-image-2"
+        data-image-width="437"
+        data-image-height="440"
+      >
+        <img src="{% static 'assets/images/cart.png'%}" class="u-logo-image u-logo-image-2" />
+      </a>
+    </div>
   </header>
   {% endblock header %} {% block body %} {% endblock body %}
 
@@ -234,7 +326,6 @@
                         class="u-svg-link"
                         preserveAspectRatio="xMidYMin slice"
                         viewBox="0 0 112 112"
-                        
                       >
                         <use
                           xmlns:xlink="http://www.w3.org/1999/xlink"

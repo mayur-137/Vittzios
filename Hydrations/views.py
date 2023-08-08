@@ -1,31 +1,33 @@
-from django.shortcuts import render
 from django.views.generic.base import TemplateView
-from django.views.generic.detail import DetailView
-
-from django.views.generic.list import ListView
 from .models import VitaminGummies, EffervescentTablets, AyurvedicPower
 
 
-class VittList(ListView):
+class VitaminGummiesView(TemplateView):
     model = VitaminGummies
     template_name = "VitaminGummies.html"
 
-    def get_queryset(self, slug=None, *args, **kwargs):
-        VG = VitaminGummies.objects.filter(slug=slug)
-        print(VG, "VG00000000000000000000000000000000")
+    def get_context_data(self, **kwargs):
+        VG = super().get_context_data()
+        # slug = self.kwargs.get("slug")
+        # if slug is None:
+        VG["vg"] = VitaminGummies.objects.all()
+        # else:
+        #     VG["vg"] = VitaminGummies.objects.filter(slug=slug)
+        print(VG["vg"])
+        if not VG["vg"]:
+            return {"NF": "not found"}
         return VG
 
 
-class VitaminGummiesView(DetailView):
-    model = VitaminGummies
-    slug_field = 'slug'
-    slug_url_kwarg = 'slug'
-    template_name = "VitaminGummies.html"
-
-    def get_queryset(self, *args, **kwargs):
-        VG = VitaminGummies.objects.filter(slug="Mayurs")
-        print(VG, "VG00000000000000000000000000000000")
-        return VG
+# class SlugDetailsView(DetailView):
+#     model = VitaminGummies
+#     template_name = "VitaminGummies.html"
+#
+#     def get_object(self, **kwargs):
+#         slug = self.kwargs.get("slug")
+#         VG["hi"] = VitaminGummies.objects.filter(slug=slug)
+#         print(slug, VG, "77777777777777777777777")
+#         return VG
 
 
 class HomeView(TemplateView):
@@ -64,8 +66,14 @@ class CartView(TemplateView):
 
 
 class CheckoutView(TemplateView):
+    model = VitaminGummies
     template_name = "Checkout.html"
 
     def get_context_data(self, **kwargs):
-        checkout = super().get_context_data()
-        return checkout
+        VG = super().get_context_data()
+        slug = self.kwargs.get("slug")
+        VG["vg"] = VitaminGummies.objects.filter(slug=slug)
+        print(VG["vg"])
+        if not VG["vg"]:
+            return {"NF": "not found"}
+        return VG

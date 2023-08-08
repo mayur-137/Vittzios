@@ -7,30 +7,30 @@
 {% block body %}
 
 <body class="u-body u-xl-mode" data-lang="en">
-  <section class="u-clearfix u-section-1" id="sec-aeb4" data-href="#">
+  <section class="u-clearfix u-section-1" id="sec-aeb4">
+    {% for i in vg %}
     <div class="u-clearfix u-sheet u-valign-top u-sheet-1">
-      <!--product--><!--product_options_json--><!--{"source":""}--><!--/product_options_json--><!--product_item-->
       <div class="u-container-style u-expanded-width u-product u-product-1">
         <div class="u-container-layout u-valign-middle-xl u-container-layout-1">
-          <!--product_gallery--><!--options_json--><!--{"maxItems":""}--><!--/options_json-->
           <div
             class="u-carousel u-gallery u-layout-thumbnails u-lightbox u-no-transition u-product-control u-show-text-none u-thumbnails-position-left u-gallery-1"
             data-interval="5000" data-u-ride="carousel" id="carousel-eeb8">
-            <div class="u-carousel-inner u-gallery-inner" role="listbox"><!--product_gallery_item-->
+            <div class="u-carousel-inner u-gallery-inner" role="listbox">
               <div class="u-active u-carousel-item u-gallery-item">
                 <div class="u-back-slide">
                   <img class="u-back-image u-expanded"
-                    src="data:image/svg+xml;base64,DQo8c3ZnIHZlcnNpb249IjEuMSIgaWQ9Im1hbiIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgeD0iMHB4IiB5PSIwcHgiDQoJIHdpZHRoPSIyNTZweCIgaGVpZ2h0PSIyNTZweCIgdmlld0JveD0iMCAwIDI1NiAyNTYiIGVuYWJsZS1iYWNrZ3JvdW5kPSJuZXcgMCAwIDI1NiAyNTYiIHhtbDpzcGFjZT0icHJlc2VydmUiPg0KPHJlY3QgZmlsbD0iI0M2RDhFMSIgd2lkdGg9IjI1NiIgaGVpZ2h0PSIyNTYiLz4NCjxwYXRoIGZpbGwtcnVsZT0iZXZlbm9kZCIgY2xpcC1ydWxlPSJldmVub2RkIiBmaWxsPSIjN0Y5NkE2IiBkPSJNMTkyLjcsNTRjMCwwLDUuMywwLjMsMTMuMiw5LjJjNy45LDguOSwxNC4zLDE5LDE1LjgsMjUuOA0KCWMxLjUsNi44LDIsMTMuNiwwLjMsMTcuNWMtMS44LDMuOS0xMS40LDM0LjQtMTEuNyw0My45Yy0wLjMsOS41LTIuNiw1My0yLjYsNTNoLTEwLjVsLTIuMS01Ny43YzAsMC0wLjMtMTAuNy0zLjgtMTAuNw0KCWMtMy41LDAtMTYuNyw0LjQtMjguOSwyN0MxNTAsMTg0LjUsMTQzLDE5Ny41LDEzNiwyMDAuOGMtNywzLjMtNTcuMyw0LjItNzEsMi4xYy0xMy43LTIuMS0zMS4zLTkuNS0zMS4zLTkuNXMtMy44LTcuMSw3LTEwLjENCgljMTAuOC0zLDQxLjgtMTMsNDguMi0xNi45YzMuNy0yLjIsMjksNi45LDM4LjktNS4xYzkuMS0xMS4xLDM3LjMtNzEsNDUuNi04Mi45QzE4My40LDY0LjEsMTkwLjgsNTQsMTkyLjcsNTR6Ii8+DQo8L3N2Zz4NCg==">
+                  src="/{{i.picture}}" alt="{{i.name}}"/>
+                
                 </div>
                 <div class="u-over-slide u-over-slide-1">
-                  <h3 class="u-gallery-heading">Sample Title</h3>
+                  <h3 class="u-gallery-heading">{{i.name}}</h3>
                   <p class="u-gallery-text">Sample Text</p>
                 </div>
-              </div><!--/product_gallery_item--><!--product_gallery_item-->
+              </div>
               <div class="u-carousel-item u-gallery-item">
                 <div class="u-back-slide">
                   <img class="u-back-image u-expanded"
-                    src="data:image/svg+xml;base64,DQo8c3ZnIHZlcnNpb249IjEuMSIgaWQ9Im1hbiIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgeD0iMHB4IiB5PSIwcHgiDQoJIHdpZHRoPSIyNTZweCIgaGVpZ2h0PSIyNTZweCIgdmlld0JveD0iMCAwIDI1NiAyNTYiIGVuYWJsZS1iYWNrZ3JvdW5kPSJuZXcgMCAwIDI1NiAyNTYiIHhtbDpzcGFjZT0icHJlc2VydmUiPg0KPHJlY3QgZmlsbD0iI0M2RDhFMSIgd2lkdGg9IjI1NiIgaGVpZ2h0PSIyNTYiLz4NCjxnPg0KCTxnPg0KCQk8cGF0aCBmaWxsPSIjN0Y5NkE2IiBkPSJNMjEyLjMsNjEuNWMtOC40LTE0LjMtMTIuNC0xNi4yLTE0LjYtMTUuNGMtMi4yLDAuOC0yNS45LDIzLjUtMzQuMywzNS41cy0xMSwyOS4zLTEwLjQsMzQuNw0KCQkJYzAuNiw1LjMsMS43LDcsMS43LDdzLTguNywxNS45LTEyLjEsMjRjLTMuNCw4LjEtMTIuMSwyNC42LTE0LjMsMjQuM2MtMi4yLTAuMy0yMi44LTcuNS0yOC40LTguOWMtNS42LTEuNC0xNi45LTMuNi0yMy4zLTMuNA0KCQkJYzAsMC04LjQsMTEuNy0xOC41LDE2LjhjLTEwLjEsNS0yNS4zLDE1LjctMjUsMjAuN2MwLjMsNSw0LjgsOS44LDEzLjIsMTAuM2M4LjQsMC42LDY0LjEsMS40LDgxLjgsMC4zDQoJCQljMTcuNy0xLjEsMzQuNi02LjEsMzYuNS05LjVjMi0zLjQsOC40LTIyLjEsMTEuMi0zMi43YzIuOC0xMC42LDE4LjMtMzAuNSwxOC4zLTMwLjVzMy43LDguNCwzLjksMjMuOGMwLjMsMTUuNCwyLjIsMzYuMywyLjIsMzYuMw0KCQkJbDYuNSwwLjhsMi41LTIuMmMwLDAtMS4xLTQwLjgtMC42LTQ5LjJjMC42LTguNCwzLjEtMjQuMyw3LjYtMjkuOWM0LjUtNS42LDYuNS04LjQsNi43LTEzLjFDMjIzLjMsOTYuNSwyMjAuNyw3NS44LDIxMi4zLDYxLjV6DQoJCQkgTTE2My43LDE1My4yYy03LjMsMTMuNC0xMi45LDE3LjYtMjEuMSwxOWMtOC4xLDEuNC02LjIsMC44LTYuMiwwLjhzMTIuNi0xOS45LDE4LjEtMzFjMy44LTcuNyw5LjctMjcuNiwyNS4yLTM1LjUNCgkJCUMxNzkuNywxMDYuNSwxNzEsMTM5LjgsMTYzLjcsMTUzLjJ6Ii8+DQoJPC9nPg0KPC9nPg0KPC9zdmc+DQo=">
+                  src="/{{i.picture}}" alt="{{i.name}}"/>
                 </div>
                 <div class="u-over-slide u-over-slide-2">
                   <h3 class="u-gallery-heading">Sample Title</h3>
@@ -77,32 +77,28 @@ c6.177,6.18,9.262,14.271,9.262,22.366C354.708,234.018,351.617,242.115,345.441,24
               <li class="u-active u-carousel-thumbnail u-carousel-thumbnail-1" data-u-target="#carousel-eeb8"
                 data-u-slide-to="0">
                 <img class="u-carousel-thumbnail-image u-image"
-                  src="data:image/svg+xml;base64,DQo8c3ZnIHZlcnNpb249IjEuMSIgaWQ9Im1hbiIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgeD0iMHB4IiB5PSIwcHgiDQoJIHdpZHRoPSIyNTZweCIgaGVpZ2h0PSIyNTZweCIgdmlld0JveD0iMCAwIDI1NiAyNTYiIGVuYWJsZS1iYWNrZ3JvdW5kPSJuZXcgMCAwIDI1NiAyNTYiIHhtbDpzcGFjZT0icHJlc2VydmUiPg0KPHJlY3QgZmlsbD0iI0M2RDhFMSIgd2lkdGg9IjI1NiIgaGVpZ2h0PSIyNTYiLz4NCjxwYXRoIGZpbGwtcnVsZT0iZXZlbm9kZCIgY2xpcC1ydWxlPSJldmVub2RkIiBmaWxsPSIjN0Y5NkE2IiBkPSJNMTkyLjcsNTRjMCwwLDUuMywwLjMsMTMuMiw5LjJjNy45LDguOSwxNC4zLDE5LDE1LjgsMjUuOA0KCWMxLjUsNi44LDIsMTMuNiwwLjMsMTcuNWMtMS44LDMuOS0xMS40LDM0LjQtMTEuNyw0My45Yy0wLjMsOS41LTIuNiw1My0yLjYsNTNoLTEwLjVsLTIuMS01Ny43YzAsMC0wLjMtMTAuNy0zLjgtMTAuNw0KCWMtMy41LDAtMTYuNyw0LjQtMjguOSwyN0MxNTAsMTg0LjUsMTQzLDE5Ny41LDEzNiwyMDAuOGMtNywzLjMtNTcuMyw0LjItNzEsMi4xYy0xMy43LTIuMS0zMS4zLTkuNS0zMS4zLTkuNXMtMy44LTcuMSw3LTEwLjENCgljMTAuOC0zLDQxLjgtMTMsNDguMi0xNi45YzMuNy0yLjIsMjksNi45LDM4LjktNS4xYzkuMS0xMS4xLDM3LjMtNzEsNDUuNi04Mi45QzE4My40LDY0LjEsMTkwLjgsNTQsMTkyLjcsNTR6Ii8+DQo8L3N2Zz4NCg==">
-              </li><!--/product_gallery_thumbnail--><!--product_gallery_thumbnail-->
+                  src="/{{i.picture}}" alt="{{i.name}}"/>
+                </li><!--/product_gallery_thumbnail--><!--product_gallery_thumbnail-->
               <li class="u-carousel-thumbnail u-carousel-thumbnail-2" data-u-target="#carousel-eeb8"
                 data-u-slide-to="1">
                 <img class="u-carousel-thumbnail-image u-image"
-                  src="data:image/svg+xml;base64,DQo8c3ZnIHZlcnNpb249IjEuMSIgaWQ9Im1hbiIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgeD0iMHB4IiB5PSIwcHgiDQoJIHdpZHRoPSIyNTZweCIgaGVpZ2h0PSIyNTZweCIgdmlld0JveD0iMCAwIDI1NiAyNTYiIGVuYWJsZS1iYWNrZ3JvdW5kPSJuZXcgMCAwIDI1NiAyNTYiIHhtbDpzcGFjZT0icHJlc2VydmUiPg0KPHJlY3QgZmlsbD0iI0M2RDhFMSIgd2lkdGg9IjI1NiIgaGVpZ2h0PSIyNTYiLz4NCjxnPg0KCTxnPg0KCQk8cGF0aCBmaWxsPSIjN0Y5NkE2IiBkPSJNMjEyLjMsNjEuNWMtOC40LTE0LjMtMTIuNC0xNi4yLTE0LjYtMTUuNGMtMi4yLDAuOC0yNS45LDIzLjUtMzQuMywzNS41cy0xMSwyOS4zLTEwLjQsMzQuNw0KCQkJYzAuNiw1LjMsMS43LDcsMS43LDdzLTguNywxNS45LTEyLjEsMjRjLTMuNCw4LjEtMTIuMSwyNC42LTE0LjMsMjQuM2MtMi4yLTAuMy0yMi44LTcuNS0yOC40LTguOWMtNS42LTEuNC0xNi45LTMuNi0yMy4zLTMuNA0KCQkJYzAsMC04LjQsMTEuNy0xOC41LDE2LjhjLTEwLjEsNS0yNS4zLDE1LjctMjUsMjAuN2MwLjMsNSw0LjgsOS44LDEzLjIsMTAuM2M4LjQsMC42LDY0LjEsMS40LDgxLjgsMC4zDQoJCQljMTcuNy0xLjEsMzQuNi02LjEsMzYuNS05LjVjMi0zLjQsOC40LTIyLjEsMTEuMi0zMi43YzIuOC0xMC42LDE4LjMtMzAuNSwxOC4zLTMwLjVzMy43LDguNCwzLjksMjMuOGMwLjMsMTUuNCwyLjIsMzYuMywyLjIsMzYuMw0KCQkJbDYuNSwwLjhsMi41LTIuMmMwLDAtMS4xLTQwLjgtMC42LTQ5LjJjMC42LTguNCwzLjEtMjQuMyw3LjYtMjkuOWM0LjUtNS42LDYuNS04LjQsNi43LTEzLjFDMjIzLjMsOTYuNSwyMjAuNyw3NS44LDIxMi4zLDYxLjV6DQoJCQkgTTE2My43LDE1My4yYy03LjMsMTMuNC0xMi45LDE3LjYtMjEuMSwxOWMtOC4xLDEuNC02LjIsMC44LTYuMiwwLjhzMTIuNi0xOS45LDE4LjEtMzFjMy44LTcuNyw5LjctMjcuNiwyNS4yLTM1LjUNCgkJCUMxNzkuNywxMDYuNSwxNzEsMTM5LjgsMTYzLjcsMTUzLjJ6Ii8+DQoJPC9nPg0KPC9nPg0KPC9zdmc+DQo=">
+                src="/{{i.picture}}" alt="{{i.name}}"/>
               </li><!--/product_gallery_thumbnail-->
             </ol>
           </div><!--/product_gallery--><!--product_title-->
-          <h2 class="u-align-left u-product-control u-text u-text-1">
-            <a class="u-product-title-link" href="#"><!--product_title_content-->Product 1
-              Title<!--/product_title_content--></a>
-          </h2><!--/product_title--><!--product_price-->
+          <h2 class="u-align-left u-product-control u-text u-text-1"> {{i.name}} </h2><!--/product_title--><!--product_price-->
           <div class="u-product-control u-product-price u-product-price-1">
             <div class="u-price-wrapper u-spacing-10"><!--product_old_price-->
               <div class="u-hide-price u-old-price" style="text-decoration: line-through !important;">
                 <!--product_old_price_content-->$20.00<!--/product_old_price_content--></div>
               <!--/product_old_price--><!--product_regular_price-->
               <div class="u-price u-text-palette-2-base" style="font-size: 1.875rem; font-weight: 700;">
-                <!--product_regular_price_content-->$17.00<!--/product_regular_price_content--></div>
+                <!--product_regular_price_content-->{{i.price}}<!--/product_regular_price_content--></div>
               <!--/product_regular_price-->
             </div>
           </div><!--/product_price--><!--product_content-->
           <div class="u-align-left u-product-control u-product-desc u-text u-text-2"><!--product_content_content-->
-            <p>Sample text. Lorem ipsum dolor sit amet, consectetur adipiscing elit nullam nunc justo sagittis suscipit
-              ultrices.</p><!--/product_content_content-->
+            <p>{{ i.description }}</p><!--/product_content_content-->
           </div>
           <!--/product_content--><!--product_button--><!--options_json--><!--{"clickType":"go-to-page","content":""}--><!--/options_json-->
           <a href="#"
@@ -112,6 +108,7 @@ c6.177,6.18,9.262,14.271,9.262,22.366C354.708,234.018,351.617,242.115,345.441,24
         </div>
       </div><!--/product_item--><!--/product-->
     </div>
+    {% endfor %}
   </section>
 
 </body>
