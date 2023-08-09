@@ -51,7 +51,7 @@
   </head>
 
   {% block header %}
-  <!--
+  
   <header
     class="u-clearfix u-header u-header u-sticky-fixed"
     id="sec-7716"
@@ -145,10 +145,12 @@
         </div>
         <div class="u-black u-menu-overlay u-opacity u-opacity-70"></div>
       </div>
-      <a href="Cart/" class="u-image u-logo u-image-2" data-image-width="437" data-image-height="440">
-        <img style="max-height: 50px;
-        margin: 22px 20px;" src="{% static 'assets/images/cart.png'%}" class="u-logo-image u-logo-image-2">
-      </a>
+      <nav>
+        <a href="/cart/" data-image-width="437" data-image-height="440">
+          <img style="max-height: 50px;
+          margin: 22px 20px;" src="{% static 'assets/images/cart.png'%}">
+        </a>
+      </nav>
     </nav>
     <style class="u-sticky-style" data-style-id="c38e">
       .u-sticky-fixed.u-sticky-c38e:before,
@@ -158,7 +160,8 @@
         border-width: 2px !important;
       }
     </style>
-  </header>-->
+  </header>
+  <!--
   <header class="u-clearfix u-header u-header" id="sec-33c3">
     <div class="u-clearfix u-sheet u-sheet-1">
       <a href="/" class="u-image u-logo u-image-1">
@@ -247,7 +250,7 @@
         <img src="{% static 'assets/images/cart.png'%}" class="u-logo-image u-logo-image-2" />
       </a>
     </div>
-  </header>
+  </header>-->
   {% endblock header %} {% block body %} {% endblock body %}
 
   <footer class="u-clearfix u-footer u-grey-80" id="sec-aaea">

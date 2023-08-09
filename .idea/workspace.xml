@@ -5,24 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="afcf584f-7dca-488e-b20f-e9c0e8eb836a" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/Vittzios_v2.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/css/CategoryDetails.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Hydrations/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/Hydrations/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Hydrations/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/Hydrations/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/7d039dd5-7ae5-442f-8c4d-457779b5f962.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/7d039dd5-7ae5-442f-8c4d-457779b5f962.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Hydrations/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/Hydrations/models.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/static/css/Home.css" beforeDir="false" afterPath="$PROJECT_DIR$/static/css/Home.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/static/css/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/static/css/style.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/js/script.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/js/script.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/staticFiles/css/Home.css" beforeDir="false" afterPath="$PROJECT_DIR$/staticFiles/css/Home.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/About.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/About.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/Base.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/Base.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/Checkout.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/Checkout.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/Contact.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/Contact.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/Home.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/Home.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/VitaminGummies.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/VitaminGummies.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -57,6 +45,7 @@
     &quot;codeWithMe.voiceChat.enabledByDefault&quot;: &quot;false&quot;,
     &quot;git-widget-placeholder&quot;: &quot;master&quot;,
     &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/_Code_PlayGround/Vittzios&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -64,7 +53,31 @@
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Django Server.Vittzios">
+    <configuration name="Vittzios" type="Python.DjangoServer" factoryName="Django server">
+      <module name="Vittzios" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+        <env name="DJANGO_SETTINGS_MODULE" value="Vittzios_v2.settings" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="launchJavascriptDebuger" value="false" />
+      <option name="port" value="8000" />
+      <option name="host" value="" />
+      <option name="additionalOptions" value="" />
+      <option name="browserUrl" value="" />
+      <option name="runTestServer" value="false" />
+      <option name="runNoReload" value="false" />
+      <option name="useCustomRunCommand" value="false" />
+      <option name="customRunCommand" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="Vittzios_v2" type="Python.DjangoServer" factoryName="Django server">
       <module name="Vittzios_v2" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -108,6 +121,9 @@
       <workItem from="1691344551501" duration="1222000" />
       <workItem from="1691392564302" duration="3177000" />
       <workItem from="1691480027223" duration="627000" />
+      <workItem from="1691529887701" duration="1224000" />
+      <workItem from="1691560751342" duration="1249000" />
+      <workItem from="1691566718616" duration="2519000" />
     </task>
     <servers />
   </component>
