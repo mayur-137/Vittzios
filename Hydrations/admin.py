@@ -1,6 +1,6 @@
 from django.contrib import admin
 from .models import VitaminGummies, EffervescentTablets, VitaminCapsules, AyurvedicJuice, AyurvedicPower, \
-    TropicalSkinHair
+    TropicalSkinHair, CartModel
 # Register your models here.
 
 
@@ -15,3 +15,4 @@ admin.site.register(VitaminCapsules, AuthorAdmin)
 admin.site.register(AyurvedicPower, AuthorAdmin)
 admin.site.register(AyurvedicJuice, AuthorAdmin)
 admin.site.register(TropicalSkinHair, AuthorAdmin)
+admin.site.register(CartModel, AuthorAdmin)

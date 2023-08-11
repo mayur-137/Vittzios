@@ -1,4 +1,6 @@
 from django.views.generic.base import TemplateView
+from django.views.generic.edit import FormView
+from .forms import UserRegistrationForm
 from .models import VitaminGummies, EffervescentTablets, AyurvedicPower
 
 
@@ -8,26 +10,8 @@ class VitaminGummiesView(TemplateView):
 
     def get_context_data(self, **kwargs):
         VG = super().get_context_data()
-        # slug = self.kwargs.get("slug")
-        # if slug is None:
         VG["vg"] = VitaminGummies.objects.all()
-        # else:
-        #     VG["vg"] = VitaminGummies.objects.filter(slug=slug)
-        print(VG["vg"])
-        if not VG["vg"]:
-            return {"NF": "not found"}
         return VG
-
-
-# class SlugDetailsView(DetailView):
-#     model = VitaminGummies
-#     template_name = "VitaminGummies.html"
-#
-#     def get_object(self, **kwargs):
-#         slug = self.kwargs.get("slug")
-#         VG["hi"] = VitaminGummies.objects.filter(slug=slug)
-#         print(slug, VG, "77777777777777777777777")
-#         return VG
 
 
 class HomeView(TemplateView):
@@ -49,8 +33,16 @@ class AboutView(TemplateView):
         return about
 
 
-class ContactView(TemplateView):
+class ContactView(FormView):
     template_name = "Contact.html"
+    form_class = UserRegistrationForm
+    success_url = "/thanks/"
+
+    def form_valid(self, form):
+        # This method is called when valid form data has been POSTed.
+        # It should return an HttpResponse.
+        # form.send_email()
+        return super().form_valid(form)
 
     def get_context_data(self, **kwargs):
         contact = super().get_context_data()
