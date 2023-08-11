@@ -62,6 +62,8 @@ class CartView(TemplateView):
 
     def get_context_data(self, **kwargs):
         cart = super().get_context_data()
+        slug = self.kwargs.get("slug")
+        print(slug)
         return cart
 
 
@@ -73,7 +75,8 @@ class CheckoutView(TemplateView):
         VG = super().get_context_data()
         slug = self.kwargs.get("slug")
         VG["vg"] = VitaminGummies.objects.filter(slug=slug)
-        print(VG["vg"])
         if not VG["vg"]:
-            return {"NF": "not found"}
+            VG["vg"] = EffervescentTablets.objects.filter(slug=slug)
+        if not VG["vg"]:
+            VG["vg"] = AyurvedicPower.objects.filter(slug=slug)
         return VG

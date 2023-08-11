@@ -87,5 +87,5 @@ class CartModel(models.Model):
     slug = models.SlugField(unique=True, max_length=255)
     stock = models.BooleanField()
     quantity = models.IntegerField(default=0)
-    picture = models.ImageField(upload_to="static/images/VitaminCapsules/")
+    picture = models.ImageField(upload_to="static/images/CartModules/")
     created_on = models.DateTimeField(auto_now_add=True)
