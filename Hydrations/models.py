@@ -89,3 +89,12 @@ class CartModel(models.Model):
     quantity = models.IntegerField(default=0)
     picture = models.ImageField(upload_to="static/images/CartModules/")
     created_on = models.DateTimeField(auto_now_add=True)
+
+
+class ContactModel(models.Model):
+    id = models.AutoField
+    name = models.CharField(max_length=25)
+    email = models.EmailField()
+    message = models.TextField(max_length=4000)
+    created_on = models.DateTimeField(auto_now_add=True)
+

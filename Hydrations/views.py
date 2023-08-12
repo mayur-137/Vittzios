@@ -1,7 +1,8 @@
 from django.views.generic.base import TemplateView
-from django.views.generic.edit import FormView
-from .forms import UserRegistrationForm
-from .models import VitaminGummies, EffervescentTablets, AyurvedicPower
+from django.views.generic.edit import CreateView
+from django.views.generic.edit import CreateView
+from .forms import ContactFormModel
+from .models import VitaminGummies, EffervescentTablets, AyurvedicPower, ContactModel
 
 
 class VitaminGummiesView(TemplateView):
@@ -33,20 +34,34 @@ class AboutView(TemplateView):
         return about
 
 
-class ContactView(FormView):
+class ContactView(TemplateView):
     template_name = "Contact.html"
-    form_class = UserRegistrationForm
-    success_url = "/thanks/"
-
-    def form_valid(self, form):
-        # This method is called when valid form data has been POSTed.
-        # It should return an HttpResponse.
-        # form.send_email()
-        return super().form_valid(form)
 
     def get_context_data(self, **kwargs):
         contact = super().get_context_data()
         return contact
+
+
+class ContactFormView(CreateView):
+    model = ContactModel
+    form_class = ContactFormModel
+    template_name = "success.html"
+    success_url = "/submit/"
+
+    def form_valid(self, form):
+        print("doneeeeeeeeeeeeeeeeeeeeeeeeee")
+        print(self.request.POST.get('email'))
+        print(form['name'].value())
+
+        # Using form.cleaned_data
+        print(form.cleaned_data['name'])
+        print(form.cleaned_data['email'])
+        print(form.cleaned_data['message'])
+        form.cleaned_data
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        return super().form_invalid(form)
 
 
 class CartView(TemplateView):
