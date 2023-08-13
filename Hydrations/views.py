@@ -1,7 +1,9 @@
+from django.shortcuts import redirect
 from django.views.generic.base import TemplateView
-from django.views.generic.edit import CreateView, FormView
-from .forms import ContactFormModel
-from .models import VitaminGummies, EffervescentTablets, AyurvedicPower, ContactModel
+from django.views.generic.edit import CreateView
+from django.http import JsonResponse
+from .forms import ContactFormModel, ProductBuyFormDetails
+from .models import VitaminGummies, EffervescentTablets, AyurvedicPower, ContactModel, ProductBuyDetails
 
 
 class VitaminGummiesView(TemplateView):
@@ -41,32 +43,32 @@ class ContactView(TemplateView):
         return contact
 
 
-class ContactFormView(FormView):
+class ContactFormView(CreateView):
+    model = ContactModel
     form_class = ContactFormModel
     template_name = "success.html"
     success_url = "/submit/"
 
     def form_valid(self, form):
-
-        # Using form.cleaned_data
-        print(form.cleaned_data['name'])
-        print(form.cleaned_data['email'])
-
+        print(form)
         return super().form_valid(form)
 
     def form_invalid(self, form):
-        print("y")
+        print("form invalid")
         return super().form_invalid(form)
 
 
-class CartView(TemplateView):
+class CartView(CreateView):
+    model = ProductBuyDetails
+    form_class = ProductBuyFormDetails
     template_name = "Cart.html"
+    success_url = "/cart/"
 
-    def get_context_data(self, **kwargs):
-        cart = super().get_context_data()
-        slug = self.kwargs.get("slug")
-        print(slug)
-        return cart
+    def form_valid(self, form):
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        return super().form_invalid(form)
 
 
 class CheckoutView(TemplateView):

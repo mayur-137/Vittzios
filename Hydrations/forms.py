@@ -1,6 +1,14 @@
-from django import forms
+from django.forms import ModelForm
+from .models import ContactModel, ProductBuyDetails
 
 
-class ContactFormModel(forms.Form):
-    name = forms.CharField()
-    email = forms.EmailField()
+class ContactFormModel(ModelForm):
+    class Meta:
+        model = ContactModel
+        fields = ["name", "email", "message"]
+
+
+class ProductBuyFormDetails(ModelForm):
+    class Meta:
+        model = ProductBuyDetails
+        fields = ['slug']
