@@ -1,6 +1,5 @@
 from django.views.generic.base import TemplateView
-from django.views.generic.edit import CreateView
-from django.views.generic.edit import CreateView
+from django.views.generic.edit import CreateView, FormView
 from .forms import ContactFormModel
 from .models import VitaminGummies, EffervescentTablets, AyurvedicPower, ContactModel
 
@@ -42,25 +41,21 @@ class ContactView(TemplateView):
         return contact
 
 
-class ContactFormView(CreateView):
-    model = ContactModel
+class ContactFormView(FormView):
     form_class = ContactFormModel
     template_name = "success.html"
     success_url = "/submit/"
 
     def form_valid(self, form):
-        print("doneeeeeeeeeeeeeeeeeeeeeeeeee")
-        print(self.request.POST.get('email'))
-        print(form['name'].value())
 
         # Using form.cleaned_data
         print(form.cleaned_data['name'])
         print(form.cleaned_data['email'])
-        print(form.cleaned_data['message'])
-        form.cleaned_data
+
         return super().form_valid(form)
 
     def form_invalid(self, form):
+        print("y")
         return super().form_invalid(form)
 
 
