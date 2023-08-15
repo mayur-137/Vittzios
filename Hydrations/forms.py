@@ -11,4 +11,4 @@ class ContactFormModel(ModelForm):
 class ProductBuyFormDetails(ModelForm):
     class Meta:
         model = ProductBuyDetails
-        fields = ['slug']
+        fields = ['email', 'slug']

@@ -65,6 +65,8 @@ class CartView(CreateView):
     success_url = "/cart/"
 
     def form_valid(self, form):
+        print("name", form.cleaned_data["email"])
+
         return super().form_valid(form)
 
     def form_invalid(self, form):

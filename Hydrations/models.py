@@ -101,4 +101,5 @@ class ContactModel(models.Model):
 
 class ProductBuyDetails(models.Model):
     id = models.AutoField
+    email = models.EmailField()
     slug = models.SlugField(unique=True, max_length=255)
