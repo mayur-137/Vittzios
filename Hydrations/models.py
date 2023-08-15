@@ -98,7 +98,3 @@ class ContactModel(models.Model):
     message = models.TextField(max_length=4000)
     created_on = models.DateTimeField(auto_now_add=True)
 
-
-class ProductBuyDetails(models.Model):
-    id = models.AutoField
-    slug = models.SlugField(unique=True, max_length=255)

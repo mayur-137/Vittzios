@@ -56,18 +56,7 @@
     class="u-clearfix u-header u-header u-sticky-fixed"
     id="sec-7716"
   >
-    <a
-      href="/"
-      class="u-image u-logo u-image-1"
-      data-image-width="594"
-      data-image-height="420"
-    >
-      <img
-        src="{% static 'assets/images/vittLOGO-removebg-preview.png'%}"
-        class="u-logo-image u-logo-image-1"
-        alt="Vittzios"
-      />
-    </a>
+    
     <nav
       class="u-menu u-menu-one-level u-offcanvas-shift u-menu-1"
       data-responsive-from="SM"
@@ -118,9 +107,23 @@
               style="padding: 10px 25px"
               >Contact Us</a
             >
+            
+            
           </li>
+          
         </ul>
       </div>
+      <a
+      href="/"
+      class="u-image u-logo u-image-1"
+
+    >
+      <img
+        src="{% static 'assets/images/vittLOGO-removebg-preview.png'%}"
+        class="u-logo-image u-logo-image-1"
+        alt="Vittzios"
+      />
+    </a>
       <div class="u-custom-menu u-nav-container-collapse">
         <div
           class="u-black u-container-style u-inner-container-layout u-opacity u-opacity-95 u-sidenav"
@@ -146,10 +149,34 @@
         <div class="u-black u-menu-overlay u-opacity u-opacity-70"></div>
       </div>
       <nav>
-        <a href="/cart/" data-image-width="437" data-image-height="440">
-          <img style="max-height: 50px;
-          margin: 22px 20px;" src="{% static 'assets/images/cart.png'%}">
+        <a href="/cart/" class="logo">
+          <img  src="{% static 'assets/images/cart.png'%}">
         </a>
+        <ul>
+          {% if request.user.email %}
+            <a class="u-button-style u-nav-link u-text-active-black u-text-black u-text-hover-palette-1-base"
+              href="/login/"
+              style="padding: 10px 25px"
+              >{{request.user.email}}</a>
+          {% else %}
+            <li class="u-nav-item">
+              <a
+              class="u-button-style u-nav-link u-text-active-black u-text-black u-text-hover-palette-1-base"
+              href="/login/"
+              style="padding: 10px 25px"
+              >Login</a
+            >
+            </li>
+            <li class="u-nav-item">
+              <a
+                class="u-button-style u-nav-link u-text-active-black u-text-black u-text-hover-palette-1-base"
+                href="/register/"
+                style="padding: 10px 25px"
+                >Sign up</a
+              >
+            </li>
+          {% endif %}
+        </ul>
       </nav>
     </nav>
     <style class="u-sticky-style" data-style-id="c38e">

@@ -1,9 +1,16 @@
-from django.shortcuts import redirect
 from django.views.generic.base import TemplateView
 from django.views.generic.edit import CreateView
-from django.http import JsonResponse
-from .forms import ContactFormModel, ProductBuyFormDetails
-from .models import VitaminGummies, EffervescentTablets, AyurvedicPower, ContactModel, ProductBuyDetails
+from django.views.generic.edit import CreateView
+from .forms import ContactFormModel
+from .models import VitaminGummies, EffervescentTablets, AyurvedicPower, ContactModel
+from django.shortcuts import  render, redirect
+from django.contrib import messages
+from django.contrib.auth.forms import AuthenticationForm #add this
+from django.contrib.auth import login, authenticate, logout #add this
+from django.views.decorators.csrf import csrf_exempt
+from .forms import ContactFormModel,NewUserForm
+from django.contrib.auth.models import User,auth
+
 
 
 class VitaminGummiesView(TemplateView):
@@ -50,25 +57,29 @@ class ContactFormView(CreateView):
     success_url = "/submit/"
 
     def form_valid(self, form):
-        print(form)
+        print("doneeeeeeeeeeeeeeeeeeeeeeeeee")
+        print(self.request.POST.get('email'))
+        print(form['name'].value())
+
+        # Using form.cleaned_data
+        print(form.cleaned_data['name'])
+        print(form.cleaned_data['email'])
+        print(form.cleaned_data['message'])
+        form.cleaned_data
         return super().form_valid(form)
 
     def form_invalid(self, form):
-        print("form invalid")
         return super().form_invalid(form)
 
 
-class CartView(CreateView):
-    model = ProductBuyDetails
-    form_class = ProductBuyFormDetails
+class CartView(TemplateView):
     template_name = "Cart.html"
-    success_url = "/cart/"
 
-    def form_valid(self, form):
-        return super().form_valid(form)
-
-    def form_invalid(self, form):
-        return super().form_invalid(form)
+    def get_context_data(self, **kwargs):
+        cart = super().get_context_data()
+        slug = self.kwargs.get("slug")
+        print(slug)
+        return cart
 
 
 class CheckoutView(TemplateView):
@@ -84,3 +95,53 @@ class CheckoutView(TemplateView):
         if not VG["vg"]:
             VG["vg"] = AyurvedicPower.objects.filter(slug=slug)
         return VG
+@csrf_exempt
+def register_request(request):
+    if request.method == "POST":
+        username = request.POST['username']
+        password = request.POST['password']
+        email = request.POST['email']
+        if User.objects.filter(username=username).exists():
+            print("user already registered")
+            context = {'error': 'The username you entered has already been taken. Please try another username.'}
+            return render(request, 'main/register.html', {'context': context})
+        else:
+            user = User.objects.create_user(username=username, password=password, email=email)
+            user.save()
+            print("user created")
+            # context = {'error': 'User registered successfully!'}
+            return redirect('main:login')
+    else:
+        print("noooo")
+        return render(request, 'main/register.html')
+
+
+	# return render (request=request, template_name="main/register.html", context={"register_form":form})
+
+@csrf_exempt
+def login_request(request):
+    if request.method == "POST":
+        email = request.POST['email_address']
+        password = request.POST['password'] 
+        try:           
+            username = User.objects.get(email=email)
+            print("email--",email,"password--",password,"username--",username.email)
+            user = auth.authenticate(username=username,password=password)
+            if user is not None:
+                auth.login(request,user)
+                print("user logged in")
+                return redirect('/')
+            else:
+                context = {'error': 'email and password does not match.'}
+                return render(request, 'main/login.html', {'context': context})
+        except:
+                context = {'error': 'user not found go to register' }
+                return render(request, 'main/login.html', {'context': context})            
+    else:
+        return render(request,'main/login.html')
+
+@csrf_exempt
+def logout_request(request):
+	logout(request)
+	messages.info(request, "You have successfully logged out.") 
+	return redirect("main:homepage")
