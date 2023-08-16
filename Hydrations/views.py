@@ -75,11 +75,21 @@ class ContactFormView(CreateView):
 class CartView(TemplateView):
     template_name = "Cart.html"
 
+<<<<<<< HEAD
     def get_context_data(self, **kwargs):
         cart = super().get_context_data()
         slug = self.kwargs.get("slug")
         print(slug)
         return cart
+=======
+    def form_valid(self, form):
+        print("name", form.cleaned_data["email"])
+
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        return super().form_invalid(form)
+>>>>>>> master
 
 
 class CheckoutView(TemplateView):

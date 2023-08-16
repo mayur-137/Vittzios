@@ -108,5 +108,12 @@ class user_data(models.Model):
     city = models.CharField(max_length=100)
     phone_number = models.CharField(max_length=100)
 
+<<<<<<< HEAD
     
         
+=======
+class ProductBuyDetails(models.Model):
+    id = models.AutoField
+    email = models.EmailField()
+    slug = models.SlugField(unique=True, max_length=255)
+>>>>>>> master

@@ -11,6 +11,7 @@ class ContactFormModel(forms.ModelForm):
         fields = ['name', 'email', 'message']
 
 
+<<<<<<< HEAD
 
 class NewUserForm(UserCreationForm):
 	email = forms.EmailField(required=True)
@@ -29,3 +30,9 @@ class NewUserForm(UserCreationForm):
 
 # class user_data_form(UserCreationForm):
 #     email = form.EmailField(required=False)
+=======
+class ProductBuyFormDetails(ModelForm):
+    class Meta:
+        model = ProductBuyDetails
+        fields = ['email', 'slug']
+>>>>>>> master
