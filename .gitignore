@@ -1,3 +1,9 @@
+<<<<<<< HEAD
 .vscode
 .idea
 __pycache__
+=======
+__pycache__
+.vscode
+.idea
+>>>>>>> 5ad53f314d49550da0ac941b381d9aa8e0654a71

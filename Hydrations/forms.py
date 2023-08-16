@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 from django import forms
 from .models import ContactModel
 from django import forms
@@ -25,3 +26,19 @@ class NewUserForm(UserCreationForm):
 		if commit:
 			user.save()
 		return user
+=======
+from django.forms import ModelForm
+from .models import ContactModel, ProductBuyDetails
+
+
+class ContactFormModel(ModelForm):
+    class Meta:
+        model = ContactModel
+        fields = ["name", "email", "message"]
+
+
+class ProductBuyFormDetails(ModelForm):
+    class Meta:
+        model = ProductBuyDetails
+        fields = ['email', 'slug']
+>>>>>>> 5ad53f314d49550da0ac941b381d9aa8e0654a71
