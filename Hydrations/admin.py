@@ -1,10 +1,13 @@
 from django.contrib import admin
 from .models import VitaminGummies, EffervescentTablets, VitaminCapsules, AyurvedicJuice, AyurvedicPower, \
-    TropicalSkinHair, CartModel, ContactModel, ProductBuyDetails
+    TropicalSkinHair, CartModel, ContactModel , user_data
 
 
 # Register your models here.
-
+class AuthorAdmin(admin.ModelAdmin):
+    list_display = ["id", "email","building","street","street",'area','pincode' ,'city']
+    
+admin.site.register(user_data,AuthorAdmin)    
 
 class AuthorAdmin(admin.ModelAdmin):
     list_display = ["id", "name", "description", "price", "discount", "slug", "quantity", "picture",
@@ -19,12 +22,6 @@ admin.site.register(AyurvedicJuice, AuthorAdmin)
 admin.site.register(TropicalSkinHair, AuthorAdmin)
 admin.site.register(CartModel, AuthorAdmin)
 
-
 @admin.register(ContactModel)
 class ContactModelAdmin(admin.ModelAdmin):
     list_display = ["id", "name", "email", "created_on"]
-
-
-@admin.register(ProductBuyDetails)
-class ProductBuyDetailsAdmin(admin.ModelAdmin):
-    list_display = ["id", "slug"]

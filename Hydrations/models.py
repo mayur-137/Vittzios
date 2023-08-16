@@ -98,8 +98,22 @@ class ContactModel(models.Model):
     message = models.TextField(max_length=4000)
     created_on = models.DateTimeField(auto_now_add=True)
 
+class user_data(models.Model):
+    id  = models.AutoField
+    email = models.EmailField(max_length=100)
+    building = models.CharField(max_length=100)
+    street = models.CharField(max_length=100)
+    area = models.CharField(max_length=100)
+    pincode = models.CharField(max_length=100)
+    city = models.CharField(max_length=100)
+    phone_number = models.CharField(max_length=100)
 
+<<<<<<< HEAD
+    
+        
+=======
 class ProductBuyDetails(models.Model):
     id = models.AutoField
     email = models.EmailField()
     slug = models.SlugField(unique=True, max_length=255)
+>>>>>>> master
