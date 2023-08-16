@@ -2,7 +2,7 @@ from django.views.generic.base import TemplateView
 from django.views.generic.edit import CreateView
 from django.views.generic.edit import CreateView
 from .forms import ContactFormModel
-from .models import VitaminGummies, EffervescentTablets, AyurvedicPower, ContactModel
+from .models import VitaminGummies, EffervescentTablets, AyurvedicPower, ContactModel ,user_data
 from django.shortcuts import  render, redirect
 from django.contrib import messages
 from django.contrib.auth.forms import AuthenticationForm #add this
@@ -95,6 +95,55 @@ class CheckoutView(TemplateView):
         if not VG["vg"]:
             VG["vg"] = AyurvedicPower.objects.filter(slug=slug)
         return VG
+    
+    
+class ContactView(TemplateView):
+    template_name = "Contact.html"
+
+    def get_context_data(self, **kwargs):
+        contact = super().get_context_data()
+        return contact
+    
+    
+def user_data_function(request):
+    current_user = request.user
+    email = current_user.email
+    if email:
+        try:
+            print("user already stored data")
+            username = (User.objects.get(email=email)).username
+            print(username)
+            phone_number = user_data.objects.get(email=email).phone_number 
+            building = user_data.objects.get(email=email).building
+            print(building)
+            street = (user_data.objects.get(email=email)).street    
+            area = (user_data.objects.get(email=email)).area
+            pincode = (user_data.objects.get(email=email)).pincode
+            city = (user_data.objects.get(email=email)).city
+            context = {"email":email,"phone_number":phone_number,'username':username,'building':building,'street':street,'area':area,'pincode':pincode,'city':city}
+            print(context)
+            return render(request,'main/user_data.html' ,{'context': context})
+                
+        except:
+            return render(request,'main/user_data.html')
+    else:       
+        return render(request, 'main/user_data.html')
+         
+            
+# def user_data(request):
+#   print(request.method)
+#             email = email
+#             building = request.POST['building']
+#             street = request.POST['street']    
+#             area = request.POST['area']
+#             pincode = request.POST['pincode']
+#             city = request.POST['city']
+#             user = user_data.objects.create_user(email=email,building=building,street=street,area=area,pincode=pincode,city=city)
+#             print("user data is ready to store")
+#             user.save()
+#             print("user data stored")
+#             return redirect('/') 
+        
 @csrf_exempt
 def register_request(request):
     if request.method == "POST":
@@ -145,3 +194,14 @@ def logout_request(request):
 	logout(request)
 	messages.info(request, "You have successfully logged out.") 
 	return redirect("main:homepage")
+
+# @csrf_exempt
+# def user_data(request):
+#     if request.method == "POST":
+#         email = request.user.email
+#         print(email)            
+#         # return render(request ,'main/user_data.html' , {'context': context})
+#     else:
+#         return render(request,'main/user_data.html')
+
+
