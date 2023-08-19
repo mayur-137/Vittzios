@@ -2,15 +2,15 @@ from django.views.generic.base import TemplateView
 from django.views.generic.edit import CreateView
 from django.views.generic.edit import CreateView
 from .forms import ContactFormModel
-from .models import VitaminGummies, EffervescentTablets, AyurvedicPower, ContactModel ,user_data
+from .models import VitaminGummies, EffervescentTablets, AyurvedicPower, ContactModel ,user_data,ProductBuyDetails
 from django.shortcuts import  render, redirect
 from django.contrib import messages
 from django.contrib.auth.forms import AuthenticationForm #add this
 from django.contrib.auth import login, authenticate, logout #add this
 from django.views.decorators.csrf import csrf_exempt
-from .forms import ContactFormModel,NewUserForm
+from .forms import ContactFormModel,NewUserForm,ProductBuyFormDetails
 from django.contrib.auth.models import User,auth
-
+from django.contrib.auth.decorators import login_required
 
 
 class VitaminGummiesView(TemplateView):
@@ -72,16 +72,20 @@ class ContactFormView(CreateView):
         return super().form_invalid(form)
 
 
-class CartView(TemplateView):
-    template_name = "Cart.html"
+# class CartView(TemplateView):
+#     template_name = "Cart.html"
 
-<<<<<<< HEAD
-    def get_context_data(self, **kwargs):
-        cart = super().get_context_data()
-        slug = self.kwargs.get("slug")
-        print(slug)
-        return cart
-=======
+#     def get_context_data(self, **kwargs):
+#         cart = super().get_context_data()
+#         slug = self.kwargs.get("slug")
+#         print(slug)
+#         return cart
+class CartView(CreateView):
+    model = ProductBuyDetails
+    form_class = ProductBuyFormDetails
+    template_name = "Cart.html"
+    success_url = "/cart/"
+
     def form_valid(self, form):
         print("name", form.cleaned_data["email"])
 
@@ -89,8 +93,6 @@ class CartView(TemplateView):
 
     def form_invalid(self, form):
         return super().form_invalid(form)
->>>>>>> master
-
 
 class CheckoutView(TemplateView):
     model = VitaminGummies
@@ -113,7 +115,6 @@ class ContactView(TemplateView):
     def get_context_data(self, **kwargs):
         contact = super().get_context_data()
         return contact
-    
     
 def user_data_function(request):
     current_user = request.user
@@ -138,21 +139,39 @@ def user_data_function(request):
             return render(request,'main/user_data.html')
     else:       
         return render(request, 'main/user_data.html')
-         
-            
-# def user_data(request):
-#   print(request.method)
-#             email = email
-#             building = request.POST['building']
-#             street = request.POST['street']    
-#             area = request.POST['area']
-#             pincode = request.POST['pincode']
-#             city = request.POST['city']
-#             user = user_data.objects.create_user(email=email,building=building,street=street,area=area,pincode=pincode,city=city)
-#             print("user data is ready to store")
-#             user.save()
-#             print("user data stored")
-#             return redirect('/') 
+
+
+def edit_user_data(request):
+    print("edit user data")
+    if request.method =="POST":
+        print("edit user data222")
+        current_user = request.user
+        email = current_user.email 
+        building = request.POST['building'] 
+        street = request.POST['street']     
+        area = request.POST['area'] 
+        pincode = request.POST['pincode'] 
+        city = request.POST['city'] 
+        phone_number = request.POST['phone_number']
+
+        if user_data.objects.filter(email=email).exists():
+            print("your data is saved")
+            user = user_data.objects.get(email=email)
+            user.building = building
+            user.street = street
+            user.area = area
+            user.pincode = pincode
+            user.city = city
+            user.phone_number = phone_number
+            user.save()
+        else: 
+            print("user data is not saved")
+            b = user_data(email=email,building=building,street=street,area=area,pincode=pincode,city=city,phone_number=phone_number)
+            user_data.save(b)
+        return redirect('/')
+    else:
+        return render(request,'main/edit_user_data.html')
+
         
 @csrf_exempt
 def register_request(request):
@@ -160,10 +179,16 @@ def register_request(request):
         username = request.POST['username']
         password = request.POST['password']
         email = request.POST['email']
+        
+        print(username,email,password)
         if User.objects.filter(username=username).exists():
             print("user already registered")
             context = {'error': 'The username you entered has already been taken. Please try another username.'}
             return render(request, 'main/register.html', {'context': context})
+        elif User.objects.filter(email=email).exists():
+            print("this email is already taken try another one")
+            context = {"error":"this email is already taken try another one"}
+            return render(request , 'main/register.html',{"context":context})
         else:
             user = User.objects.create_user(username=username, password=password, email=email)
             user.save()
@@ -203,7 +228,29 @@ def login_request(request):
 def logout_request(request):
 	logout(request)
 	messages.info(request, "You have successfully logged out.") 
-	return redirect("main:homepage")
+	return redirect("/")
+
+
+@csrf_exempt
+def add_to_cart(request):
+    if request.method == "POST":
+        print(request,"****************************")
+
+        markup = requests.get("http://127.0.0.1:8000/male/")
+        soup = BeautifulSoup(markup.content,'html.parser')
+        # print([x for x in soup.find_all('div',attrs={"class":'destination_title'})],'@@@@@@@@@@')
+
+        product_name = soup.find('a', id="name")
+        product_price = soup.find('div', id="price")
+        product_desc = soup.find('div', id="desc")
+        product_image = soup.find('div', id="image")
+
+
+        cart_data = cart_items( pro_name=product_name.string,pro_price=product_price.string[7:],
+                                pro_desc=product_desc.string)
+        cart_data.save()
+
+        return redirect('/')
 
 # @csrf_exempt
 # def user_data(request):

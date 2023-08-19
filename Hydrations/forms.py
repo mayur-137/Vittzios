@@ -11,8 +11,6 @@ class ContactFormModel(forms.ModelForm):
         fields = ['name', 'email', 'message']
 
 
-<<<<<<< HEAD
-
 class NewUserForm(UserCreationForm):
 	email = forms.EmailField(required=True)
 
@@ -27,12 +25,17 @@ class NewUserForm(UserCreationForm):
 			user.save()
 		return user
 
+from django.forms import ModelForm
+from .models import ContactModel, ProductBuyDetails
 
-# class user_data_form(UserCreationForm):
-#     email = form.EmailField(required=False)
-=======
+class ContactFormModel(ModelForm):
+    class Meta:
+        model = ContactModel
+        fields = ["name", "email", "message"]
+
+
 class ProductBuyFormDetails(ModelForm):
     class Meta:
         model = ProductBuyDetails
         fields = ['email', 'slug']
->>>>>>> master
+
