@@ -1,9 +1,10 @@
 from django import forms
-from .models import ContactModel
+from .models import ContactModel, ProductBuyDetails
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from .models import user_data
+
 
 class ContactFormModel(forms.ModelForm):
     class Meta:
@@ -11,28 +12,22 @@ class ContactFormModel(forms.ModelForm):
         fields = ['name', 'email', 'message']
 
 
-<<<<<<< HEAD
-
 class NewUserForm(UserCreationForm):
-	email = forms.EmailField(required=True)
+    email = forms.EmailField(required=True)
 
-	class Meta:
-		model = User
-		fields = ("username", "email", "password1", "password2")
+    class Meta:
+        model = User
+        fields = ("username", "email", "password1", "password2")
 
-	def save(self, commit=True):
-		user = super(NewUserForm, self).save(commit=False)
-		user.email = self.cleaned_data['email']
-		if commit:
-			user.save()
-		return user
+    def save(self, commit=True):
+        user = super(NewUserForm, self).save(commit=False)
+        user.email = self.cleaned_data['email']
+        if commit:
+            user.save()
+        return user
 
 
-# class user_data_form(UserCreationForm):
-#     email = form.EmailField(required=False)
-=======
-class ProductBuyFormDetails(ModelForm):
+class ProductBuyFormDetails(forms.ModelForm):
     class Meta:
         model = ProductBuyDetails
         fields = ['email', 'slug']
->>>>>>> master

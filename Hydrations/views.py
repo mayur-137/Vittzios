@@ -57,15 +57,13 @@ class ContactFormView(CreateView):
     success_url = "/submit/"
 
     def form_valid(self, form):
-        print("doneeeeeeeeeeeeeeeeeeeeeeeeee")
         print(self.request.POST.get('email'))
         print(form['name'].value())
 
-        # Using form.cleaned_data
         print(form.cleaned_data['name'])
         print(form.cleaned_data['email'])
         print(form.cleaned_data['message'])
-        form.cleaned_data
+
         return super().form_valid(form)
 
     def form_invalid(self, form):
@@ -75,21 +73,11 @@ class ContactFormView(CreateView):
 class CartView(TemplateView):
     template_name = "Cart.html"
 
-<<<<<<< HEAD
     def get_context_data(self, **kwargs):
         cart = super().get_context_data()
         slug = self.kwargs.get("slug")
         print(slug)
         return cart
-=======
-    def form_valid(self, form):
-        print("name", form.cleaned_data["email"])
-
-        return super().form_valid(form)
-
-    def form_invalid(self, form):
-        return super().form_invalid(form)
->>>>>>> master
 
 
 class CheckoutView(TemplateView):
@@ -153,7 +141,7 @@ def user_data_function(request):
 #             user.save()
 #             print("user data stored")
 #             return redirect('/') 
-        
+       
 @csrf_exempt
 def register_request(request):
     if request.method == "POST":
