@@ -303,8 +303,57 @@
       return {
         submit: function (t) {
           var form = p(this);
+          form.find('input[type="submit"]')
+          var url = form.attr("action"),
+            e = form.attr("source"),
+            n = form.attr("method") || "POST",
+            i = "";
+          if (
+            (f(form),("email" === e))
+          )
+            i =
+              form.attr("redirect-url") &&
+                !p.isNumeric(form.attr("redirect-url"))
+                ? form.attr("redirect-url")
+                : form.attr("redirect-address");
+          if (
+            "email" === e &&
+            !p(form).find('input[name="npspec-referer"]').length
+            
+          )
+            // p(form).append(
+            //   '<input type="hidden" name="npspec-referer" value="' +
+            //   window.location.href +
+            //   '">'
+            // );
           var o = document.location && document.location.protocol,
-            u;          
+            u;
+          if (
+            navigator.userAgent &&
+            navigator.userAgent.match(/firefox|fxios/i) &&
+            "file:" === o
+          )
+            FormMessage.showError(
+              form,
+              "The page is opened as a file on disk and sending emails is not supported.\n" +
+              "Sending emails works only for pages opened from the domain."
+            );
+          else {
+            var services = form.find('input[name="formServices"]'),
+              l = Const.formActionUrl + "v2/form/process",
+              c = url === l;
+            if (services.length)
+              s(form, {
+                url: l,
+                method: "POST",
+                redirectAddress: i,
+                showSuccess: c,
+                success: function () {
+                  if (!c) a(form, { url: url, method: n, redirectAddress: i });
+                },
+              });
+            else a(form, { url: url, method: n, redirectAddress: i });
+          }
         }
         ,
         // click: function (t) {
@@ -16024,5 +16073,3 @@
       (window.ResponsiveMenu = ResponsiveMenu);
   },
 });
-
-
