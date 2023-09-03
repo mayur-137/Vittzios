@@ -1,5 +1,5 @@
 from django.urls import path
-from Hydrations.views import HomeView, AboutView, ContactView, CartView, CheckoutView,ContactFormView, VitaminGummiesView , edit_user_data
+from Hydrations.views import HomeView, AboutView, ContactView, CartView, CheckoutView,ContactFormView, VitaminGummiesView , edit_user_data, AddToCartView, Update_cart_view, RemoveItemView
 from . import views
 app_name = "main" 
 
@@ -20,5 +20,8 @@ urlpatterns = [
     path('initiate_payment/',views.homepage,name="initiate_payment"),
     path('initiate_payment/paymenthandler/', views.paymenthandler, name='paymenthandler'),
     path('terms&conditions/', views.terms_conditions, name='terms&conditions'),
+    path('add_to_cart/', AddToCartView.as_view(), name='add_to_cart'),
+    path('updateCart/', Update_cart_view.as_view(), name="update cart"),
+    path('removeItem/', RemoveItemView.as_view(), name='removeItem'),
 
 ]

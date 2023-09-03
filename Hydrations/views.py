@@ -1,17 +1,17 @@
 from django.views.generic.base import TemplateView
 from django.views.generic.edit import CreateView
-from django.views.generic.edit import CreateView
+from django.views import View
 from .forms import ContactFormModel
-from .models import VitaminGummies, EffervescentTablets, AyurvedicPower, ContactModel ,user_data,ProductBuyDetails
-from django.shortcuts import  render, redirect
+from .models import VitaminGummies, EffervescentTablets, AyurvedicPower, ContactModel ,user_data
+from django.shortcuts import  render, redirect, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth.forms import AuthenticationForm #add this
 from django.contrib.auth import login, authenticate, logout #add this
 from django.views.decorators.csrf import csrf_exempt
-from .forms import ContactFormModel,NewUserForm,ProductBuyFormDetails
+from .forms import ContactFormModel,NewUserForm
 from django.contrib.auth.models import User,auth
 from django.contrib.auth.decorators import login_required
-from django.http import JsonResponse,HttpResponseBadRequest
+from django.http import JsonResponse,HttpResponseBadRequest, Http404
 from razorpay import Client
 import razorpay
 from django.views.decorators.csrf import csrf_exempt
@@ -62,42 +62,20 @@ class ContactFormView(CreateView):
     success_url = "/submit/"
 
     def form_valid(self, form):
-        print("doneeeeeeeeeeeeeeeeeeeeeeeeee")
-        print(self.request.POST.get('email'))
-        print(form['name'].value())
-
-        # Using form.cleaned_data
-        print(form.cleaned_data['name'])
-        print(form.cleaned_data['email'])
-        print(form.cleaned_data['message'])
-        form.cleaned_data
         return super().form_valid(form)
 
     def form_invalid(self, form):
         return super().form_invalid(form)
 
 
-# class CartView(TemplateView):
-#     template_name = "Cart.html"
-
-#     def get_context_data(self, **kwargs):
-#         cart = super().get_context_data()
-#         slug = self.kwargs.get("slug")
-#         print(slug)
-#         return cart
-class CartView(CreateView):
-    model = ProductBuyDetails
-    form_class = ProductBuyFormDetails
+class CartView(TemplateView):
     template_name = "Cart.html"
-    success_url = "/cart/"
 
-    def form_valid(self, form):
-        print("name", form.cleaned_data["email"])
-
-        return super().form_valid(form)
-
-    def form_invalid(self, form):
-        return super().form_invalid(form)
+    def get_context_data(self, **kwargs):
+        cart = super().get_context_data()
+        slug = self.kwargs.get("slug")
+        print(slug)
+        return cart
 
 class CheckoutView(TemplateView):
     model = VitaminGummies
@@ -121,6 +99,127 @@ class ContactView(TemplateView):
         contact = super().get_context_data()
         return contact
     
+
+class AddToCartView(View):
+    def post(self, request, *args, **kwargs):
+        product_id = request.POST.get('product_id')
+        models = [VitaminGummies, EffervescentTablets, AyurvedicPower]
+        for model in models:
+            try:
+                product = get_object_or_404(model, id=product_id)
+            except Http404:
+                pass
+        cart_session = request.session.get('cart_session', {})
+        cart_session[product_id] = cart_session.get(product_id, 0) + 1
+        request.session['cart_session'] = cart_session
+        print(request.session['cart_session'], "1")
+        print(cart_session, "2")
+        return redirect("/cart/")
+    
+
+class CartView(View):
+
+    def get(self, request, *args, **kwargs):
+        products_in_cart = []
+        products_list = []
+        # products_list.clear()
+        product_total = 0
+        cart = request.session.get('cart_session', {})
+        print(cart, "3")
+        models = [VitaminGummies, EffervescentTablets, AyurvedicPower]
+        for model in models:
+            try:
+                itm = model.objects.filter(id__in=cart.keys())
+                # print(cart.keys(), "4")
+                # print(itm, model, "itm")
+                if itm:
+                    products_in_cart.append(itm)
+                    # print(model, "i am in if")
+                # products_in_cart.append(itm)
+                # print(products_in_cart, "5")
+                # products_in_cart.clear()
+            except:
+                pass
+        for products in products_in_cart:
+            # print(products, "products ")
+            # print(products_in_cart, "cart==================")
+            for product in products:
+                # print(product, "6")
+                # print(product.price, "price")
+                # print(cart[str(product.id)], "quntity")
+                product.subtotal = product.price * cart[str(product.id)]
+                # print(product.subtotal, "subtotal")
+                product_total = product.subtotal + product_total
+                # print(product_total, "total")
+                product.product_quantity = str(cart[str(product.id)])
+                # print(str(cart[str(product.id)]), "str(cart[str(product.id)])")
+                products_list.append(product)
+            # print(products_list, "list")
+        return render(request, 'cart.html', {'products': products_list, 'product_total': product_total})
+
+
+class Update_cart_view(View):
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.GetMaxQuantity = None
+
+    def post(self, request, *args, **kwargs):
+        Product_id = request.POST.get("Update_product_quantity")
+        print(Product_id, "ID")
+        Mode_of_Operations = request.POST.get("minus")
+        if Mode_of_Operations == "-":
+            cart_session = request.session.get('cart_session', {})
+            cart_session[Product_id] = cart_session.get(Product_id) - 1
+            request.session['cart_session'] = cart_session
+            if cart_session.get(Product_id) == 0:
+                del cart_session[Product_id]
+        else:
+            models = [VitaminGummies, EffervescentTablets, AyurvedicPower]
+            for model in models:
+                try:
+                    self.GetMaxQuantity = model.objects.filter(id=Product_id).values("max_quantity").get()
+                except:
+                    pass
+            cart_session = request.session.get('cart_session', {})
+            if not cart_session.get(Product_id) == self.GetMaxQuantity["max_quantity"]:
+                cart_session[Product_id] = cart_session.get(Product_id) + 1
+                request.session['cart_session'] = cart_session
+        return redirect("/cart/")
+    
+class RemoveItemView(View):
+
+    def post(self, request, *args, **kwargs):
+        GetRemoveItemId = request.POST.get("removeItem")
+        cart_session = request.session.get('cart_session', {})
+        models = [VitaminGummies, EffervescentTablets, AyurvedicPower]
+        for model in models:
+            try:
+                product = get_object_or_404(model, id=GetRemoveItemId)
+            except Http404:
+                pass
+        if GetRemoveItemId in cart_session:
+            del cart_session[GetRemoveItemId]
+            request.session['cart_session'] = cart_session
+        return redirect("/cart/")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 def user_data_function(request):
     current_user = request.user
     email = current_user.email
