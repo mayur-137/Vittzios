@@ -26,7 +26,7 @@ class NewUserForm(UserCreationForm):
 		return user
 
 from django.forms import ModelForm
-from .models import ContactModel, ProductBuyDetails
+from .models import ContactModel
 
 class ContactFormModel(ModelForm):
     class Meta:
@@ -34,8 +34,8 @@ class ContactFormModel(ModelForm):
         fields = ["name", "email", "message"]
 
 
-class ProductBuyFormDetails(ModelForm):
-    class Meta:
-        model = ProductBuyDetails
-        fields = ['email', 'slug']
+# class ProductBuyFormDetails(ModelForm):
+#     class Meta:
+#         model = ProductBuyDetails
+#         fields = ['email', 'slug']
 
