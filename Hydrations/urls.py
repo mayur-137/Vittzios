@@ -1,5 +1,5 @@
 from django.urls import path
-from Hydrations.views import HomeView, AboutView, ContactView, CartView, CheckoutView,ContactFormView, VitaminGummiesView , edit_user_data, AddToCartView, Update_cart_view, RemoveItemView
+from Hydrations.views import HomeView, AboutView, ContactView, CartView, CheckoutView,ContactFormView, VitaminGummiesView , edit_user_data, AddToCartView, Update_cart_view, RemoveItemView, EffervescentTabletsView, AyurvedicPowerView
 from . import views
 app_name = "main" 
 
@@ -11,6 +11,8 @@ urlpatterns = [
     path('submit/', ContactFormView.as_view(), name="submit"),
     path('checkout/<slug:slug>', CheckoutView.as_view(), name="checkout"),
     path('VitaminGummies/', VitaminGummiesView.as_view(), name="ViitDB"),
+    path('EffervescentTablets/', EffervescentTabletsView.as_view(), name='EffervescentTabletsView'),
+    path('AyurvedicPower/', AyurvedicPowerView.as_view(), name='AyurvedicPower'),
     path('VitaminGummies/<slug:slug>', VitaminGummiesView.as_view(), name="SlugView"),
     path("user_data/", views.user_data_function, name= "user_data"),
     path("register/", views.register_request, name="register"),

@@ -27,6 +27,24 @@ class VitaminGummiesView(TemplateView):
         VG["vg"] = VitaminGummies.objects.all()
         return VG
 
+class EffervescentTabletsView(TemplateView):
+    model = EffervescentTablets
+    template_name = "EffervescentTablets.html"
+
+    def get_context_data(self, **kwargs):
+        VG = super().get_context_data()
+        VG["vg"] = EffervescentTablets.objects.all()
+        return VG
+
+class AyurvedicPowerView(TemplateView):
+    model = AyurvedicPower
+    template_name = "AyurvedicPower.html"
+
+    def get_context_data(self, **kwargs):
+        VG = super().get_context_data()
+        VG["vg"] = AyurvedicPower.objects.all()
+        return VG
+
 
 class HomeView(TemplateView):
     template_name = "Home.html"

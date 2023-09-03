@@ -67,11 +67,12 @@ Vittzios {% endblock title %} {% block head %}
                 </div>
               </div>
               <!--/product_price--><!--product_button--><!--options_json--><!--{"clickType":"add-to-cart","content":""}--><!--/options_json-->
-              <a
-                href="/cart/"
+              <form method="post" action="/add_to_cart/">
+                {% csrf_token %}
+                <input type="hidden" name="product_id" value="{{ i.id }}">
+              <button
                 class="u-border-2 u-border-grey-25 u-btn u-btn-rectangle u-button-style u-none u-product-control u-text-body-color u-btn-1"
-                ><!--product_button_content-->Add to Cart<!--/product_button_content--></a
-              ><!--/product_button-->
+                ><!--product_button_content-->Add to Cart<!--/product_button_content--></button></form><!--/product_button-->
             </div>
           </div>
           {% endfor %}
