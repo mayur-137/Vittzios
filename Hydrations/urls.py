@@ -1,10 +1,9 @@
 from django.urls import path
-from Hydrations.views import HomeView, AboutView, ContactView, CartView, CheckoutView,ContactFormView, VitaminGummiesView,user_data
+from Hydrations.views import HomeView, AboutView, ContactView, CartView, CheckoutView,ContactFormView, VitaminGummiesView , edit_user_data
 from . import views
 app_name = "main" 
 
 urlpatterns = [
-
     path('', HomeView.as_view(), name="index"),
     path('about/', AboutView.as_view(), name="about"),
     path('contact/', ContactView.as_view(), name="contact"),
@@ -17,4 +16,9 @@ urlpatterns = [
     path("register/", views.register_request, name="register"),
     path("login/", views.login_request, name="login"),
     path("logout/", views.logout_request, name= "logout"),
+    path('edit_user_data/',views.edit_user_data,name="edit_user_data"),
+    path('initiate_payment/',views.homepage,name="initiate_payment"),
+    path('initiate_payment/paymenthandler/', views.paymenthandler, name='paymenthandler'),
+    path('terms&conditions/', views.terms_conditions, name='terms&conditions'),
+
 ]

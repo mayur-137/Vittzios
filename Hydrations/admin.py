@@ -1,6 +1,6 @@
 from django.contrib import admin
 from .models import VitaminGummies, EffervescentTablets, VitaminCapsules, AyurvedicJuice, AyurvedicPower, \
-    TropicalSkinHair, CartModel, ContactModel , user_data
+    TropicalSkinHair, CartModel, ContactModel , user_data ,ProductBuyDetails
 
 
 # Register your models here.
@@ -25,3 +25,7 @@ admin.site.register(CartModel, AuthorAdmin)
 @admin.register(ContactModel)
 class ContactModelAdmin(admin.ModelAdmin):
     list_display = ["id", "name", "email", "created_on"]
+
+@admin.register(ProductBuyDetails)
+class ProductBuyDetailsAdmin(admin.ModelAdmin):
+    list_display = ["id", "slug"]
