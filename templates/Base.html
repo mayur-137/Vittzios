@@ -153,7 +153,7 @@
           <img  src="{% static 'assets/images/cart.png'%}">
         </a>
         <ul>
-          <li class="u-nav-item">
+          <!-- <li class="u-nav-item">
             <a
             class="u-button-style u-nav-link u-text-active-black u-text-black u-text-hover-palette-1-base"
             href="/login/"
@@ -167,21 +167,26 @@
               style="padding: 10px 25px"
               >Sign up</a
             >
-          </li>
+          </li> -->
           {% if request.user.email  %} 
-          <li class="u-nav-item">
-            <a 
-            class="u-button-style u-nav-link u-text-active-black u-text-black u-text-hover-palette-1-base"
-            href="/user_data/"
-            style="padding: 10px 25px"
-            >{{request.user.email}}</a>
-            <a 
-            class="u-button-style u-nav-link u-text-active-black u-text-black u-text-hover-palette-1-base"
-            href="/logout/"
-            style="padding: 10px 25px"
-            >logout</a>
+          <div>
+          <link rel="stylesheet" href="../static/css/drop_down.css">
+          <div class="container"> <div class="dropdown"> 
+            <div class="profile">
+               <img class="dropbtn" src="https://i.imgur.com/ywRonqz.jpg"> 
+               <div class="dropdown-content"> <ul> <li><i class='bx bx-cog' >
+
+              </i><span>Settings</span></li> 
+              <li><i class='bx bx-user' ></i><span>PROFILE</span></li>
+              <li><i class='bx bx-cog' ></i><span>SIGNIN</span></li> 
+              <li><i class='bx bx-cog' ></i><span>LOGIN</span></li>
+              <li><i class='bx bx-log-in-circle'></i><span>LOGOUT</span></li> 
+            </ul> </div> </div>
+
+            </div>
+          </div>
+      </div>
           {%else%}
-            
             {% endif %}
         </ul>
       </nav>
