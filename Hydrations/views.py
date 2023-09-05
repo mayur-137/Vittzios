@@ -2,7 +2,7 @@ from django.views.generic.base import TemplateView
 from django.views.generic.edit import CreateView
 from django.views import View
 from .forms import ContactFormModel
-from .models import VitaminGummies, EffervescentTablets, AyurvedicPower, ContactModel ,user_data
+from .models import VitaminGummies, EffervescentTablets, AyurvedicPower, ContactModel ,user_data,orders
 from django.shortcuts import  render, redirect, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth.forms import AuthenticationForm #add this
@@ -134,9 +134,7 @@ class AddToCartView(View):
         print(cart_session, "2")
         return redirect("/cart/")
     
-
 class CartView(View):
-
     def get(self, request, *args, **kwargs):
         products_in_cart = []
         products_list = []
@@ -144,6 +142,8 @@ class CartView(View):
         product_total = 0
         cart = request.session.get('cart_session', {})
         print(cart, "3")
+
+        email = request.user.email
         models = [VitaminGummies, EffervescentTablets, AyurvedicPower]
         for model in models:
             try:
@@ -172,9 +172,42 @@ class CartView(View):
                 product.product_quantity = str(cart[str(product.id)])
                 # print(str(cart[str(product.id)]), "str(cart[str(product.id)])")
                 products_list.append(product)
-            # print(products_list, "list")
-        return render(request, 'cart.html', {'products': products_list, 'product_total': product_total})
+                # print(product.picture,"piicture")
+                # print(products_list, "list")
 
+        order_product_data = "" 
+        for i  in products_list:
+            quantity = i.product_quantity
+            products_detail = str(str(i.name)+"-"+str(quantity))
+            order_product_data += (products_detail+"\n")
+        print(order_product_data)
+        
+        c = user_data.objects.get(email=email)
+        address = str(c.building) +" , "+ str(c.street) + " , " + str(c.area) +" , "+ str(c.pincode) +" , "+ str(c.city)    
+        if orders.objects.filter(email=email).exists():
+            if order_product_data != "":
+                print("user data is there")
+                user = orders.objects.get(email=email)
+                user.products_detail = order_product_data          
+                user.order_total = product_total
+                print(address)
+                user.address_1 = address
+                user.save()
+                print("user data changged")
+            else:
+                entry = orders.objects.get(email=email)
+                entry.delete()
+                print("entry deleted")
+        else:
+            if order_product_data != "":
+                print("user data is not there")
+                b = orders(order_id=1,email=email,address_1 = address,products_detail=order_product_data,order_total = product_total)
+                orders.save(b)
+                print("user data saved")
+            else:
+                pass
+            
+        return render(request, 'cart.html', {'products': products_list, 'product_total': product_total})
 
 class Update_cart_view(View):
 
@@ -219,22 +252,10 @@ class RemoveItemView(View):
         if GetRemoveItemId in cart_session:
             del cart_session[GetRemoveItemId]
             request.session['cart_session'] = cart_session
+            # email = request.user.email
+            # user = orders.objects.get(email=email)
+            # if
         return redirect("/cart/")
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -262,6 +283,7 @@ def user_data_function(request):
     else:       
         return render(request, 'main/user_data.html')
 
+@csrf_exempt
 
 def edit_user_data(request):
     print("edit user data")
@@ -292,7 +314,8 @@ def edit_user_data(request):
             user_data.save(b)
         return redirect('/')
     else:
-        return render(request,'main/edit_user_data.html')
+        print("GET")
+        return render(request, 'main/edit_user_data.html')
 
         
 @csrf_exempt
@@ -360,26 +383,26 @@ def terms_conditions(request):
     else:
         return redirect("/")
 
-@csrf_exempt
-def add_to_cart(request):
-    if request.method == "POST":
-        print(request,"****************************")
+# @csrf_exempt
+# def add_to_cart(request):
+#     if request.method == "POST":
+#         print(request,"****************************")
 
-        markup = requests.get("http://127.0.0.1:8000/male/")
-        soup = BeautifulSoup(markup.content,'html.parser')
-        # print([x for x in soup.find_all('div',attrs={"class":'destination_title'})],'@@@@@@@@@@')
+#         markup = requests.get("http://127.0.0.1:8000/male/")
+#         soup = BeautifulSoup(markup.content,'html.parser')
+#         # print([x for x in soup.find_all('div',attrs={"class":'destination_title'})],'@@@@@@@@@@')
 
-        product_name = soup.find('a', id="name")
-        product_price = soup.find('div', id="price")
-        product_desc = soup.find('div', id="desc")
-        product_image = soup.find('div', id="image")
+#         product_name = soup.find('a', id="name")
+#         product_price = soup.find('div', id="price")
+#         product_desc = soup.find('div', id="desc")
+#         product_image = soup.find('div', id="image")
 
 
-        cart_data = cart_items( pro_name=product_name.string,pro_price=product_price.string[7:],
-                                pro_desc=product_desc.string)
-        cart_data.save()
+#         cart_data = cart_items( pro_name=product_name.string,pro_price=product_price.string[7:],
+#                                 pro_desc=product_desc.string)
+#         cart_data.save()
 
-        return redirect('/')
+#         return redirect('/')
 
 # def initiate_payment(request):
 #     if request.method == "post":
@@ -509,6 +532,11 @@ def homepage(request):
     context['razorpay_amount'] = amount
     context['currency'] = currency
     context['callback_url'] = callback_url
+    email = request.user.email
+    c = user_data.objects.get(email=email)
+    address = str(c.building) +" , "+ str(c.street) + " , " + str(c.area) +" , "+ str(c.pincode) +" , "+ str(c.city)    
+    print(address)
+    context['address'] = address
  
     return render(request, 'razor_front.html', context=context)
  

@@ -109,6 +109,16 @@ class user_data(models.Model):
     city = models.CharField(max_length=100)
     phone_number = models.CharField(max_length=100)
 
+
+class orders(models.Model):
+    order_id = models.UUIDField(editable=False)
+    email = models.EmailField()
+    address_1 = models.CharField(max_length=1000,default="INDIA")
+    # product_picture = models.ImageField(upload_to="static/images/VitaminCapsules/",default="")
+    products_detail = models.CharField(max_length=1000,default='empty')
+    order_total = models.IntegerField()
+
+
 # class ProductBuyDetails(models.Model):
 #     pass
     # id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
