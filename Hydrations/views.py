@@ -2,7 +2,7 @@ from django.views.generic.base import TemplateView
 from django.views.generic.edit import CreateView
 from django.views import View
 from .forms import ContactFormModel
-from .models import VitaminGummies, EffervescentTablets, AyurvedicPower, ContactModel ,user_data,orders
+from .models import VitaminGummies, EffervescentTablets, AyurvedicPower, ContactModel ,user_data,orders,final_order_list
 from django.shortcuts import  render, redirect, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth.forms import AuthenticationForm #add this
@@ -13,8 +13,9 @@ from django.contrib.auth.models import User,auth
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse,HttpResponseBadRequest, Http404
 from razorpay import Client
-import razorpay
+import razorpay,requests
 from django.views.decorators.csrf import csrf_exempt
+from django.db.models import Max
 
 
 
@@ -274,7 +275,8 @@ def user_data_function(request):
             area = (user_data.objects.get(email=email)).area
             pincode = (user_data.objects.get(email=email)).pincode
             city = (user_data.objects.get(email=email)).city
-            context = {"email":email,"phone_number":phone_number,'username':username,'building':building,'street':street,'area':area,'pincode':pincode,'city':city}
+            state = (user_data.objects.get(email=email)).state
+            context = {"email":email,"phone_number":phone_number,'username':username,'building':building,'street':street,'area':area,'pincode':pincode,'city':city,'state':state}
             print(context)
             return render(request,'main/user_data.html' ,{'context': context})
                 
@@ -295,7 +297,8 @@ def edit_user_data(request):
         street = request.POST['street']     
         area = request.POST['area'] 
         pincode = request.POST['pincode'] 
-        city = request.POST['city'] 
+        city = request.POST['city']
+        state = request.POST['state'] 
         phone_number = request.POST['phone_number']
 
         if user_data.objects.filter(email=email).exists():
@@ -307,10 +310,11 @@ def edit_user_data(request):
             user.pincode = pincode
             user.city = city
             user.phone_number = phone_number
+            user.state = state
             user.save()
         else: 
             print("user data is not saved")
-            b = user_data(email=email,building=building,street=street,area=area,pincode=pincode,city=city,phone_number=phone_number)
+            b = user_data(email=email,building=building,street=street,area=area,pincode=pincode,city=city,phone_number=phone_number,state=state)
             user_data.save(b)
         return redirect('/')
     else:
@@ -382,55 +386,53 @@ def terms_conditions(request):
         return render(request,'main/terms_conditions.html')
     else:
         return redirect("/")
-
-# @csrf_exempt
-# def add_to_cart(request):
-#     if request.method == "POST":
-#         print(request,"****************************")
-
-#         markup = requests.get("http://127.0.0.1:8000/male/")
-#         soup = BeautifulSoup(markup.content,'html.parser')
-#         # print([x for x in soup.find_all('div',attrs={"class":'destination_title'})],'@@@@@@@@@@')
-
-#         product_name = soup.find('a', id="name")
-#         product_price = soup.find('div', id="price")
-#         product_desc = soup.find('div', id="desc")
-#         product_image = soup.find('div', id="image")
-
-
-#         cart_data = cart_items( pro_name=product_name.string,pro_price=product_price.string[7:],
-#                                 pro_desc=product_desc.string)
-#         cart_data.save()
-
-#         return redirect('/')
-
-# def initiate_payment(request):
-#     if request.method == "post":
-
-#         # Extract the necessary data from the request
-#         amount = 1000  # Example amount in paise (INR)
-        
-#         # Initialize the Razorpay client
-#         razorpay_client = Client(auth=("your_key_id", "your_key_secret"))
-#         print("ready to payment")
-#         # Create a Razorpay order
-#         order = razorpay_client.order.create(data={
-#             "amount": amount,
-#             "currency": "INR",
-#             # Add other order details if required
-#         })
-
-#         return JsonResponse(order)  # Return the order details to the frontend
-#     else:
-#         return render(request,'razor_front.html')
-
 """shipment code """
-import requests
 
 # API endpoint URL
 # Payload with shipping_is_billing set to true
-order_data = {
-        "order_id": "6",
+def take_user_data(email):
+    #take billing data ffrom user_data table and order data table
+    user = user_data.objects.get(email=email) 
+    user_billing_city = user.city
+    user_billing_pincode = user.pincode
+    user_billing_state = user.state
+    user_billing_email = email
+    user_billing_phone = user.phone_number
+
+    order_user = orders.objects.get(email=email)
+    print(order_user)
+    order_address = order_user.address_1
+    order_total = order_user.order_total
+    order_product = (order_user.products_detail).split()
+    print("products",order_product)
+
+    #add value to final order list
+    b = final_order_list(email=email,address=order_address,products_detail=order_product,order_total=order_total,shiprocket_dashboard=False)
+    final_order_list.save(b)
+    print('a1a1')
+    order_id = final_order_list.objects.aggregate(Max('order_id'))['order_id__max']
+    # order_id =  final_order_list.objects.get(email=email AND adress=order_address)
+    print("order_id",type(order_id),order_id)
+
+    l2 = []
+
+    #add products
+    for i in order_product:
+        name = (i.split('-'))[0]
+        quantity = (i.split('-'))[1]
+        d1 = {
+            "name":name ,
+            "sku": i,
+            "units": quantity,
+            "selling_price": "2000",
+            "discount": "00",
+            "tax": "00",
+            "hsn": ""
+        }
+        l2.append(d1)
+
+    order_data = {
+        "order_id": order_id,
         "shipping_is_billing": True,
         "order_date": "2023-08-28 17:17",
         "pickup_location": "Home",
@@ -440,15 +442,15 @@ order_data = {
         "company_name": "",
         "billing_customer_name": "dhruv",
         "billing_last_name": "patel",
-        "billing_address": "10 nilmali aprtment , gurukul road , ahmedabad",
-        "billing_address_2": "near sant.ans school",
+        "billing_address": order_address,
+        "billing_address_2": order_address,
         "billing_isd_code": "",
-        "billing_city": "ahemdabad",
-        "billing_pincode": "380015",
-        "billing_state": "gujrat",
+        "billing_city": user_billing_city,
+        "billing_pincode": user_billing_pincode,
+        "billing_state": user_billing_state,
         "billing_country": "INDIA",
-        "billing_email": "dhruv.ladola@appuni.com",
-        "billing_phone": "9033474857",
+        "billing_email": user_billing_email,
+        "billing_phone": user_billing_phone,
         "billing_alternate_phone":"",
         "shipping_customer_name": "",
         "shipping_last_name": "",
@@ -460,23 +462,13 @@ order_data = {
         "shipping_state": "",
         "shipping_email": "",
         "shipping_phone": "",
-        "order_items": [
-            {
-                "name": "t-shirt",
-                "sku": "chakra123",
-                "units": "1",
-                "selling_price": "2000",
-                "discount": "00",
-                "tax": "00",
-                "hsn": ""
-            }
-        ],
+        "order_items":l2,
         "payment_method": "prepaid",
         "shipping_charges": "0",
         "giftwrap_charges": "0",
         "transaction_charges": "0",
         "total_discount": "0",
-        "sub_total": "2000",
+        "sub_total": order_total,
         "length": "10",
         "breadth": "15",
         "height": "20",
@@ -486,24 +478,36 @@ order_data = {
         "invoice_number":"",
         "order_type":""
     }
+    return order_data
+def shiprocket_key():
+    url = "https://apiv2.shiprocket.in/v1/external/auth/login"
+    headers = {
+        "Content-Type": "application/json"}
+    response = requests.post(url, json={
+    "email": "dhruv.180670107033@gmail.com",
+    "password": "ShipDhruvRocket@1"}, headers=headers)
+    a = response.json()
+    return a['token']
 
-def shiprockeet_order_function(order_data):
+
+def shiprockeet_order_function(request):
     url = "https://apiv2.shiprocket.in/v1/external/orders/create/adhoc"
 
     # Your API key
-    api_key =  'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2FwaXYyLnNoaXByb2NrZXQuaW4vdjEvZXh0ZXJuYWwvYXV0aC9sb2dpbiIsImlhdCI6MTY5MzIyMDMyNCwiZXhwIjoxNjk0MDg0MzI0LCJuYmYiOjE2OTMyMjAzMjQsImp0aSI6IjZZemhJTlBLVjNLaVUzSGwiLCJzdWIiOjM4NTM3MTEsInBydiI6IjA1YmI2NjBmNjdjYWM3NDVmN2IzZGExZWVmMTk3MTk1YTIxMWU2ZDkifQ.XylRNgyjbssnb4JH_nz7mFRai3gFgJW2sNKEtyzIRSo'
-
+    api_key =  shiprocket_key()
     # Headers for the request
     headers = {
         "Content-Type": "application/json","Authorization": f"Bearer {api_key}"}
-    
+    print('aa')
+    order_data = take_user_data(email = request.user.email)
+    print(order_data)
     # Send the POST request
     response = requests.post(url, json=order_data, headers=headers)
 
     # Print the response
     print(response.status_code)
     print(response.json())
-
+    return response
 
 """razor pay code"""
 RAZOR_KEY_ID = "rzp_test_PxvxU8NuPVYlN2"
@@ -513,8 +517,15 @@ razorpay_client = razorpay.Client(
 auth=(RAZOR_KEY_ID, RAZOR_KEY_SECRET))
 
 def homepage(request):
+    email = request.user.email
+    order_user = orders.objects.get(email=email)
+    print(order_user)
+    order_address = order_user.address_1
+    order_total = order_user.order_total
+    order_product = order_user.products_detail
+    
     currency = 'INR'
-    amount = 20000  # Rs. 200
+    amount = order_total*100  # Rs. 200
  
     # Create a Razorpay Order
     razorpay_order = razorpay_client.order.create(dict(amount=amount,
@@ -532,12 +543,12 @@ def homepage(request):
     context['razorpay_amount'] = amount
     context['currency'] = currency
     context['callback_url'] = callback_url
-    email = request.user.email
-    c = user_data.objects.get(email=email)
-    address = str(c.building) +" , "+ str(c.street) + " , " + str(c.area) +" , "+ str(c.pincode) +" , "+ str(c.city)    
-    print(address)
-    context['address'] = address
- 
+    # c = user_data.objects.get(email=email)
+    # address = str(c.building) +" , "+ str(c.street) + " , " + str(c.area) +" , "+ str(c.pincode) +" , "+ str(c.city)    
+    # print(address)
+    context['address'] = order_address
+    context["order_total"] = order_total
+    context["order_product"] = order_product 
     return render(request, 'razor_front.html', context=context)
  
  
@@ -565,14 +576,27 @@ def paymenthandler(request):
                 params_dict)
             print(result)
             if result is not None:
-                amount = 20000  # Rs. 200
+                order_user = orders.objects.get(email=request.user.email)
+                order_total = order_user.order_total
+                
+                amount = order_total*100  # Rs. 200
                 try:
                     print("22222222")
                     # capture the payemt
                     razorpay_client.payment.capture(payment_id, amount)
 
                     # render success page on successful caputre of payment
-                    shiprockeet_order_function(order_data)
+                    a = shiprockeet_order_function(request)
+                    a 
+                    if a.status_code== 200 and a.json()['status']=="NEW":
+                        order_id = final_order_list.objects.aggregate(Max('order_id'))['order_id__max']
+                        order = final_order_list.objects.get(order_id=order_id)
+                        order.shiprocket_dashboard = True
+                        order.save()
+                    else:
+                        pass
+                    print(a.status_code)
+                    print(a.json()['status'])
                     print("ship rocket api is succefully done")
                     return render(request, 'paymentsuccess.html')
                 except:
