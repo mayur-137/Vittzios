@@ -93,34 +93,30 @@
       </span>
     </a>
   </section>
-  <section class="u-clearfix u-section-2" id="sec-91e5">
-    <div class="u-clearfix u-sheet u-valign-middle-md u-valign-middle-sm u-sheet-1">
-      <h1 class="u-align-center u-custom-font u-font-ubuntu u-text u-text-1">
-        Vitamin Gummies<br />
+
+  <section class="u-align-center u-clearfix u-grey-5 u-section-1" id="sec-91e5">
+    <div class="u-clearfix u-sheet u-sheet-1">
+      <h1 class="u-align-center u-text u-text-default u-text-1">Vitamin Gummies<br>
       </h1>
-      <div class="u-expanded-width u-layout-grid u-list u-list-1">
-        <div class="u-align-center-md u-align-center-sm u-align-center-xs u-repeater u-repeater-1">
-          {% for keys in VG %}
-          <div class="u-container-style u-list-item u-repeater-item">
-            <div
-              class="u-container-layout u-similar-container u-valign-top-md u-valign-top-sm u-valign-top-xs u-container-layout-1">
-              <img alt="{{keys.name}}" class="u-expanded-width u-flip-horizontal u-image u-image-round u-radius-18 u-image-1"
-                data-image-width="2000" data-image-height="1333"
-                src="{% static 'images/VitaminGummies/drink.jpeg' %}" />
-              <h3 class="u-align-center u-text u-text-default u-text-2">
-                {{keys.name}}
-              </h3>
-              <p class="u-align-center u-text u-text-3">
-                {{keys.description|slice:":25"}}...
-              </p>
-              <p class="u-align-center u-text u-text-4">{{keys.price}}</p>
+      <div class="u-expanded-width-md u-expanded-width-sm u-expanded-width-xl u-expanded-width-xs u-list u-list-1">
+        <div class="u-repeater u-repeater-1">
+          {% for men in VG %}
+          <div class="u-align-center u-container-style u-list-item u-repeater-item">
+            <div class="u-container-layout u-similar-container u-container-layout-1">
+              <img alt=""
+                class="u-expanded-width-lg u-expanded-width-sm u-expanded-width-xl u-expanded-width-xs u-image u-image-default u-image-1"
+                data-image-width="1280" data-image-height="781" src="{{men.picture}}">
+              <h5 class="u-text u-text-2">{{men.name|slice:"26"}}...</h5>
+              <p class="u-text u-text-3">{{men.description|slice:":25"}}...</p>
               <form method="post" action="/add_to_cart/">
                 {% csrf_token %}
-                <input type="hidden" name="product_id" value="{{ keys.id }}">
-              <button class="u-align-center-lg u-align-center-md u-align-center-sm u-align-center-xs u-btn u-btn-round u-button-style u-hover-palette-1-light-1 u-palette-1-base u-radius-6 u-btn-1">Buy
-                Now</button></form>
-              <a href="/checkout/{{keys.slug}}"
-                class="u-align-center-md u-align-center-sm u-align-center-xs u-border-2 u-border-grey-25 u-border-hover-black u-btn u-btn-round u-button-style u-hover-white u-none u-radius-5 u-text-active-black u-text-black u-text-hover-black u-btn-2">View
+                <input type="hidden" name="product_id" value="{{ men.id }}">
+                <button
+                  class="u-align-center-lg u-align-center-md u-align-center-sm u-align-center-xs u-btn u-btn-round u-button-style u-hover-palette-1-light-1 u-palette-1-base u-radius-6 u-btn-1">Buy
+                  Now</button>
+              </form>
+              <a href="/ProductDetails/{{men.slug}}"
+                class="u-align-center-lg u-align-center-md u-align-center-sm u-align-center-xs u-border-2 u-border-active-black u-border-grey-75 u-border-hover-black u-btn u-btn-round u-button-style u-hover-white u-none u-radius-9 u-text-active-black u-text-body-color u-text-hover-black u-btn-2">View
                 More</a>
             </div>
           </div>
@@ -141,7 +137,8 @@
                   VitaminGummies
                 </h2>
 
-                <a href="/VitaminGummies/" class="u-btn u-btn-round u-button-style u-radius-50 u-btn-1">Vitamin gummies</a>
+                <a href="/VitaminGummies/" class="u-btn u-btn-round u-button-style u-radius-50 u-btn-1">Vitamin
+                  gummies</a>
               </div>
             </div>
             <div
@@ -156,34 +153,29 @@
     </div>
   </section>
 
-  <section class="u-clearfix u-section-3" id="sec-e864">
-    <div class="u-clearfix u-sheet u-valign-middle-xl u-sheet-1">
-      <h1 class="u-align-center u-custom-font u-font-ubuntu u-text u-text-1">
-        Effervescent Tablets<br />
+  <section class="u-align-center u-clearfix u-grey-5 u-section-1" id="sec-e864">
+    <div class="u-clearfix u-sheet u-sheet-1">
+      <h1 class="u-align-center u-text u-text-default u-text-1">Effervescent Tablets<br>
       </h1>
-      <div class="u-expanded-width u-layout-grid u-list u-list-1">
-        <div class="u-align-center-md u-align-center-sm u-align-center-xs u-repeater u-repeater-1">
-          {% for ets in ET %}
-          <div class="u-container-style u-list-item u-repeater-item">
-            <div
-              class="u-container-layout u-similar-container u-valign-top-md u-valign-top-sm u-valign-top-xs u-container-layout-1">
-              <img alt="{{ets.name}}" class="u-expanded-width u-flip-horizontal u-image u-image-round u-radius-18 u-image-1"
-                data-image-width="2000" data-image-height="1333"
-                src="{% static 'images/VitaminGummies/drink.jpeg' %}" />
-              <h3 class="u-align-center u-text u-text-default u-text-2">
-                {{ets.name}}
-              </h3>
-              <p class="u-align-center u-text u-text-3">
-                {{ ets.description }}
-              </p>
-              <p class="u-align-center u-text u-text-4">{{ets.price}}</p>
+      <div class="u-expanded-width-md u-expanded-width-sm u-expanded-width-xl u-expanded-width-xs u-list u-list-1">
+        <div class="u-repeater u-repeater-1">
+          {% for men in ET %}
+          <div class="u-align-center u-container-style u-list-item u-repeater-item">
+            <div class="u-container-layout u-similar-container u-container-layout-1">
+              <img alt=""
+                class="u-expanded-width-lg u-expanded-width-sm u-expanded-width-xl u-expanded-width-xs u-image u-image-default u-image-1"
+                data-image-width="1280" data-image-height="781" src="{{men.picture}}">
+              <h5 class="u-text u-text-2">{{men.name|slice:"26"}}...</h5>
+              <p class="u-text u-text-3">{{men.description|slice:":25"}}...</p>
               <form method="post" action="/add_to_cart/">
                 {% csrf_token %}
-                <input type="hidden" name="product_id" value="{{ ets.id }}">
-              <button class="u-align-center-lg u-align-center-md u-align-center-sm u-align-center-xs u-btn u-btn-round u-button-style u-hover-palette-1-light-1 u-palette-1-base u-radius-6 u-btn-1">Buy
-                Now</button></form>
-              <a href="/checkout/{{ets.slug}}"
-                class="u-align-center-md u-align-center-sm u-align-center-xs u-border-2 u-border-grey-25 u-border-hover-black u-btn u-btn-round u-button-style u-hover-white u-none u-radius-5 u-text-active-black u-text-black u-text-hover-black u-btn-2">View
+                <input type="hidden" name="product_id" value="{{ men.id }}">
+                <button
+                  class="u-align-center-lg u-align-center-md u-align-center-sm u-align-center-xs u-btn u-btn-round u-button-style u-hover-palette-1-light-1 u-palette-1-base u-radius-6 u-btn-1">Buy
+                  Now</button>
+              </form>
+              <a href="/ProductDetails/{{men.slug}}"
+                class="u-align-center-lg u-align-center-md u-align-center-sm u-align-center-xs u-border-2 u-border-active-black u-border-grey-75 u-border-hover-black u-btn u-btn-round u-button-style u-hover-white u-none u-radius-9 u-text-active-black u-text-body-color u-text-hover-black u-btn-2">View
                 More</a>
             </div>
           </div>
@@ -204,7 +196,8 @@
                   Effervescent Tablets
                 </h2>
 
-                <a href="/EffervescentTablets/" class="u-btn u-btn-round u-button-style u-radius-50 u-btn-1">Effervescent Tablets</a>
+                <a href="/EffervescentTablets/"
+                  class="u-btn u-btn-round u-button-style u-radius-50 u-btn-1">Effervescent Tablets</a>
               </div>
             </div>
             <div
@@ -219,31 +212,29 @@
     </div>
   </section>
 
-  <section class="u-clearfix u-section-4" id="sec-07b5">
-    <div class="u-clearfix u-sheet u-valign-middle-xl u-sheet-1">
-      <h1 class="u-align-center u-custom-font u-font-ubuntu u-text u-text-1">
-        Ayurvedic Power<br />
+  <section class="u-align-center u-clearfix u-grey-5 u-section-1" id="sec-07b5">
+    <div class="u-clearfix u-sheet u-sheet-1">
+      <h1 class="u-align-center u-text u-text-default u-text-1">Ayurvedic Power<br>
       </h1>
-      <div class="u-expanded-width u-layout-grid u-list u-list-1">
-        <div class="u-align-center-md u-align-center-sm u-align-center-xs u-repeater u-repeater-1">
-          {% for aps in AP %}
-          <div class="u-container-style u-list-item u-repeater-item">
+      <div class="u-expanded-width-md u-expanded-width-sm u-expanded-width-xl u-expanded-width-xs u-list u-list-1">
+        <div class="u-repeater u-repeater-1">
+          {% for men in AP %}
+          <div class="u-align-center u-container-style u-list-item u-repeater-item">
             <div class="u-container-layout u-similar-container u-container-layout-1">
-              <img alt="{{aps.name}}" class="u-expanded-width u-flip-horizontal u-image u-image-round u-radius-18 u-image-1"
-                data-image-width="2000" data-image-height="1333"
-                src="{% static 'images/VitaminGummies/drink.jpeg' %}" />
-              <h3 class="u-align-center u-text u-text-default u-text-2">
-                {{aps.name}}
-              </h3>
-              <p class="u-align-center u-text u-text-3">{{aps.description}}</p>
-              <p class="u-align-center u-text u-text-4">{{aps.price}}</p>
+              <img alt=""
+                class="u-expanded-width-lg u-expanded-width-sm u-expanded-width-xl u-expanded-width-xs u-image u-image-default u-image-1"
+                data-image-width="1280" data-image-height="781" src="{{men.picture}}">
+              <h5 class="u-text u-text-2">{{men.name|slice:"26"}}...</h5>
+              <p class="u-text u-text-3">{{men.description|slice:":25"}}...</p>
               <form method="post" action="/add_to_cart/">
                 {% csrf_token %}
-                <input type="hidden" name="product_id" value="{{ aps.id }}">
-              <button class="u-align-center-lg u-align-center-md u-align-center-sm u-align-center-xs u-btn u-btn-round u-button-style u-hover-palette-1-light-1 u-palette-1-base u-radius-6 u-btn-1">Buy
-                Now</button></form>
-              <a href="/checkout/{{aps.slug}}"
-                class="u-border-2 u-border-grey-25 u-border-hover-black u-btn u-btn-round u-button-style u-hover-white u-none u-radius-5 u-text-active-black u-text-black u-text-hover-black u-btn-2">View
+                <input type="hidden" name="product_id" value="{{ men.id }}">
+                <button
+                  class="u-align-center-lg u-align-center-md u-align-center-sm u-align-center-xs u-btn u-btn-round u-button-style u-hover-palette-1-light-1 u-palette-1-base u-radius-6 u-btn-1">Buy
+                  Now</button>
+              </form>
+              <a href="/ProductDetails/{{men.slug}}"
+                class="u-align-center-lg u-align-center-md u-align-center-sm u-align-center-xs u-border-2 u-border-active-black u-border-grey-75 u-border-hover-black u-btn u-btn-round u-button-style u-hover-white u-none u-radius-9 u-text-active-black u-text-body-color u-text-hover-black u-btn-2">View
                 More</a>
             </div>
           </div>
@@ -264,7 +255,8 @@
                   Ayurvedic Power
                 </h2>
 
-                <a href="/AyurvedicPower/" class="u-btn u-btn-round u-button-style u-radius-50 u-btn-1">Ayurvedic Power</a>
+                <a href="/AyurvedicPower/" class="u-btn u-btn-round u-button-style u-radius-50 u-btn-1">Ayurvedic
+                  Power</a>
               </div>
             </div>
             <div
