@@ -23488,7 +23488,7 @@ section.u-dialog-block:not(.u-dialog-open) {
 .u-carousel-indicators {
   position: absolute;
   left: 0;
-  z-index: 15;
+  z-index: 0;
   display: flex;
   justify-content: center;
   padding-left: 0;

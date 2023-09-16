@@ -25,6 +25,8 @@ class VitaminGummiesView(TemplateView):
 
     def get_context_data(self, **kwargs):
         VG = super().get_context_data()
+        slug = self.kwargs.get("slug")
+        print(slug, "slug")
         VG["vg"] = VitaminGummies.objects.all()
         return VG
 
@@ -126,13 +128,16 @@ class AddToCartView(View):
         for model in models:
             try:
                 product = get_object_or_404(model, id=product_id)
+                product = model.objects.filter(id=product_id)
+                
             except Http404:
                 pass
         cart_session = request.session.get('cart_session', {})
-        cart_session[product_id] = cart_session.get(product_id, 0) + 1
-        request.session['cart_session'] = cart_session
-        print(request.session['cart_session'], "1")
-        print(cart_session, "2")
+        for detais in product:
+            pass
+        if cart_session.get(product_id) == None or cart_session.get(product_id) < detais.max_quantity:
+            cart_session[product_id] = cart_session.get(product_id, 0) + 1
+            request.session['cart_session'] = cart_session
         return redirect("/cart/")
     
 class CartView(View):
@@ -143,8 +148,11 @@ class CartView(View):
         product_total = 0
         cart = request.session.get('cart_session', {})
         print(cart, "3")
-
-        email = request.user.email
+        try:
+            email = request.user.email
+            print(email, "email")
+        except Exception as e:
+            print(e, "eeeeeeeeeeeeeeeeeeeee")
         models = [VitaminGummies, EffervescentTablets, AyurvedicPower]
         for model in models:
             try:
@@ -182,8 +190,10 @@ class CartView(View):
             products_detail = str(str(i.name)+"-"+str(quantity))
             order_product_data += (products_detail+"\n")
         print(order_product_data)
-        
-        c = user_data.objects.get(email=email)
+        try:
+            c = user_data.objects.get(email=email)
+        except Exception as e:
+            print(e)
         address = str(c.building) +" , "+ str(c.street) + " , " + str(c.area) +" , "+ str(c.pincode) +" , "+ str(c.city)    
         if orders.objects.filter(email=email).exists():
             if order_product_data != "":

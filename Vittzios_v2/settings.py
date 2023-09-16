@@ -27,8 +27,13 @@ SECRET_KEY = 'django-insecure-*m&2r8hcncum*$phne&i5pnzm6434aizuw-o(kb8fkoy4_mymv
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["192.168.29.152",
-                 "127.0.0.1"]
+#security warning 
+SECURE_HSTS_SECONDS = 2592000
+SECURE_SSL_REDIRECT = True
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
+
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -86,7 +91,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'vittdb',
         'USER': 'Vittzios',
-        'PASSWORD': 'MYSQL3306#Vittzios',#dfghj5678io345tgb45tgfb
+        'PASSWORD': 'MYSQL3306#Vittzios',#dfGhj567
         'HOST': 'localhost',
         'PORT': '3306',
         'OPTIONS': {

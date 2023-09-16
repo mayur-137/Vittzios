@@ -3,7 +3,10 @@
  * License https://froala.com/wysiwyg-editor/terms/
  * Copyright 2014-2021 Froala Labs
  */
-
+ img{
+  width: 100%;
+  height: 100%;
+ }
 .fr-clearfix::after {
   clear: both;
   display: block;
@@ -558,7 +561,7 @@ textarea {
 }
 ul,
 ol {
-  padding-left: 20px;
+  padding-left: 0px;
 }
 /* Fade effect */
 /* Over effect */
@@ -12665,7 +12668,7 @@ section.u-image:not(.u-hover-box),
   z-index: 1;
 }
 .u-overlap .u-header {
-  position: absolute;
+  /* position: absolute; */
   top: 0;
   right: 0;
   left: 0;
@@ -21231,7 +21234,7 @@ a.pswp__share--download:hover {
   margin-bottom: -1px;
 }
 .u-tab-list[class*="u-border"] .u-tab-link.u-border-2 {
-  margin-bottom: -2px;
+  margin-bottom: 0px;
 }
 .u-tab-list[class*="u-border"] .u-tab-link.u-border-3 {
   margin-bottom: -3px;
@@ -23485,7 +23488,7 @@ section.u-dialog-block:not(.u-dialog-open) {
 .u-carousel-indicators {
   position: absolute;
   left: 0;
-  z-index: 15;
+  z-index: 0;
   display: flex;
   justify-content: center;
   padding-left: 0;
@@ -40051,7 +40054,7 @@ a.u-button-style.u-button-style.active > .u-text-active-white[class*="u-border-"
 .u-button-style:hover > .u-text-hover-white .u-svg-link,
 .u-button-style.u-button-style.active > .u-text-active-white .u-svg-link,
 .u-text-hover-white:focus .u-svg-link {
-  fill: #ffffff;
+  fill: #111111;
 }
 .u-link.u-text-white:hover {
   color: #e6e6e6 !important;
@@ -41579,7 +41582,7 @@ a.u-link.u-text-hover-grey-90:hover {
 }
 
 .u-header .u-menu-1 {
-  margin: -63px auto 27px 0;
+  /* margin: -63px auto 27px 0; */
 }
 
 .u-header .u-nav-1 {
@@ -41597,29 +41600,37 @@ a.u-link.u-text-hover-grey-90:hover {
     height: 89px;
   }
 
+  .u-header .u-image-2 {
+    width: 57px;
+    height: 57px;
+    /* margin-top: -46px;
+    margin-right: 11px; */
+}
+
   .u-header .u-menu-1 {
     width: auto;
-    margin-top: -63px;
+    margin-top: 0px;
   }
 }
+
 @media (max-width: 991px) {
    .u-header {
     min-height: 91px;
   }
 
   .u-header .u-menu-1 {
-    margin-bottom: 28px;
+    margin-bottom: 0px;
   }
 }
 @media (max-width: 767px) {
    .u-header {
-    min-height: 100vh;
+    min-height: 90px;
   }
 
   .u-header .u-menu-1 {
-    margin-top: -61px;
+    margin-top: 0px;
     margin-bottom: 0;
-    margin-left: calc(((100% - 540px) / 2) + -38px);
+    /* margin-left: calc(((100% - 540px) / 2) + -38px); */
   }
 }
 @media (max-width: 575px) {
@@ -41628,8 +41639,8 @@ a.u-link.u-text-hover-grey-90:hover {
   }
 
   .u-header .u-menu-1 {
-    margin-top: -62px;
-    margin-left: calc(((100% - 340px) / 2) + -24px);
+    margin-top: -0px;
+    /* margin-left: calc(((100% - 340px) / 2) + -24px); */
   }
 }
 .u-footer .u-sheet-1 {
@@ -41956,3 +41967,18 @@ a.u-link.u-text-hover-grey-90:hover {
  /*begin-variables base-font-size*/ 
  html { font-size: 16px; }
  /*end-variables base-font-size*/
+
+.u-menu.u-menu-one-level.u-offcanvas-shift.u-menu-1{
+  display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.u-menu.u-menu-one-level.u-offcanvas-shift.u-menu-1 nav{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.logo{
+  width: 40px;
+  height: 40px;
+}
