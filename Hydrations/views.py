@@ -2,21 +2,21 @@ from django.views.generic.base import TemplateView
 from django.views.generic.edit import CreateView
 from django.views import View
 from .forms import ContactFormModel
-from .models import VitaminGummies, EffervescentTablets, AyurvedicPower, ContactModel ,user_data,orders,final_order_list
-from django.shortcuts import  render, redirect, get_object_or_404
+from .models import VitaminGummies, EffervescentTablets, AyurvedicPower, ContactModel, user_data, orders, \
+    final_order_list
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
-from django.contrib.auth.forms import AuthenticationForm #add this
-from django.contrib.auth import login, authenticate, logout #add this
+from django.contrib.auth.forms import AuthenticationForm  # add this
+from django.contrib.auth import login, authenticate, logout  # add this
 from django.views.decorators.csrf import csrf_exempt
-from .forms import ContactFormModel,NewUserForm
-from django.contrib.auth.models import User,auth
+from .forms import ContactFormModel, NewUserForm
+from django.contrib.auth.models import User, auth
 from django.contrib.auth.decorators import login_required
-from django.http import JsonResponse,HttpResponseBadRequest, Http404
+from django.http import JsonResponse, HttpResponseBadRequest, Http404
 from razorpay import Client
-import razorpay,requests
+import razorpay, requests
 from django.views.decorators.csrf import csrf_exempt
 from django.db.models import Max
-
 
 
 class VitaminGummiesView(TemplateView):
@@ -30,6 +30,7 @@ class VitaminGummiesView(TemplateView):
         VG["vg"] = VitaminGummies.objects.all()
         return VG
 
+
 class EffervescentTabletsView(TemplateView):
     model = EffervescentTablets
     template_name = "EffervescentTablets.html"
@@ -38,6 +39,7 @@ class EffervescentTabletsView(TemplateView):
         VG = super().get_context_data()
         VG["vg"] = EffervescentTablets.objects.all()
         return VG
+
 
 class AyurvedicPowerView(TemplateView):
     model = AyurvedicPower
@@ -98,6 +100,7 @@ class CartView(TemplateView):
         print(slug)
         return cart
 
+
 class CheckoutView(TemplateView):
     model = VitaminGummies
     template_name = "Checkout.html"
@@ -111,15 +114,15 @@ class CheckoutView(TemplateView):
         if not VG["vg"]:
             VG["vg"] = AyurvedicPower.objects.filter(slug=slug)
         return VG
-    
-    
+
+
 class ContactView(TemplateView):
     template_name = "Contact.html"
 
     def get_context_data(self, **kwargs):
         contact = super().get_context_data()
         return contact
-    
+
 
 class AddToCartView(View):
     def post(self, request, *args, **kwargs):
@@ -129,7 +132,7 @@ class AddToCartView(View):
             try:
                 product = get_object_or_404(model, id=product_id)
                 product = model.objects.filter(id=product_id)
-                
+
             except Http404:
                 pass
         cart_session = request.session.get('cart_session', {})
@@ -139,9 +142,11 @@ class AddToCartView(View):
             cart_session[product_id] = cart_session.get(product_id, 0) + 1
             request.session['cart_session'] = cart_session
         return redirect("/cart/")
-    
+
+
 class CartView(View):
     def get(self, request, *args, **kwargs):
+        global email, c
         products_in_cart = []
         products_list = []
         # products_list.clear()
@@ -184,22 +189,23 @@ class CartView(View):
                 # print(product.picture,"piicture")
                 # print(products_list, "list")
 
-        order_product_data = "" 
-        for i  in products_list:
+        order_product_data = ""
+        for i in products_list:
             quantity = i.product_quantity
-            products_detail = str(str(i.name)+"-"+str(quantity))
-            order_product_data += (products_detail+"\n")
+            products_detail = str(str(i.name) + "-" + str(quantity))
+            order_product_data += (products_detail + "\n")
         print(order_product_data)
         try:
             c = user_data.objects.get(email=email)
+            print(c, "cccccccccc")
         except Exception as e:
-            print(e)
-        address = str(c.building) +" , "+ str(c.street) + " , " + str(c.area) +" , "+ str(c.pincode) +" , "+ str(c.city)    
+            print(e, "eeeeeeee")
+        address = str(c.building) + " , " + str(c.street) + " , " + str(c.area) + " , " + str(c.pincode) + " , " + str(c.city)
         if orders.objects.filter(email=email).exists():
             if order_product_data != "":
                 print("user data is there")
                 user = orders.objects.get(email=email)
-                user.products_detail = order_product_data          
+                user.products_detail = order_product_data
                 user.order_total = product_total
                 print(address)
                 user.address_1 = address
@@ -212,13 +218,15 @@ class CartView(View):
         else:
             if order_product_data != "":
                 print("user data is not there")
-                b = orders(order_id=1,email=email,address_1 = address,products_detail=order_product_data,order_total = product_total)
+                b = orders(order_id=1, email=email, address_1=address, products_detail=order_product_data,
+                           order_total=product_total)
                 orders.save(b)
                 print("user data saved")
             else:
                 pass
-            
+
         return render(request, 'cart.html', {'products': products_list, 'product_total': product_total})
+
 
 class Update_cart_view(View):
 
@@ -248,7 +256,8 @@ class Update_cart_view(View):
                 cart_session[Product_id] = cart_session.get(Product_id) + 1
                 request.session['cart_session'] = cart_session
         return redirect("/cart/")
-    
+
+
 class RemoveItemView(View):
 
     def post(self, request, *args, **kwargs):
@@ -269,7 +278,6 @@ class RemoveItemView(View):
         return redirect("/cart/")
 
 
-
 def user_data_function(request):
     current_user = request.user
     email = current_user.email
@@ -278,37 +286,38 @@ def user_data_function(request):
             print("user already stored data")
             username = (User.objects.get(email=email)).username
             print(username)
-            phone_number = user_data.objects.get(email=email).phone_number 
+            phone_number = user_data.objects.get(email=email).phone_number
             building = user_data.objects.get(email=email).building
             print(building)
-            street = (user_data.objects.get(email=email)).street    
+            street = (user_data.objects.get(email=email)).street
             area = (user_data.objects.get(email=email)).area
             pincode = (user_data.objects.get(email=email)).pincode
             city = (user_data.objects.get(email=email)).city
             state = (user_data.objects.get(email=email)).state
-            context = {"email":email,"phone_number":phone_number,'username':username,'building':building,'street':street,'area':area,'pincode':pincode,'city':city,'state':state}
+            context = {"email": email, "phone_number": phone_number, 'username': username, 'building': building,
+                       'street': street, 'area': area, 'pincode': pincode, 'city': city, 'state': state}
             print(context)
-            return render(request,'main/user_data.html' ,{'context': context})
-                
+            return render(request, 'main/user_data.html', {'context': context})
+
         except:
-            return render(request,'main/user_data.html')
-    else:       
+            return render(request, 'main/user_data.html')
+    else:
         return render(request, 'main/user_data.html')
 
-@csrf_exempt
 
+@csrf_exempt
 def edit_user_data(request):
     print("edit user data")
-    if request.method =="POST":
+    if request.method == "POST":
         print("edit user data222")
         current_user = request.user
-        email = current_user.email 
-        building = request.POST['building'] 
-        street = request.POST['street']     
-        area = request.POST['area'] 
-        pincode = request.POST['pincode'] 
+        email = current_user.email
+        building = request.POST['building']
+        street = request.POST['street']
+        area = request.POST['area']
+        pincode = request.POST['pincode']
         city = request.POST['city']
-        state = request.POST['state'] 
+        state = request.POST['state']
         phone_number = request.POST['phone_number']
 
         if user_data.objects.filter(email=email).exists():
@@ -322,32 +331,33 @@ def edit_user_data(request):
             user.phone_number = phone_number
             user.state = state
             user.save()
-        else: 
+        else:
             print("user data is not saved")
-            b = user_data(email=email,building=building,street=street,area=area,pincode=pincode,city=city,phone_number=phone_number,state=state)
+            b = user_data(email=email, building=building, street=street, area=area, pincode=pincode, city=city,
+                          phone_number=phone_number, state=state)
             user_data.save(b)
         return redirect('/')
     else:
         print("GET")
         return render(request, 'main/edit_user_data.html')
 
-        
+
 @csrf_exempt
 def register_request(request):
     if request.method == "POST":
         username = request.POST['username']
         password = request.POST['password']
         email = request.POST['email']
-        
-        print(username,email,password)
+
+        print(username, email, password)
         if User.objects.filter(username=username).exists():
             print("user already registered")
             context = {'error': 'The username you entered has already been taken. Please try another username.'}
             return render(request, 'main/register.html', {'context': context})
         elif User.objects.filter(email=email).exists():
             print("this email is already taken try another one")
-            context = {"error":"this email is already taken try another one"}
-            return render(request , 'main/register.html',{"context":context})
+            context = {"error": "this email is already taken try another one"}
+            return render(request, 'main/register.html', {"context": context})
         else:
             user = User.objects.create_user(username=username, password=password, email=email)
             user.save()
@@ -358,51 +368,55 @@ def register_request(request):
         print("noooo")
         return render(request, 'main/register.html')
 
+    # return render (request=request, template_name="main/register.html", context={"register_form":form})
 
-	# return render (request=request, template_name="main/register.html", context={"register_form":form})
 
 @csrf_exempt
 def login_request(request):
     if request.method == "POST":
         email = request.POST['email_address']
-        password = request.POST['password'] 
-        try:           
+        password = request.POST['password']
+        try:
             username = User.objects.get(email=email)
-            print("email--",email,"password--",password,"username--",username.email)
-            user = auth.authenticate(username=username,password=password)
+            print("email--", email, "password--", password, "username--", username.email)
+            user = auth.authenticate(username=username, password=password)
             if user is not None:
-                auth.login(request,user)
+                auth.login(request, user)
                 print("user logged in")
                 return redirect('/')
             else:
                 context = {'error': 'email and password does not match.'}
                 return render(request, 'main/login.html', {'context': context})
         except:
-                context = {'error': 'user not found go to register' }
-                return render(request, 'main/login.html', {'context': context})            
+            context = {'error': 'user not found go to register'}
+            return render(request, 'main/login.html', {'context': context})
     else:
-        return render(request,'main/login.html')
+        return render(request, 'main/login.html')
+
 
 @csrf_exempt
 def logout_request(request):
-	logout(request)
-	messages.info(request, "You have successfully logged out.") 
-	return redirect("/")
+    logout(request)
+    messages.info(request, "You have successfully logged out.")
+    return redirect("/")
 
 
 @csrf_exempt
 def terms_conditions(request):
     if request.method:
-        return render(request,'main/terms_conditions.html')
+        return render(request, 'main/terms_conditions.html')
     else:
         return redirect("/")
+
+
 """shipment code """
+
 
 # API endpoint URL
 # Payload with shipping_is_billing set to true
 def take_user_data(email):
-    #take billing data ffrom user_data table and order data table
-    user = user_data.objects.get(email=email) 
+    # take billing data ffrom user_data table and order data table
+    user = user_data.objects.get(email=email)
     user_billing_city = user.city
     user_billing_pincode = user.pincode
     user_billing_state = user.state
@@ -414,24 +428,25 @@ def take_user_data(email):
     order_address = order_user.address_1
     order_total = order_user.order_total
     order_product = (order_user.products_detail).split()
-    print("products",order_product)
+    print("products", order_product)
 
-    #add value to final order list
-    b = final_order_list(email=email,address=order_address,products_detail=order_product,order_total=order_total,shiprocket_dashboard=False)
+    # add value to final order list
+    b = final_order_list(email=email, address=order_address, products_detail=order_product, order_total=order_total,
+                         shiprocket_dashboard=False)
     final_order_list.save(b)
     print('a1a1')
     order_id = final_order_list.objects.aggregate(Max('order_id'))['order_id__max']
     # order_id =  final_order_list.objects.get(email=email AND adress=order_address)
-    print("order_id",type(order_id),order_id)
+    print("order_id", type(order_id), order_id)
 
     l2 = []
 
-    #add products
+    # add products
     for i in order_product:
         name = (i.split('-'))[0]
         quantity = (i.split('-'))[1]
         d1 = {
-            "name":name ,
+            "name": name,
             "sku": i,
             "units": quantity,
             "selling_price": "2000",
@@ -461,7 +476,7 @@ def take_user_data(email):
         "billing_country": "INDIA",
         "billing_email": user_billing_email,
         "billing_phone": user_billing_phone,
-        "billing_alternate_phone":"",
+        "billing_alternate_phone": "",
         "shipping_customer_name": "",
         "shipping_last_name": "",
         "shipping_address": "",
@@ -472,7 +487,7 @@ def take_user_data(email):
         "shipping_state": "",
         "shipping_email": "",
         "shipping_phone": "",
-        "order_items":l2,
+        "order_items": l2,
         "payment_method": "prepaid",
         "shipping_charges": "0",
         "giftwrap_charges": "0",
@@ -485,17 +500,19 @@ def take_user_data(email):
         "weight": "1",
         "ewaybill_no": "",
         "customer_gstin": "",
-        "invoice_number":"",
-        "order_type":""
+        "invoice_number": "",
+        "order_type": ""
     }
     return order_data
+
+
 def shiprocket_key():
     url = "https://apiv2.shiprocket.in/v1/external/auth/login"
     headers = {
         "Content-Type": "application/json"}
     response = requests.post(url, json={
-    "email": "dhruv.180670107033@gmail.com",
-    "password": "ShipDhruvRocket@1"}, headers=headers)
+        "email": "dhruv.180670107033@gmail.com",
+        "password": "ShipDhruvRocket@1"}, headers=headers)
     a = response.json()
     return a['token']
 
@@ -504,12 +521,12 @@ def shiprockeet_order_function(request):
     url = "https://apiv2.shiprocket.in/v1/external/orders/create/adhoc"
 
     # Your API key
-    api_key =  shiprocket_key()
+    api_key = shiprocket_key()
     # Headers for the request
     headers = {
-        "Content-Type": "application/json","Authorization": f"Bearer {api_key}"}
+        "Content-Type": "application/json", "Authorization": f"Bearer {api_key}"}
     print('aa')
-    order_data = take_user_data(email = request.user.email)
+    order_data = take_user_data(email=request.user.email)
     print(order_data)
     # Send the POST request
     response = requests.post(url, json=order_data, headers=headers)
@@ -519,12 +536,14 @@ def shiprockeet_order_function(request):
     print(response.json())
     return response
 
+
 """razor pay code"""
 RAZOR_KEY_ID = "rzp_test_PxvxU8NuPVYlN2"
 RAZOR_KEY_SECRET = "KP3FhK8rzOJu5Blo3ZvJHBpj"
 # authorize razorpay client with API Keys.
 razorpay_client = razorpay.Client(
-auth=(RAZOR_KEY_ID, RAZOR_KEY_SECRET))
+    auth=(RAZOR_KEY_ID, RAZOR_KEY_SECRET))
+
 
 def homepage(request):
     email = request.user.email
@@ -533,19 +552,19 @@ def homepage(request):
     order_address = order_user.address_1
     order_total = order_user.order_total
     order_product = order_user.products_detail
-    
+
     currency = 'INR'
-    amount = order_total*100  # Rs. 200
- 
+    amount = order_total * 100  # Rs. 200
+
     # Create a Razorpay Order
     razorpay_order = razorpay_client.order.create(dict(amount=amount,
                                                        currency=currency,
                                                        payment_capture='0'))
- 
+
     # order id of newly created order.
     razorpay_order_id = razorpay_order['id']
     callback_url = 'paymenthandler/'
- 
+
     # we need to pass these details to frontend.
     context = {}
     context['razorpay_order_id'] = razorpay_order_id
@@ -558,16 +577,16 @@ def homepage(request):
     # print(address)
     context['address'] = order_address
     context["order_total"] = order_total
-    context["order_product"] = order_product 
+    context["order_product"] = order_product
     return render(request, 'razor_front.html', context=context)
- 
- 
+
+
 # we need to csrf_exempt this url as
 # POST request will be made by Razorpay
 # and it won't have the csrf token.
 @csrf_exempt
 def paymenthandler(request):
-    print("after payment",request.method)
+    print("after payment", request.method)
     # only accept POST request.
     if request.method == "POST":
         try:
@@ -588,8 +607,8 @@ def paymenthandler(request):
             if result is not None:
                 order_user = orders.objects.get(email=request.user.email)
                 order_total = order_user.order_total
-                
-                amount = order_total*100  # Rs. 200
+
+                amount = order_total * 100  # Rs. 200
                 try:
                     print("22222222")
                     # capture the payemt
@@ -597,8 +616,8 @@ def paymenthandler(request):
 
                     # render success page on successful caputre of payment
                     a = shiprockeet_order_function(request)
-                    a 
-                    if a.status_code== 200 and a.json()['status']=="NEW":
+                    a
+                    if a.status_code == 200 and a.json()['status'] == "NEW":
                         order_id = final_order_list.objects.aggregate(Max('order_id'))['order_id__max']
                         order = final_order_list.objects.get(order_id=order_id)
                         order.shiprocket_dashboard = True
@@ -614,16 +633,15 @@ def paymenthandler(request):
                     # if there is an error while capturing payment.
                     return render(request, 'paymentfail.html')
             else:
- 
+
                 # if signature verification fails.
                 return render(request, 'paymentfail.html')
         except:
- 
+
             # if we don't find the required parameters in POST data
             print("error")
             return HttpResponseBadRequest()
     else:
         print("method not allowed")
-       # if other than POST request is made.
+        # if other than POST request is made.
         return HttpResponseBadRequest()
-
