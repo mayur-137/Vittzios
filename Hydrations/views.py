@@ -336,7 +336,7 @@ def edit_user_data(request):
             b = user_data(email=email, building=building, street=street, area=area, pincode=pincode, city=city,
                           phone_number=phone_number, state=state)
             user_data.save(b)
-        return redirect('/')
+        return redirect('main:login')
     else:
         print("GET")
         return render(request, 'main/edit_user_data.html')
@@ -361,9 +361,8 @@ def register_request(request):
         else:
             user = User.objects.create_user(username=username, password=password, email=email)
             user.save()
-            print("user created")
             # context = {'error': 'User registered successfully!'}
-            return redirect('main:login')
+            return redirect('main:edit_user_data')
     else:
         print("noooo")
         return render(request, 'main/register.html')
