@@ -91,7 +91,7 @@ class ContactFormView(CreateView):
         return super().form_invalid(form)
 
 
-class CartView(TemplateView):
+class CartViewTemplateView(TemplateView):
     template_name = "Cart.html"
 
     def get_context_data(self, **kwargs):
@@ -136,11 +136,18 @@ class AddToCartView(View):
             except Http404:
                 pass
         cart_session = request.session.get('cart_session', {})
-        for detais in product:
+        for details in product:
             pass
-        if cart_session.get(product_id) == None or cart_session.get(product_id) < detais.max_quantity:
+        if cart_session.get(product_id) == None or cart_session.get(product_id) < details.max_quantity:
             cart_session[product_id] = cart_session.get(product_id, 0) + 1
             request.session['cart_session'] = cart_session
+        if cart_session.get(product_id) == details.max_quantity:
+            details.stock = False
+            for model in models:
+                try:
+                    updateStock = model.objects.filter(id=product_id).update(stock=details.stock)
+                except:
+                    pass
         return redirect("/cart/")
 
 
@@ -162,32 +169,16 @@ class CartView(View):
         for model in models:
             try:
                 itm = model.objects.filter(id__in=cart.keys())
-                # print(cart.keys(), "4")
-                # print(itm, model, "itm")
                 if itm:
                     products_in_cart.append(itm)
-                    # print(model, "i am in if")
-                # products_in_cart.append(itm)
-                # print(products_in_cart, "5")
-                # products_in_cart.clear()
             except:
                 pass
         for products in products_in_cart:
-            # print(products, "products ")
-            # print(products_in_cart, "cart==================")
             for product in products:
-                # print(product, "6")
-                # print(product.price, "price")
-                # print(cart[str(product.id)], "quntity")
                 product.subtotal = product.price * cart[str(product.id)]
-                # print(product.subtotal, "subtotal")
                 product_total = product.subtotal + product_total
-                # print(product_total, "total")
                 product.product_quantity = str(cart[str(product.id)])
-                # print(str(cart[str(product.id)]), "str(cart[str(product.id)])")
                 products_list.append(product)
-                # print(product.picture,"piicture")
-                # print(products_list, "list")
 
         order_product_data = ""
         for i in products_list:
@@ -225,7 +216,7 @@ class CartView(View):
             else:
                 pass
 
-        return render(request, 'cart.html', {'products': products_list, 'product_total': product_total})
+        return render(request, 'Cart.html', {'products': products_list, 'product_total': product_total})
 
 
 class Update_cart_view(View):
@@ -236,45 +227,65 @@ class Update_cart_view(View):
 
     def post(self, request, *args, **kwargs):
         Product_id = request.POST.get("Update_product_quantity")
-        print(Product_id, "ID")
         Mode_of_Operations = request.POST.get("minus")
+        models = [VitaminGummies, EffervescentTablets, AyurvedicPower]
+        for model in models:
+            try:
+                product = model.objects.filter(id=Product_id)
+                for details in product:
+                    pass
+            except:
+                    pass
         if Mode_of_Operations == "-":
             cart_session = request.session.get('cart_session', {})
             cart_session[Product_id] = cart_session.get(Product_id) - 1
             request.session['cart_session'] = cart_session
+            if cart_session.get(Product_id) < details.max_quantity:
+                details.stock = True
+                for model in models:
+                    try:
+                        updateStock = model.objects.filter(id=Product_id).update(stock=details.stock)
+                    except:
+                        pass
             if cart_session.get(Product_id) == 0:
                 del cart_session[Product_id]
         else:
-            models = [VitaminGummies, EffervescentTablets, AyurvedicPower]
-            for model in models:
-                try:
-                    self.GetMaxQuantity = model.objects.filter(id=Product_id).values("max_quantity").get()
-                except:
-                    pass
             cart_session = request.session.get('cart_session', {})
-            if not cart_session.get(Product_id) == self.GetMaxQuantity["max_quantity"]:
+            if not cart_session.get(Product_id) == details.max_quantity:
                 cart_session[Product_id] = cart_session.get(Product_id) + 1
                 request.session['cart_session'] = cart_session
+            else:
+                details.stock = False
+                for model in models:
+                    try:
+                        updateStock = model.objects.filter(id=Product_id).update(stock=details.stock)
+                    except:
+                        pass
         return redirect("/cart/")
 
 
 class RemoveItemView(View):
-
     def post(self, request, *args, **kwargs):
         GetRemoveItemId = request.POST.get("removeItem")
         cart_session = request.session.get('cart_session', {})
         models = [VitaminGummies, EffervescentTablets, AyurvedicPower]
         for model in models:
             try:
-                product = get_object_or_404(model, id=GetRemoveItemId)
-            except Http404:
+                product = model.objects.filter(id=GetRemoveItemId)
+                for details in product:
+                    pass
+            except:
                 pass
+        if details.stock == False:
+            details.stock = True
+            for model in models:
+                try:
+                    updateStock = model.objects.filter(id=GetRemoveItemId).update(stock=details.stock)
+                except:
+                    pass
         if GetRemoveItemId in cart_session:
             del cart_session[GetRemoveItemId]
             request.session['cart_session'] = cart_session
-            # email = request.user.email
-            # user = orders.objects.get(email=email)
-            # if
         return redirect("/cart/")
 
 
@@ -336,7 +347,7 @@ def edit_user_data(request):
             b = user_data(email=email, building=building, street=street, area=area, pincode=pincode, city=city,
                           phone_number=phone_number, state=state)
             user_data.save(b)
-        return redirect('main:login')
+        return redirect('login')
     else:
         print("GET")
         return render(request, 'main/edit_user_data.html')
@@ -361,11 +372,13 @@ def register_request(request):
         else:
             user = User.objects.create_user(username=username, password=password, email=email)
             user.save()
+            print("user created")
             # context = {'error': 'User registered successfully!'}
             return redirect('main:edit_user_data')
     else:
         print("noooo")
         return render(request, 'main/register.html')
+    
 
     # return render (request=request, template_name="main/register.html", context={"register_form":form})
 

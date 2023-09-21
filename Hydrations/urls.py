@@ -1,5 +1,5 @@
 from django.urls import path
-from Hydrations.views import HomeView, AboutView, ContactView, CartView, CheckoutView,ContactFormView, VitaminGummiesView , edit_user_data, AddToCartView, Update_cart_view, RemoveItemView, EffervescentTabletsView, AyurvedicPowerView
+from Hydrations.views import HomeView, AboutView, ContactView, CartView, CartViewTemplateView, CheckoutView,ContactFormView, VitaminGummiesView , edit_user_data, AddToCartView, Update_cart_view, RemoveItemView, EffervescentTabletsView, AyurvedicPowerView
 from . import views
 app_name = "main" 
 

@@ -15,7 +15,7 @@ from pathlib import Path
 import django.apps
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = Path(__file__).resolve().parent.parent 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
@@ -24,17 +24,17 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-*m&2r8hcncum*$phne&i5pnzm6434aizuw-o(kb8fkoy4_mymv'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ["127.0.0.1", "192.168.29.152"]
-
+ALLOWED_HOSTS = ["15.206.194.134", "vittzios.com", "127.0.0.1"]
+"""
 STORAGES = {
     # ...
     "staticfiles": {
         "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
     },
 }
-
+"""
 # Application definition
 
 INSTALLED_APPS = [
@@ -61,11 +61,6 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
-
-# STORAGES = {
-#     # ...
-#     "staticfiles": {"BACKEND": "Vittzios_v2.storage.S3Storage"}
-# }
 
 ROOT_URLCONF = 'Vittzios_v2.urls'
 
@@ -94,9 +89,9 @@ WSGI_APPLICATION = 'Vittzios_v2.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'Vittdb',
+        'NAME': 'vittdb',
         'USER': 'Vittzios',
-        'PASSWORD': 'MYSQL3306#Vittzios',  # dfGhj567
+        'PASSWORD': 'MYSQL3306#Vittzios',#dfghj5678io345tgb45tgfb
         'HOST': 'localhost',
         'PORT': '3306',
         'OPTIONS': {
