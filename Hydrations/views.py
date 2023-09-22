@@ -310,8 +310,10 @@ def edit_user_data(request):
     print("edit user data")
     if request.method == "POST":
         print("edit user data222")
-        current_user = request.user
-        email = current_user.email
+        # current_user = request.user
+        # email = current_user.email
+        
+        email = request.POST['email']
         building = request.POST['building']
         street = request.POST['street']
         area = request.POST['area']
