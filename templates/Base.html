@@ -93,6 +93,7 @@
       </div>
       <div class="u-black u-menu-overlay u-opacity u-opacity-70"></div>
     </div>
+    <h8 class="email_id">{{request.user.email}}</h8>
     <nav>
       <a href="/cart/" class="logo">
         <img src="{% static 'assets/images/cart.png'%}" style="margin: 0px -15px;">
@@ -113,7 +114,6 @@
               >Sign up</a
             >
           </li> -->
-        {% if request.user.email %}
         <div>
           <link rel="stylesheet" href="../static/css/drop_down.css">
           <div class="container">
@@ -125,10 +125,11 @@
                     <li><i class='bx bx-cog'>
 
                       </i><span>Settings</span></li>
-                    <li><i class='bx bx-user'></i><span>PROFILE</span></li>
-                    <li><i class='bx bx-cog'></i><span>SIGNIN</span></li>
-                    <li><i class='bx bx-cog'></i><span>LOGIN</span></li>
-                    <li><i class='bx bx-log-in-circle'></i><span>LOGOUT</span></li>
+                      <li><i class='bx bx-user'><a href="/user_data"><span>PROFILE</span></a></i></li>
+                      <li><i class='bx bx-user'><a href="/register"><span>Sign up</span></a></i></li>
+                      <li><i class='bx bx-user'><a href="/login"><span>Login</span></a></i></li>
+                      <li><i class='bx bx-user'><a href="/logout"><span>Logout</span></a></i></li>
+                  </ul>
                   </ul>
                 </div>
               </div>
@@ -136,8 +137,6 @@
             </div>
           </div>
         </div>
-        {%else%}
-        {% endif %}
       </ul>
     </nav>
   </nav>

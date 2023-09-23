@@ -17,7 +17,8 @@ from razorpay import Client
 import razorpay, requests
 from django.views.decorators.csrf import csrf_exempt
 from django.db.models import Max
-
+import json
+import ast
 
 class VitaminGummiesView(TemplateView):
     model = VitaminGummies
@@ -160,11 +161,7 @@ class CartView(View):
         product_total = 0
         cart = request.session.get('cart_session', {})
         print(cart, "3")
-        try:
-            email = request.user.email
-            print(email, "email")
-        except Exception as e:
-            print(e, "eeeeeeeeeeeeeeeeeeeee")
+
         models = [VitaminGummies, EffervescentTablets, AyurvedicPower]
         for model in models:
             try:
@@ -179,45 +176,53 @@ class CartView(View):
                 product_total = product.subtotal + product_total
                 product.product_quantity = str(cart[str(product.id)])
                 products_list.append(product)
-
-        order_product_data = ""
-        for i in products_list:
-            quantity = i.product_quantity
-            products_detail = str(str(i.name) + "-" + str(quantity))
-            order_product_data += (products_detail + "\n")
-        print(order_product_data)
+        
         try:
-            c = user_data.objects.get(email=email)
-            print(c, "cccccccccc")
+            email = request.user.email
+            print(email, "email")
+            order_product_data = []
+            for i in products_list:
+                quantity = i.product_quantity
+                print(i.name)
+                products_detail = str(str(i.name) + "-" + str(quantity))
+                order_product_data.append(products_detail)
+                # order_product_data += str(","+products_detail + "\n")
+            print(order_product_data)
+            try:
+                c = user_data.objects.get(email=email)
+                print(c, "cccccccccc")
+            except Exception as e:
+                print(e, "eeeeeeee")
+            address = str(c.building) + " , " + str(c.street) + " , " + str(c.area) + " , " + str(c.pincode) + " , " + str(c.city)
+            if orders.objects.filter(email=email).exists():
+                if order_product_data != "":
+                    print("user data is there")
+                    user = orders.objects.get(email=email)
+                    user.products_detail = json.dumps(order_product_data)
+                    user.order_total = orders.objects.get(email=email)
+                    print(address)
+                    user.address_1 = address
+                    user.save()
+                    print("user data changged")
+                else:
+                    entry = orders.objects.get(email=email)
+                    entry.delete()
+                    print("entry deleted")
+            else:
+                if order_product_data != "":
+                    print("user data is not there")
+                    b = orders(order_id=1, email=email, address_1=address, products_detail=order_product_data,
+                            order_total=product_total)
+                    orders.save(b)
+                    print("user data saved")
+                else:
+                    pass
+
+            return render(request, 'Cart.html', {'products': products_list, 'product_total': product_total})
+
         except Exception as e:
-            print(e, "eeeeeeee")
-        address = str(c.building) + " , " + str(c.street) + " , " + str(c.area) + " , " + str(c.pincode) + " , " + str(c.city)
-        if orders.objects.filter(email=email).exists():
-            if order_product_data != "":
-                print("user data is there")
-                user = orders.objects.get(email=email)
-                user.products_detail = order_product_data
-                user.order_total = product_total
-                print(address)
-                user.address_1 = address
-                user.save()
-                print("user data changged")
-            else:
-                entry = orders.objects.get(email=email)
-                entry.delete()
-                print("entry deleted")
-        else:
-            if order_product_data != "":
-                print("user data is not there")
-                b = orders(order_id=1, email=email, address_1=address, products_detail=order_product_data,
-                           order_total=product_total)
-                orders.save(b)
-                print("user data saved")
-            else:
-                pass
-
-        return render(request, 'Cart.html', {'products': products_list, 'product_total': product_total})
-
+            return render(request, 'Cart.html')
+        
 
 class Update_cart_view(View):
 
@@ -435,11 +440,17 @@ def take_user_data(email):
     user_billing_email = email
     user_billing_phone = user.phone_number
 
+    # order_user = get_object_or_404(orders, email=email)
+    # order_address = order_user.address_1
+    # order_total = order_user.order_total
+    # order_product = orders.objects.filter(email=email).values_list(order_product)
     order_user = orders.objects.get(email=email)
     print(order_user)
     order_address = order_user.address_1
     order_total = order_user.order_total
-    order_product = (order_user.products_detail).split()
+    print('11')
+    order_product = ast.literal_eval(order_user.products_detail)
+    
     print("products", order_product)
 
     # add value to final order list
@@ -449,14 +460,17 @@ def take_user_data(email):
     print('a1a1')
     order_id = final_order_list.objects.aggregate(Max('order_id'))['order_id__max']
     # order_id =  final_order_list.objects.get(email=email AND adress=order_address)
+    
     print("order_id", type(order_id), order_id)
 
     l2 = []
-
-    # add products
+    # add products  
+    print("order_product",order_product,type(order_product))
     for i in order_product:
-        name = (i.split('-'))[0]
-        quantity = (i.split('-'))[1]
+        print("0000",i)
+        name = i.split('-')[0]
+        quantity = i.split('-')[1]
+        print("name and quantity",name,quantity)
         d1 = {
             "name": name,
             "sku": i,
@@ -625,10 +639,11 @@ def paymenthandler(request):
                     print("22222222")
                     # capture the payemt
                     razorpay_client.payment.capture(payment_id, amount)
-
+                    print("payment captured")
                     # render success page on successful caputre of payment
                     a = shiprockeet_order_function(request)
                     a
+                    print(a.status_code)
                     if a.status_code == 200 and a.json()['status'] == "NEW":
                         order_id = final_order_list.objects.aggregate(Max('order_id'))['order_id__max']
                         order = final_order_list.objects.get(order_id=order_id)
