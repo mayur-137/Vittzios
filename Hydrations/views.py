@@ -187,7 +187,7 @@ class CartView(View):
             for i in products_list:
                 quantity = i.product_quantity
                 print(i.name)
-                products_detail = str(str(i.name) + "-" + str(quantity)+"-"+(str(i.price)))
+                products_detail = str(str(i.name) + "#" + str(quantity)+"#"+(str(i.price)))
                 order_product_data.append(products_detail)
                 # order_product_data += str(","+products_detail + "\n")
             print(order_product_data)
@@ -302,7 +302,7 @@ class mail_otp():
         print(n)
         return n
         
-    def send_mail(request,email,otp):
+    def send_mail(email,msg):
         server=smtplib.SMTP('smtp.gmail.com',587)
         #adding TLS security 
         server.starttls()
@@ -311,19 +311,34 @@ class mail_otp():
         password='nqdf jevl qqwx guvo'
         server.login(email_id,password)
         #generate OTP using random.randint() function
-        # otp=''.join([str(random.randint(0,9)) for i in range(4)])
-        value = request.session.get('otp_name')
-        print("value",value)
-        if value == "username":
-            msg='Hello, Your username is '+str(otp)
-        else:
-            msg = "Hello, Your OTP is " + str(otp)
-            
+        # otp=''.join([str(random.randint(0,9)) for i in range(4)])    
         sender='dhruv.180670107033@gmail.com'  #write email id of sender
         receiver=email #write email of receiver
         server.sendmail(sender,receiver,msg)
         server.quit()
 
+    def confirm_order_mail(email):
+        print('text is generating')
+        username = (User.objects.get(email=email)).username
+        print("username",username)
+        order_id = final_order_list.objects.aggregate(Max('order_id'))['order_id__max']
+        order_user = final_order_list.objects.filter(order_id=order_id).first()
+        order_total = order_user.order_total
+        order_address = order_user.address
+        print("order address is ready")
+        order_product = ast.literal_eval(order_user.products_detail)
+        print("order products are ready to ship",order_product)
+        msg = ""
+        for i in order_product:
+            name = i.split("#")[0]
+            quantity = i.split("#")[1]
+            price = i.split("#")[2]
+            msg += ",name->{},quantity->{},price->{}".format(name,quantity,price)
+        print(msg)
+        text = "Thanks {} for shopping with us ,\n\n Your order {} with order id {}, on address {} \n\n your total is {}".format(username,msg,order_id,order_address,order_total)
+        return text
+        pass
+        
     def store_otp(email,otp):
         if user_email.objects.filter(email=email).exists():
                     print("already registred")
@@ -352,7 +367,6 @@ class mail_otp():
         # else:
         #     return render(request, 'main/verification.html')
 
-
 class login_register():
     
     @csrf_exempt
@@ -375,7 +389,7 @@ class login_register():
                 user = User.objects.create_user(username=username, password=password, email=email)
                 user.save()
                 otp = mail_otp.otp_generation()
-                mail_otp.send_mail(request,email,otp)
+                mail_otp.send_mail(email=email,msg="welcome{},your otp is {}".format(username,otp))
                 mail_otp.store_otp(email=email,otp=otp)
                 print("user created")
                 # context = {'error': 'User registered successfully!'}
@@ -478,7 +492,7 @@ class reset():
         if request.method == "POST":
             email = request.POST['email']
             otp = mail_otp.otp_generation()
-            mail_otp.send_mail(email,otp)
+            mail_otp.send_mail(email=email,msg="your otp is {}".format(otp))
             mail_otp.store_otp(email,otp)
             return redirect('/reset_verified/')
         else:
@@ -489,8 +503,7 @@ class reset():
             email = request.POST['email']
             user_username = (User.objects.get(email=email)).username
             print("username",user_username)
-            request.session['otp_name'] = "username"
-            mail_otp.send_mail(request=request,email=email,otp=user_username)
+            mail_otp.send_mail(email=email,msg="your username is {}".format(user_username))
             return redirect('/login/')
         else:
             return render(request,'login/forget_username.html')
@@ -615,9 +628,9 @@ class shipment():
         print("order_product",order_product,type(order_product))
         for i in order_product:
             print("0000",i)
-            name = i.split('-')[0]
-            quantity = i.split('-')[1]
-            price = i.split('-')[2]
+            name = i.split('#')[0]
+            quantity = i.split('#')[1]
+            price = i.split('#')[2]
             print("name and quantity",name,quantity,price)
             d1 = {
                 "name": name,
@@ -631,7 +644,7 @@ class shipment():
             l2.append(d1)
 
         order_data = {
-            "order_id": order_id,
+            "order_id": 25,
             "shipping_is_billing": True,
             "order_date": "2023-08-28 17:17",
             "pickup_location": "Home",
@@ -695,12 +708,12 @@ class shipment():
         url = "https://apiv2.shiprocket.in/v1/external/orders/create/adhoc"
 
         # Your API key
-        api_key = user_data.shiprocket_key()
+        api_key = shipment.shiprocket_key()
         # Headers for the request
         headers = {
             "Content-Type": "application/json", "Authorization": f"Bearer {api_key}"}
         print('aa')
-        order_data = user_data.take_user_data(email=request.user.email)
+        order_data = shipment.take_user_data(email=request.user.email)
         print(order_data)
         # Send the POST request
         response = requests.post(url, json=order_data, headers=headers)
@@ -794,11 +807,17 @@ class razor_payment():
                         a
                         print(a.status_code)
                         if a.status_code == 200 and a.json()['status'] == "NEW":
+                            print("readyyyyy")
                             order_id = final_order_list.objects.aggregate(Max('order_id'))['order_id__max']
                             order = final_order_list.objects.get(order_id=order_id)
                             order.shiprocket_dashboard = True
                             order.save()
 
+                            text = mail_otp.confirm_order_mail(email=request.user.email)
+                            text
+                            print(text)
+                            mail_otp.send_mail(email=request.user.email,msg=text)
+                            
                             print("shipment done")
                             try :
                                 order_user = orders.objects.get(email=email)

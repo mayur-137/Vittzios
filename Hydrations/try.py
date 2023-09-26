@@ -1,15 +1,11 @@
-# Open and read the HTML file
-with open('D:/DHRUV/pyrean/Vittzios/Vittzios/templates/main/verification.html', 'r') as file:
-    html_content = file.read()
-
-# Parse the HTML content using BeautifulSoup
-from bs4 import BeautifulSoup
-
-soup = BeautifulSoup(html_content, 'html.parser')
-
-# Find the <h1> tag and extract the text from it
-h1_tag = soup.find('h1')
-site = h1_tag.text.strip()
-
-# Now you can use the 'site' variable in Python as needed
-print("Site:", site)
+msg = ""
+name = "vitamin-1"
+quantity = 2
+price = 2000
+product_data = ['vitamin-1#2#2000',"gummied-hair#4#4500"]
+for i in product_data:
+    name = i.split("#")[0]
+    quantity = i.split("#")[1]
+    price = i.split("#")[2]
+    msg += ",name->{},quantity->{},price->{}".format(name,quantity,price)
+print(msg)
