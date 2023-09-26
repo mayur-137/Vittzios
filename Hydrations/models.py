@@ -9,6 +9,7 @@ class VitaminGummies(models.Model):
     price = models.IntegerField()
     discount = models.PositiveIntegerField()
     slug = models.SlugField(unique=True, max_length=255)
+    stock = models.BooleanField(default=True)
     max_quantity = models.IntegerField(default=0)
     picture = models.ImageField(upload_to="static/images/VitaminGummies/")
     created_on = models.DateTimeField(auto_now_add=True)
@@ -21,7 +22,7 @@ class EffervescentTablets(models.Model):
     price = models.IntegerField()
     discount = models.PositiveIntegerField()
     slug = models.SlugField(unique=True, max_length=255)
-    stock = models.BooleanField()
+    stock = models.BooleanField(default=True)
     max_quantity = models.IntegerField(default=0)
     picture = models.ImageField(upload_to="static/images/EffervescentTablets/")
     created_on = models.DateTimeField(auto_now_add=True)
@@ -34,7 +35,7 @@ class AyurvedicPower(models.Model):
     price = models.IntegerField()
     discount = models.PositiveIntegerField()
     slug = models.SlugField(unique=True, max_length=255)
-    stock = models.BooleanField()
+    stock = models.BooleanField(default=True)
     max_quantity = models.IntegerField(default=0)
     picture = models.ImageField(upload_to="static/images/AyurvedicPower/")
     created_on = models.DateTimeField(auto_now_add=True)
@@ -47,7 +48,7 @@ class AyurvedicJuice(models.Model):
     price = models.IntegerField()
     discount = models.PositiveIntegerField()
     slug = models.SlugField(unique=True, max_length=255)
-    stock = models.BooleanField()
+    stock = models.BooleanField(default=True)
     max_quantity = models.IntegerField(default=0)
     picture = models.ImageField(upload_to="static/images/AyurvedicJuice/")
     created_on = models.DateTimeField(auto_now_add=True)
@@ -60,7 +61,7 @@ class TropicalSkinHair(models.Model):
     price = models.IntegerField()
     discount = models.PositiveIntegerField()
     slug = models.SlugField(unique=True, max_length=255)
-    stock = models.BooleanField()
+    stock = models.BooleanField(default=True)
     max_quantity = models.IntegerField(default=0)
     picture = models.ImageField(upload_to="static/images/TropicalSkinHair/")
     created_on = models.DateTimeField(auto_now_add=True)
@@ -73,7 +74,7 @@ class VitaminCapsules(models.Model):
     price = models.IntegerField()
     discount = models.PositiveIntegerField()
     slug = models.SlugField(unique=True, max_length=255)
-    stock = models.BooleanField()
+    stock = models.BooleanField(default=True)
     max_quantity = models.IntegerField(default=0)
     picture = models.ImageField(upload_to="static/images/VitaminCapsules/")
     created_on = models.DateTimeField(auto_now_add=True)
@@ -86,7 +87,7 @@ class CartModel(models.Model):
     price = models.IntegerField()
     discount = models.PositiveIntegerField()
     slug = models.SlugField(unique=True, max_length=255)
-    stock = models.BooleanField()
+    stock = models.BooleanField(default=True)
     max_quantity = models.IntegerField(default=0)
     picture = models.ImageField(upload_to="static/images/CartModules/")
     created_on = models.DateTimeField(auto_now_add=True)
@@ -126,3 +127,22 @@ class final_order_list(models.Model):
     products_detail = models.CharField(max_length=1000,default='empty')
     order_total = models.IntegerField()
     shiprocket_dashboard = models.BooleanField(default=False)    
+
+class user_email(models.Model):
+    email = models.CharField(max_length=100)
+    otp = models.IntegerField()
+    
+class Size(models.Model):
+    id = models.AutoField(primary_key=True)
+    size = models.CharField(max_length=50)  # You can adjust the max_length as needed
+    quantity = models.IntegerField()
+
+    def __str__(self):
+        return self.size
+
+class Men(models.Model):
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=100)
+    slug = models.SlugField(unique=True)
+    price = models.DecimalField(max_digits=10, decimal_places=2)
+    size = models.ForeignKey(Size, on_delete=models.CASCADE)
