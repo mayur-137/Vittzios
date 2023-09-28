@@ -64,13 +64,13 @@
 }
 
 .profile ul::before {
-    content: '';
+    /* content: '';
     position: absolute;
     background-color: #fff;
     height: 10px;
     width: 10px;
     top: -5px;
-    transform: rotate(45deg)
+    transform: rotate(45deg) */
 }
 
 .profile ul li {
@@ -80,9 +80,6 @@
     /* padding: 10px; */
     display: flex;
     align-items: center;
-    transition: all 0.5s;
-    cursor: pointer;
-    border-radius: 4px
 }
 .profile ul a{list-style: none;
     text-align: left;
@@ -90,11 +87,10 @@
     padding: 10px;
     display: flex;
     align-items: center;
-    transition: all 0.5s;
-    cursor: pointer;
-    border-radius: 4px}
+    border-radius: 4px;
+}
 
-.profile ul li:hover {
+.profile ul li a:hover {
     background-color: #eee
 }
 

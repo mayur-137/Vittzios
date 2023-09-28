@@ -153,6 +153,7 @@ class AddToCartView(View):
                     pass
         return redirect("/cart/")
 
+from django.contrib import messages
 
 class CartView(View):
     def get(self, request, *args, **kwargs):
@@ -194,33 +195,36 @@ class CartView(View):
             try:
                 c = user_data.objects.get(email=email)
                 print(c, "cccccccccc")
-            except Exception as e:
-                print(e, "eeeeeeee")
-
-            address = str(c.building) + " , " + str(c.street) + " , " + str(c.area) + " , " + str(c.pincode) + " , " + str(c.city)
-            if orders.objects.filter(email=email).exists():
-                if order_product_data != "":
-                    print("user data is there")
-                    user = orders.objects.get(email=email)
-                    user.products_detail = (order_product_data)
-                    user.order_total = product_total
-                    print(address)
-                    user.address_1 = address
-                    user.save()
-                    print("user data changged")
+                address = str(c.building) + " , " + str(c.street) + " , " + str(c.area) + " , " + str(c.pincode) + " , " + str(c.city)
+                if orders.objects.filter(email=email).exists():
+                    if order_product_data != "":
+                        print("user data is there")
+                        user = orders.objects.get(email=email)
+                        user.products_detail = (order_product_data)
+                        user.order_total = product_total
+                        print(address)
+                        user.address_1 = address
+                        user.save()
+                        print("user data changged")
+                    else:
+                        pass
                 else:
-                    pass
-            else:
-                if order_product_data != "":
-                    print("user data is not there")
-                    b = orders(email=email, address_1=address, products_detail=order_product_data,
-                            order_total=product_total)
-                    orders.save(b)
-                    print("user data saved")
-                else:
-                    pass
+                    if order_product_data != "":
+                        print("user data is not there")
+                        b = orders(email=email, address_1=address, products_detail=order_product_data,
+                                order_total=product_total)
+                        orders.save(b)
+                        print("user data saved")
+                    else:
+                        pass
+                return render(request, 'cart_checkout/Cart.html', {'products': products_list, 'product_total': product_total})
 
-            return render(request, 'cart_checkout/Cart.html', {'products': products_list, 'product_total': product_total})
+            except:
+                context = "you have to add your address first"
+                print("you have to add your address first")
+                messages.success(request,(context))
+                return redirect('/edit_user_data/',{"context":context})
+            
         else:
             print("no log in user")
             return render(request, 'cart_checkout/Cart.html')
@@ -337,7 +341,7 @@ class mail_otp():
         print(msg)
         text = "Thanks {} for shopping with us ,\n\n Your order {} with order id {}, on address {} \n\n your total is {}".format(username,msg,order_id,order_address,order_total)
         return text
-        pass
+        
         
     def store_otp(email,otp):
         if user_email.objects.filter(email=email).exists():
@@ -437,6 +441,7 @@ class login_register():
 class reset():
     def reset_passsowrd(request):
         if request.session.get('otp_verified'):
+            print(request.session.get('otp_verified'))
             print("yeeeeessss it's verified")
             if request.method == "POST":
                 password = request.POST['password']
@@ -461,8 +466,9 @@ class reset():
             else:
                 return render  (request,'login/reset_password.html')
         else:
+            print("you need verify via otp first")
             context = "you need verify via otp first"
-            return render(request,'login/verification.html',{'context':context})
+            return render(request,'login/forget.html',{'context':context})
         
     def reset_verified(request):
         if request.method == "POST":
@@ -568,6 +574,8 @@ class user_datas():
                             phone_number=phone_number, state=state)
                 user_data.save(b)
                 print("saved new data")
+                return redirect('/')
+            
             edit_change = request.session.get('edit_redirect')
             return redirect('/{}/'.format(edit_change))
         
@@ -739,7 +747,7 @@ class razor_payment():
         print(order_user)
         order_address = order_user.address_1
         order_total = order_user.order_total
-        order_product = order_user.products_detail
+        order_product =ast.literal_eval(order_user.products_detail)
 
         currency = 'INR'
         amount = order_total * 100  # Rs. 200
@@ -765,7 +773,13 @@ class razor_payment():
         # print(address)
         context['address'] = order_address
         context["order_total"] = order_total
-        context["order_product"] = order_product
+        msg = ""
+        for i in order_product:
+            name = i.split("#")[0]
+            quantity = i.split("#")[1]
+            price = i.split("#")[2]
+            msg += "\n{}-{}-{}".format(name,quantity,price)
+        context["order_product"] = msg
         return render(request, 'cart_checkout/razor_front.html', context=context)
 
 
@@ -827,6 +841,7 @@ class razor_payment():
 
                             print("cart empty")
                             print("cart data is deleted")
+                            return redirect('/')
                         else:
                             pass
                         print(a.status_code)

@@ -13,7 +13,7 @@ class VitaminGummies(models.Model):
     max_quantity = models.IntegerField(default=0)
     picture = models.ImageField(upload_to="static/images/VitaminGummies/")
     created_on = models.DateTimeField(auto_now_add=True)
-
+    image = models.ImageField(upload_to="static/images/VitaminGummies/",default='static/images/VitaminGummies/cart.png')
 
 class EffervescentTablets(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -26,6 +26,7 @@ class EffervescentTablets(models.Model):
     max_quantity = models.IntegerField(default=0)
     picture = models.ImageField(upload_to="static/images/EffervescentTablets/")
     created_on = models.DateTimeField(auto_now_add=True)
+    image = models.ImageField(upload_to="static/images/VitaminGummies/",default='static/images/VitaminGummies/cart.png')
 
 
 class AyurvedicPower(models.Model):
@@ -39,6 +40,7 @@ class AyurvedicPower(models.Model):
     max_quantity = models.IntegerField(default=0)
     picture = models.ImageField(upload_to="static/images/AyurvedicPower/")
     created_on = models.DateTimeField(auto_now_add=True)
+    image = models.ImageField(upload_to="static/images/VitaminGummies/",default='static/images/VitaminGummies/cart.png')
 
 
 class AyurvedicJuice(models.Model):
@@ -52,6 +54,7 @@ class AyurvedicJuice(models.Model):
     max_quantity = models.IntegerField(default=0)
     picture = models.ImageField(upload_to="static/images/AyurvedicJuice/")
     created_on = models.DateTimeField(auto_now_add=True)
+    image = models.ImageField(upload_to="static/images/VitaminGummies/",default='static/images/VitaminGummies/cart.png')
 
 
 class TropicalSkinHair(models.Model):
@@ -64,7 +67,9 @@ class TropicalSkinHair(models.Model):
     stock = models.BooleanField(default=True)
     max_quantity = models.IntegerField(default=0)
     picture = models.ImageField(upload_to="static/images/TropicalSkinHair/")
+
     created_on = models.DateTimeField(auto_now_add=True)
+    image = models.ImageField(upload_to="static/images/VitaminGummies/",default='static/images/VitaminGummies/cart.png')
 
 
 class VitaminCapsules(models.Model):
@@ -77,6 +82,8 @@ class VitaminCapsules(models.Model):
     stock = models.BooleanField(default=True)
     max_quantity = models.IntegerField(default=0)
     picture = models.ImageField(upload_to="static/images/VitaminCapsules/")
+    image = models.ImageField(upload_to="static/images/VitaminGummies/",default='static/images/VitaminGummies/cart.png')
+
     created_on = models.DateTimeField(auto_now_add=True)
 
 

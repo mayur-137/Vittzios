@@ -14,7 +14,13 @@
       <div class="responsive-container-block container">
         
         <form class="form-box"  method="post">
+          {% csrf_token %}
           <div class="container-block form-wrapper">
+            {% if messages %}
+              {% for message in messages %}
+                  <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}" role="alert">{{ message }}</div>
+              {% endfor %}
+          {% endif %}
             <p class="text-blk contactus-head">
               Personal Data
             </p>

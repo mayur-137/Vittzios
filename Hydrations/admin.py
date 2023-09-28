@@ -11,8 +11,7 @@ admin.site.register(user_data,AuthorAdmin)
 
 class AuthorAdmin(admin.ModelAdmin):
     list_display = ["id", "name", "description", "price", "discount", "slug", "max_quantity", "picture",
-                    "created_on"]
-
+                    "created_on","image"]
 
 admin.site.register(VitaminGummies, AuthorAdmin)
 admin.site.register(EffervescentTablets, AuthorAdmin)
@@ -20,7 +19,11 @@ admin.site.register(VitaminCapsules, AuthorAdmin)
 admin.site.register(AyurvedicPower, AuthorAdmin)
 admin.site.register(AyurvedicJuice, AuthorAdmin)
 admin.site.register(TropicalSkinHair, AuthorAdmin)
-admin.site.register(CartModel, AuthorAdmin)
+
+class AuthorAdmin_cart(admin.ModelAdmin):
+    list_display = ["id", "name", "description", "price", "discount", "slug", "max_quantity", "picture",
+                    "created_on"]
+admin.site.register(CartModel, AuthorAdmin_cart)
 
 
 @admin.register(ContactModel)
