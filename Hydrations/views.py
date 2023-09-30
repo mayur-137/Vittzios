@@ -419,7 +419,7 @@ class login_register():
                 if user is not None:
                     auth.login(request, user)
                     print("user logged in")
-                    return redirect('/')
+                    return redirect('/test/')
                 else:
                     print("user is none")
                     context = {'error': 'email and password does not match.'}
@@ -574,7 +574,7 @@ class user_datas():
                             phone_number=phone_number, state=state)
                 user_data.save(b)
                 print("saved new data")
-                return redirect('/')
+                return redirect('/test/')
             
             edit_change = request.session.get('edit_redirect')
             return redirect('/{}/'.format(edit_change))
@@ -584,7 +584,7 @@ class user_datas():
             # elif edit_change == "user_data":
             #     return redirect('/user_data/')
             # else:
-            #     return redirect('/')
+            #     return redirect('/test/')
             
         else:
             print("GET")
@@ -841,7 +841,7 @@ class razor_payment():
 
                             print("cart empty")
                             print("cart data is deleted")
-                            return redirect('/')
+                            return redirect('/test/')
                         else:
                             pass
                         print(a.status_code)
