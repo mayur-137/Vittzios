@@ -21,6 +21,8 @@ import json
 import ast
 import random
 import smtplib
+from django.contrib import messages
+
 
 class VitaminGummiesView(TemplateView):
     model = VitaminGummies
@@ -153,7 +155,6 @@ class AddToCartView(View):
                     pass
         return redirect("/cart/")
 
-from django.contrib import messages
 
 class CartView(View):
     def get(self, request, *args, **kwargs):
@@ -180,8 +181,8 @@ class CartView(View):
                 product.product_quantity = str(cart[str(product.id)])
                 products_list.append(product)
                 print("price is ",product.price)
-        
-        if  request.user.email != "":
+
+        try:
             email = request.user.email
             print(email, "email")
             order_product_data = []
@@ -225,7 +226,7 @@ class CartView(View):
                 messages.success(request,(context))
                 return redirect('/edit_user_data/',{"context":context})
             
-        else:
+        except:
             print("no log in user")
             return render(request, 'cart_checkout/Cart.html')
         
@@ -435,7 +436,7 @@ class login_register():
     def logout_request(request):
         logout(request)
         messages.info(request, "You have successfully logged out.")
-        return redirect("/")
+        return redirect("/test/")
 
 
 class reset():
@@ -591,7 +592,7 @@ class user_datas():
             return render(request, 'user_data/edit_user_data.html')
 
 
-
+    
 @csrf_exempt
 def terms_conditions(request):
     if request.method:
