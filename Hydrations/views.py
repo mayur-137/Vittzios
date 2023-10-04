@@ -541,7 +541,7 @@ class user_datas():
                 return render(request, 'user_data/user_data.html')
         except:
             print('no user found')
-            return render(request, 'user_data/user_data.html')
+            return redirect('/login/',{"context":"you have't logged in "})
 
 
     @csrf_exempt
