@@ -519,9 +519,8 @@ class user_datas():
     from .models import user_data  # Make sure the import path is correct
     
     def user_data_function(request):
-        current_user = request.user
-        email = current_user.email
-        if email:
+        try:
+            email  =  request.user.email
             try:
                 print("user data already stored ")
                 username = (User.objects.get(email=email)).username
@@ -540,7 +539,8 @@ class user_datas():
 
             except:
                 return render(request, 'user_data/user_data.html')
-        else:
+        except:
+            print('no user found')
             return render(request, 'user_data/user_data.html')
 
 
@@ -575,7 +575,7 @@ class user_datas():
                             phone_number=phone_number, state=state)
                 user_data.save(b)
                 print("saved new data")
-                return redirect('/test/')
+                return redirect('//')
             
             edit_change = request.session.get('edit_redirect')
             return redirect('/{}/'.format(edit_change))

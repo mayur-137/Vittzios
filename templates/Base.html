@@ -73,7 +73,7 @@
 
       </ul>
     </div>
-    <a href="/" class="u-image u-logo u-image-1">
+    <a href="/test/" class="u-image u-logo u-image-1">
       <img src="{% static 'assets/images/vittLOGO-removebg-preview.png'%}" class="u-logo-image u-logo-image-1"
         alt="Vittzios"/>
     </a>
@@ -93,7 +93,7 @@
       </div>
       <div class="u-black u-menu-overlay u-opacity u-opacity-70"></div>
     </div>
-    <h8 class="email_id">{{request.user.email}}</h8>
+    {% comment %} <h8 class="email_id">{{request.user.email}}</h8> {% endcomment %}
     <nav>
       <a href="/cart/" class="logo">
         <img src="{% static 'assets/images/cart.png'%}">
@@ -124,8 +124,11 @@
                   <ul>
                     <li><a href="/user_data" style="width: 100%;">PROFILE</a></li>
                     <li><a href="/register" style="width: 100%;">Sign up</a></li>
-                    <li><a href="/login" style="width: 100%;">Login</a></li>
+                    {% if request.user.email %}
                     <li><a href="/logout" style="width: 100%;">Logout</a></li>
+                    {% else %}
+                    <li><a href="/login" style="width: 100%;">Login</a></li>
+                    {% endif %} 
                   </ul>
                 </div>
               </div>
@@ -273,7 +276,7 @@
           </div>
           <div class="u-container-style u-layout-cell u-size-20 u-layout-cell-2">
             <div class="u-container-layout u-valign-middle u-container-layout-2">
-              <a href="/" class="u-image u-logo u-image-1" data-image-width="674" data-image-height="370" title="Home">
+              <a href="/test/" class="u-image u-logo u-image-1" data-image-width="674" data-image-height="370" title="Home">
                 <img src="{% static 'assets/images/vittLOGO-white.png'%}" class="u-logo-image u-logo-image-1" />
               </a>
             </div>
