@@ -228,7 +228,9 @@ class CartView(View):
             
         except:
             print("no log in user")
-            return render(request, 'cart_checkout/Cart.html')
+            context = "you have to login first"
+            messages.success(request,(context))
+            return redirect('/login/',{"context":context})
         
 
 class Update_cart_view(View):
