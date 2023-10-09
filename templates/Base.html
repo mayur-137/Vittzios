@@ -124,7 +124,7 @@
                   <ul>
                     <li><a href="/user_data" style="width: 100%;">PROFILE</a></li>
                     <li><a href="/register" style="width: 100%;">Sign up</a></li>
-                    {% if request.user.email %}
+                     {% if request.user.email %}
                     <li><a href="/logout" style="width: 100%;">Logout</a></li>
                     {% else %}
                     <li><a href="/login" style="width: 100%;">Login</a></li>

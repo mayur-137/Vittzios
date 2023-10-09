@@ -655,7 +655,7 @@ class shipment():
             l2.append(d1)
 
         order_data = {
-            "order_id": 25,
+            "order_id": order_id,
             "shipping_is_billing": True,
             "order_date": "2023-08-28 17:17",
             "pickup_location": "Home",
