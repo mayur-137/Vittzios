@@ -22,6 +22,10 @@ import ast
 import random
 import smtplib
 from django.contrib import messages
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+from email.mime.image import MIMEImage
+
 
 
 class VitaminGummiesView(TemplateView):
@@ -316,35 +320,88 @@ class mail_otp():
         #get your app password of gmail ----as directed in the video
         email_id = "dhruv.180670107033@gmail.com"
         password='nqdf jevl qqwx guvo'
-        server.login(email_id,password)
+        server.login(email_id,password) 
         #generate OTP using random.randint() function
         # otp=''.join([str(random.randint(0,9)) for i in range(4)])    
         sender='dhruv.180670107033@gmail.com'  #write email id of sender
         receiver=email #write email of receiver
         server.sendmail(sender,receiver,msg)
         server.quit()
-
-    def confirm_order_mail(email):
+  
+    def confirm_order_mail(email,id):
         print('text is generating')
         username = (User.objects.get(email=email)).username
         print("username",username)
         order_id = final_order_list.objects.aggregate(Max('order_id'))['order_id__max']
+        print("order_id is ",order_id)
         order_user = final_order_list.objects.filter(order_id=order_id).first()
+        print(order_user,order_user.email)
         order_total = order_user.order_total
         order_address = order_user.address
         print("order address is ready")
         order_product = ast.literal_eval(order_user.products_detail)
         print("order products are ready to ship",order_product)
-        msg = ""
-        for i in order_product:
-            name = i.split("#")[0]
-            quantity = i.split("#")[1]
-            price = i.split("#")[2]
-            msg += ",name->{},quantity->{},price->{}".format(name,quantity,price)
-        print(msg)
-        text = "Thanks {} for shopping with us ,\n\n Your order {} with order id {}, on address {} \n\n your total is {}".format(username,msg,order_id,order_address,order_total)
-        return text
+        order_date = "09-10-2023"
         
+        # msg = ""
+        # for i in order_product:
+        #     name = i.split("#")[0]
+        #     quantity = i.split("#")[1]
+        #     price = i.split("#")[2]
+        #     msg += ",name->{},quantity->{},price->{}".format(name,quantity,price)
+        # print(msg)
+
+        # text = "Thanks {} for shopping with us ,\n\n Your order {} with order id {} and tracking id  {}, on address {} \n\n your total is {}".format(username,msg,order_id,id,order_address,order_total)
+        
+        # Email configuration
+        sender_email = "dhruv.180670107033@gmail.com"
+        sender_password = "nqdf jevl qqwx guvo"
+        smtp_server = "smtp.gmail.com"
+        smtp_port = 587
+
+        # Create a multipart message
+        msg = MIMEMultipart()
+        msg["From"] = sender_email
+        msg["To"] = email
+        msg["Subject"] = "Congratulations! Your Order Details"
+
+        # Email body
+        email_body = f"""
+        <html>
+            <body>
+                <img src="cid:logo" alt="Your Logo" width="200">
+                <h2>Congratulations! You placed your order successfully</h2>
+                <p>Here are your order details:</p>
+                <ul>
+                    <li><strong>Order ID:</strong> {order_id}</li>
+                    <li><strong>Tracking Id:</strong> {id}</li>
+                    <li><strong>Order Details:</strong> {order_product}</li>
+                    <li><strong>Date of Order:</strong> {order_date}</li>
+                    <li><strong>Shipping Address:</strong> {order_address}</li>
+                    <li><strong>order total:</strong> {order_total}</li>
+                </ul>
+            </body>
+        </html>
+        """
+        msg.attach(MIMEText(email_body, "html"))
+
+        # Attach your logo image
+        with open("C:/vittsu/Vittzios/static/images/VitaminGummiesvittLOGO-removebg-preview.png", "rb") as logo_image:
+            image = MIMEImage(logo_image.read(), name="logo.png")
+            image.add_header("Content-ID", "<logo>")
+            msg.attach(image)
+
+        # Send the email
+        try:
+            server = smtplib.SMTP(smtp_server, smtp_port)
+            server.starttls()
+            server.login(sender_email, sender_password)
+            server.sendmail(sender_email, email, msg.as_string())
+            server.quit()
+            print("Email sent successfully")
+        except Exception as e:
+            print(f"Error sending email: {str(e)}")
+            
         
     def store_otp(email,otp):
         if user_email.objects.filter(email=email).exists():
@@ -559,7 +616,17 @@ class user_datas():
             city = request.POST['city']
             state = request.POST['state']
             phone_number = request.POST['phone_number']
-            
+            address = str(str(building) + ',' + str(street) + ',' + str(area) + ',' + str(pincode) + ',' + str(city) + ',' + str(state) + ',' + str(phone_number))
+            print(address)
+
+            if orders.objects.filter(email=email).exists():
+                user = orders.objects.get(email=email)
+                user.address_1 = address
+                user.save()
+            else:
+                b = orders(email=email,address_1=address)
+                orders.save(b)
+
             if user_data.objects.filter(email=email).exists():
                 print("your data is saved")
                 user = user_data.objects.get(email=email)
@@ -820,36 +887,38 @@ class razor_payment():
                         razorpay_client.payment.capture(payment_id, amount)
                         print("payment captured")
                         # render success page on successful caputre of payment
+                        # place the order to ship rocket 
                         a = shipment.shiprockeet_order_function(request)
                         a
+                        
                         print(a.status_code)
                         if a.status_code == 200 and a.json()['status'] == "NEW":
-                            print("readyyyyy")
-                            order_id = final_order_list.objects.aggregate(Max('order_id'))['order_id__max']
-                            order = final_order_list.objects.get(order_id=order_id)
+                            print("status is ok")
+                            order_id_1 = final_order_list.objects.aggregate(Max('order_id'))['order_id__max']
+                            order = final_order_list.objects.get(order_id=order_id_1)
                             order.shiprocket_dashboard = True
                             order.save()
-
-                            text = mail_otp.confirm_order_mail(email=request.user.email)
-                            text
-                            print(text)
-                            mail_otp.send_mail(email=request.user.email,msg=text)
+                            
+                            #send  confirmation mail
+                            try:
+                                mail_otp.confirm_order_mail(email=request.user.email,id=a.json()['order_id'])
+                                try :
+                                    order_user = orders.objects.get(email=email)
+                                    order_user.delete()
+                                    print("cart empty")
+                                    print("cart data is deleted")
+                                except:
+                                    print(KeyError)
+                            except:
+                                print("there is some issue with mail ")
                             
                             print("shipment done")
-                            try :
-                                order_user = orders.objects.get(email=email)
-                                order_user.delete()
-                            except:
-                                print(KeyError)
-
-                            print("cart empty")
-                            print("cart data is deleted")
-                            return redirect('/test/')
+                            return render(request, 'cart_checkout/paymentsuccess.html')
                         else:
                             pass
                         print(a.status_code)
                         print(a.json()['status'])
-                        print("ship rocket api is succefully done")
+                        print("ship rocket api is succefully done but some issue with new order ")
                         return render(request, 'cart_checkout/paymentsuccess.html')
                     except:
                         print("4444444")
