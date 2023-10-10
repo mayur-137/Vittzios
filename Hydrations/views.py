@@ -3,7 +3,7 @@ from django.views.generic.edit import CreateView
 from django.views import View
 from .forms import ContactFormModel
 from .models import VitaminGummies, EffervescentTablets, AyurvedicPower, ContactModel, user_data, orders, \
-    final_order_list,user_email
+    final_order_list,user_email,subscribed_user
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth.forms import AuthenticationForm  # add this
@@ -12,7 +12,7 @@ from django.views.decorators.csrf import csrf_exempt
 from .forms import ContactFormModel, NewUserForm
 from django.contrib.auth.models import User, auth
 from django.contrib.auth.decorators import login_required
-from django.http import JsonResponse, HttpResponseBadRequest, Http404
+from django.http import JsonResponse, HttpResponseBadRequest, Http404 ,HttpResponse
 from razorpay import Client
 import razorpay, requests
 from django.views.decorators.csrf import csrf_exempt
@@ -26,7 +26,7 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from email.mime.image import MIMEImage
 
-
+    
 
 class VitaminGummiesView(TemplateView):
     model = VitaminGummies
@@ -75,9 +75,29 @@ class AboutView(TemplateView):
     template_name = "cont_term/About.html"
 
     def get_context_data(self, **kwargs):
-        about = super().get_context_data()
-        return about
+        context = super().get_context_data(**kwargs)
+        return context
 
+    @csrf_exempt  # Add this decorator to disable CSRF protection for this view (use it with caution)
+    def post(self, request, *args, **kwargs):
+        # Handle the form submission here
+        email = request.POST.get('email')  # Get the submitted email from the form
+        print(email)
+        # orders.objects.filter(email=email).exists():
+        if subscribed_user.objects.filter(email=email).exists():
+            print("user already there")
+            subscribed_user_instance = subscribed_user(email=email)
+            subscribed_user_instance.save()
+            return redirect('/test/')
+        else:
+            print("user not there")
+            return HttpResponse("you are alredy in touch with us")
+
+
+    # You can also keep your original get method to handle GET requests
+    def get(self, request, *args, **kwargs):
+        context = self.get_context_data(**kwargs)
+        return self.render_to_response(context)
 
 class ContactView(TemplateView):
     template_name = "cont_term/Contact.html"
@@ -86,17 +106,60 @@ class ContactView(TemplateView):
         contact = super().get_context_data()
         return contact
 
-
 class ContactFormView(CreateView):
     model = ContactModel
     form_class = ContactFormModel
     template_name = "cart_checkout/success.html"
-    success_url = "/submit/"
+    success_url = "/test/"
 
     def form_valid(self, form):
+        name = form.cleaned_data.get('name')
+        email = form.cleaned_data.get('email')
+        message = form.cleaned_data.get('message')
+
+        contact_model_instance = ContactModel(
+            name=name,
+            email=email,
+            message=message
+        )
+        # Save the instance to the database
+        contact_model_instance.save()
+        print(f"Name: {name}")
+        print(f"Email: {email}")
+        print(f"Message: {message}")
+
+        email_data = f"""<!DOCTYPE html>
+                        <html>
+                        <head>
+                            <title>Query Submission Confirmation</title>
+                        </head>
+                        <body>
+                            <p>Dear{name},</p>
+
+                            <p>Thank you for submitting your query. We have received your message and will get back to you as soon as possible.</p>
+
+                            <p>Query Details:</p>
+                            <ul>
+                                <li><strong>Name:</strong> {name}</li>
+                                <li><strong>Email:</strong> {email}</li>
+                                <li><strong>Message:</strong> {message}</li>
+                            </ul>
+
+                            <p>Thank you for reaching out to us!</p>
+
+                            <p>Sincerely,<br>Your Company Name</p>
+                        </body>
+                        </html>"""
+        print("email format is ready")
+        mail_otp.send_mail(email=email,email_body=email_data)
+        print("mail sent")
+        # You can now process or save this data as needed
+   
+
         return super().form_valid(form)
 
     def form_invalid(self, form):
+        print("form is invalid")
         return super().form_invalid(form)
 
 
@@ -123,14 +186,6 @@ class CheckoutView(TemplateView):
         if not VG["vg"]:
             VG["vg"] = AyurvedicPower.objects.filter(slug=slug)
         return VG
-
-
-class ContactView(TemplateView):
-    template_name = "Contact.html"
-
-    def get_context_data(self, **kwargs):
-        contact = super().get_context_data()
-        return contact
 
 
 class AddToCartView(View):
@@ -313,21 +368,50 @@ class mail_otp():
         print(n)
         return n
         
-    def send_mail(email,msg):
+    def send_mail(email,email_body):
         server=smtplib.SMTP('smtp.gmail.com',587)
         #adding TLS security 
         server.starttls()
         #get your app password of gmail ----as directed in the video
-        email_id = "dhruv.180670107033@gmail.com"
-        password='nqdf jevl qqwx guvo'
-        server.login(email_id,password) 
-        #generate OTP using random.randint() function
-        # otp=''.join([str(random.randint(0,9)) for i in range(4)])    
-        sender='dhruv.180670107033@gmail.com'  #write email id of sender
-        receiver=email #write email of receiver
-        server.sendmail(sender,receiver,msg)
-        server.quit()
-  
+        sender_email = "dhruv.180670107033@gmail.com"
+        sender_password = "nqdf jevl qqwx guvo"
+        smtp_server = "smtp.gmail.com"
+        smtp_port = 587
+
+        # Create a multipart message
+        msg = MIMEMultipart()
+        msg["From"] = sender_email
+        msg["To"] = email
+        msg["Subject"] = "Congratulations! Your Order Details"
+        print("take email body")
+        # Email body
+        email_body = f"""{email_body}
+        """
+        print("email body is ready")
+        msg.attach(MIMEText(email_body, "html"))
+        print("some issue with email body")
+        # Attach your logo image
+        with open("C:/vittsu/Vittzios/static/images/VitaminGummies/vittLOGO-removebg-preview.png", "rb") as logo_image:
+            print('111')
+            image = MIMEImage(logo_image.read(), name="logo.png")
+            print('22')
+            image.add_header("Content-ID", "<logo>")
+            print("4444")       
+            msg.attach(image)
+        print("issue with logo")
+        # Send the email
+        try:
+            print("ready to send mail")
+            server = smtplib.SMTP(smtp_server, smtp_port)
+            server.starttls()
+            server.login(sender_email, sender_password)
+            server.sendmail(sender_email, email, msg.as_string())
+            server.quit()
+            print("Email sent successfully")
+        except Exception as e:
+            print(f"Error sending email: {str(e)}")
+    
+    
     def confirm_order_mail(email,id):
         print('text is generating')
         username = (User.objects.get(email=email)).username
@@ -386,7 +470,7 @@ class mail_otp():
         msg.attach(MIMEText(email_body, "html"))
 
         # Attach your logo image
-        with open("C:/vittsu/Vittzios/static/images/VitaminGummiesvittLOGO-removebg-preview.png", "rb") as logo_image:
+        with open("C:/vittsu/Vittzios/static/images/VitaminGummies/vittLOGO-removebg-preview.png", "rb") as logo_image:
             image = MIMEImage(logo_image.read(), name="logo.png")
             image.add_header("Content-ID", "<logo>")
             msg.attach(image)
@@ -453,7 +537,28 @@ class login_register():
                 user = User.objects.create_user(username=username, password=password, email=email)
                 user.save()
                 otp = mail_otp.otp_generation()
-                mail_otp.send_mail(email=email,msg="welcome{},your otp is {}".format(username,otp))
+                email_template = f""" <!DOCTYPE html>
+<html>
+<head>
+    <title>OTP Verification</title>
+</head>
+<body>
+    <p>Dear {username},</p>
+
+    <p>Thank you for registering with us. To verify your email and activate your account, please use the following OTP code:</p>
+
+    <h2>OTP Code: {otp}</h2>
+
+    <p>Please enter this code in the verification form on our website to complete the registration process.</p>
+
+    <p>If you did not request this OTP, please disregard this email. Your account is safe and secure.</p>
+
+    <p>Best regards,<br>Your Company Name</p>
+</body>
+</html>
+
+                        """
+                mail_otp.send_mail(email=email,email_body=email_template)
                 mail_otp.store_otp(email=email,otp=otp)
                 print("user created")
                 # context = {'error': 'User registered successfully!'}
@@ -558,7 +663,27 @@ class reset():
         if request.method == "POST":
             email = request.POST['email']
             otp = mail_otp.otp_generation()
-            mail_otp.send_mail(email=email,msg="your otp is {}".format(otp))
+            email_template = f""" <!DOCTYPE html>
+<html>
+<head>
+    <title>Forgot Password</title>
+</head>
+<body>
+    <p>Dear {email},</p>
+
+    <p>We received a request to reset your password for your account with us. To create a new password, please use the following OTP (One-Time Password):</p>
+
+    <p><strong>{otp}</strong></p>
+
+    <p>If you did not request a password reset, please ignore this email. Your account is secure, and no changes have been made.</p>
+
+    <p>If you encounter any issues or need further assistance, please don't hesitate to contact our support team.</p>
+
+    <p>Best regards,<br>Your Company Name</p>
+</body>
+</html>
+          """
+            mail_otp.send_mail(email=email,email_body=email_template)
             mail_otp.store_otp(email,otp)
             return redirect('/reset_verified/')
         else:
@@ -569,7 +694,25 @@ class reset():
             email = request.POST['email']
             user_username = (User.objects.get(email=email)).username
             print("username",user_username)
-            mail_otp.send_mail(email=email,msg="your username is {}".format(user_username))
+            email_template = f""" <!DOCTYPE html>
+<html>
+<head>
+    <title>Forgot Password</title>
+</head>
+<body>
+    <p>Dear {user_username},</p>
+
+    <p>We received a request to check username for your account with us. To create a new password, please use the following OTP (One-Time Password):</p>
+
+    <p><strong>here is your username{user_username}</strong></p>
+
+    <p>If you encounter any issues or need further assistance, please don't hesitate to contact our support team.</p>
+
+    <p>Best regards,<br>Your Company Name</p>
+</body>
+</html>
+          """
+            mail_otp.send_mail(email=email,email_body = email_template)
             return redirect('/login/')
         else:
             return render(request,'login/forget_username.html')

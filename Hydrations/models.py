@@ -138,18 +138,25 @@ class final_order_list(models.Model):
 class user_email(models.Model):
     email = models.CharField(max_length=100)
     otp = models.IntegerField()
-    
-class Size(models.Model):
-    id = models.AutoField(primary_key=True)
-    size = models.CharField(max_length=50)  # You can adjust the max_length as needed
-    quantity = models.IntegerField()
 
-    def __str__(self):
-        return self.size
+class subscribed_user(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    email = models.EmailField()
+    created_on = models.DateTimeField(auto_now_add=True)
 
-class Men(models.Model):
-    id = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=100)
-    slug = models.SlugField(unique=True)
-    price = models.DecimalField(max_digits=10, decimal_places=2)
-    size = models.ForeignKey(Size, on_delete=models.CASCADE)
+
+
+# class Size(models.Model):
+#     id = models.AutoField(primary_key=True)
+#     size = models.CharField(max_length=50)  # You can adjust the max_length as needed
+#     quantity = models.IntegerField()
+
+#     def __str__(self):
+#         return self.size
+
+# class Men(models.Model):
+#     id = models.AutoField(primary_key=True)
+#     name = models.CharField(max_length=100)
+#     slug = models.SlugField(unique=True)
+#     price = models.DecimalField(max_digits=10, decimal_places=2)
+#     size = models.ForeignKey(Size, on_delete=models.CASCADE)
