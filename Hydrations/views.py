@@ -86,12 +86,31 @@ class AboutView(TemplateView):
         # orders.objects.filter(email=email).exists():
         if subscribed_user.objects.filter(email=email).exists():
             print("user already there")
+            return HttpResponse("you are alredy in touch with us")
+        
+        else:
             subscribed_user_instance = subscribed_user(email=email)
             subscribed_user_instance.save()
+            email_template = f""" <!DOCTYPE html>
+                                    <html lang="en">
+                                    <head>
+                                        <meta charset="UTF-8">
+                                        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                                        <title>Thank You for Subscribing</title>
+                                        <!-- Add your CSS styles or include external stylesheets here if needed -->
+                                    </head>
+                                    <body>
+                                        <div class="container">
+                                            <h2>TO {email}</h2>
+                                            <h1>Thank You for Subscribing!</h1>
+                                            <p>We appreciate your interest in our content. You are now subscribed to receive updates and news from us.</p>
+                                            <p>If you have any questions or need assistance, please feel free to <a href="/contact">contact us</a>.</p>
+                                        </div>
+                                    </body>
+                                    </html>
+                                    """
+            mail_otp.send_mail(email=email,email_body=email_template)
             return redirect('/test/')
-        else:
-            print("user not there")
-            return HttpResponse("you are alredy in touch with us")
 
 
     # You can also keep your original get method to handle GET requests
