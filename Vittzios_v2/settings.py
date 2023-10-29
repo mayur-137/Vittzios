@@ -24,17 +24,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-*m&2r8hcncum*$phne&i5pnzm6434aizuw-o(kb8fkoy4_mymv'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ["15.206.194.134", "vittzios.com", "127.0.0.1"]
-"""
-STORAGES = {
-    # ...
-    "staticfiles": {
-        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
-    },
-}
-"""
+
 # Application definition
 
 INSTALLED_APPS = [

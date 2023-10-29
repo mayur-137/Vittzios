@@ -404,8 +404,7 @@ class mail_otp():
         msg["Subject"] = "Congratulations! Your Order Details"
         print("take email body")
         # Email body
-        email_body = f"""{email_body}
-        """
+        email_body = f"""{email_body}"""
         print("email body is ready")
         msg.attach(MIMEText(email_body, "html"))
         print("some issue with email body")
