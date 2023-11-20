@@ -3,7 +3,10 @@
  * License https://froala.com/wysiwyg-editor/terms/
  * Copyright 2014-2021 Froala Labs
  */
-
+ img{
+  width: 100%;
+  height: 100%;
+ }
 .fr-clearfix::after {
   clear: both;
   display: block;
@@ -558,7 +561,7 @@ textarea {
 }
 ul,
 ol {
-  padding-left: 20px;
+  padding-left: 0px;
 }
 /* Fade effect */
 /* Over effect */
@@ -12665,7 +12668,7 @@ section.u-image:not(.u-hover-box),
   z-index: 1;
 }
 .u-overlap .u-header {
-  position: absolute;
+  /* position: absolute; */
   top: 0;
   right: 0;
   left: 0;
@@ -21231,7 +21234,7 @@ a.pswp__share--download:hover {
   margin-bottom: -1px;
 }
 .u-tab-list[class*="u-border"] .u-tab-link.u-border-2 {
-  margin-bottom: -2px;
+  margin-bottom: 0px;
 }
 .u-tab-list[class*="u-border"] .u-tab-link.u-border-3 {
   margin-bottom: -3px;
@@ -23485,7 +23488,7 @@ section.u-dialog-block:not(.u-dialog-open) {
 .u-carousel-indicators {
   position: absolute;
   left: 0;
-  z-index: 15;
+  z-index: 0;
   display: flex;
   justify-content: center;
   padding-left: 0;
@@ -40051,7 +40054,7 @@ a.u-button-style.u-button-style.active > .u-text-active-white[class*="u-border-"
 .u-button-style:hover > .u-text-hover-white .u-svg-link,
 .u-button-style.u-button-style.active > .u-text-active-white .u-svg-link,
 .u-text-hover-white:focus .u-svg-link {
-  fill: #ffffff;
+  fill: #111111;
 }
 .u-link.u-text-white:hover {
   color: #e6e6e6 !important;
@@ -41219,9 +41222,6 @@ a.u-link.u-text-hover-grey-90:hover {
         ul:not(.u-unstyled)
         {
         font-size: 1.125rem;
-        margin-top: 20px;
-        margin-bottom: 20px;
-        line-height: 1.6;
         }
         ol
         {
@@ -41536,7 +41536,7 @@ a.u-link.u-text-hover-grey-90:hover {
         /** alt-color-rules **/
         .u-body-color a,.u-palette-1-base a,.u-palette-1-dark-3 a,.u-palette-1-dark-2 a,.u-palette-1-dark-1 a,.u-palette-1 a,.u-palette-1-light-1 a,.u-palette-2-base a,.u-palette-2-dark-3 a,.u-palette-2-dark-2 a,.u-palette-2-dark-1 a,.u-palette-2 a,.u-palette-2-light-1 a,.u-palette-3-dark-3 a,.u-palette-3-dark-2 a,.u-palette-3-dark-1 a,.u-palette-4-base a,.u-palette-4-dark-3 a,.u-palette-4-dark-2 a,.u-palette-4-dark-1 a,.u-palette-5-dark-3 a,.u-palette-5-dark-2 a,.u-palette-5-dark-1 a,.u-grey-40 a,.u-grey-30 a,.u-grey-90 a,.u-grey-80 a,.u-grey-75 a,.u-black a,.u-grey-70 a,.u-grey-60 a,.u-grey-50 a,.u-grey-dark-3 a,.u-grey-dark-2 a,.u-grey-dark-1 a,.u-grey a,.u-shading a,.u-overlap-contrast .u-header a:not(.u-nav-link):not(.u-btn)
         {
-        color: #adcce9;
+        color: #ffffff;
         }
         .u-body-color a:hover,.u-palette-1-base a:hover,.u-palette-1-dark-3 a:hover,.u-palette-1-dark-2 a:hover,.u-palette-1-dark-1 a:hover,.u-palette-1 a:hover,.u-palette-1-light-1 a:hover,.u-palette-2-base a:hover,.u-palette-2-dark-3 a:hover,.u-palette-2-dark-2 a:hover,.u-palette-2-dark-1 a:hover,.u-palette-2 a:hover,.u-palette-2-light-1 a:hover,.u-palette-3-dark-3 a:hover,.u-palette-3-dark-2 a:hover,.u-palette-3-dark-1 a:hover,.u-palette-4-base a:hover,.u-palette-4-dark-3 a:hover,.u-palette-4-dark-2 a:hover,.u-palette-4-dark-1 a:hover,.u-palette-5-dark-3 a:hover,.u-palette-5-dark-2 a:hover,.u-palette-5-dark-1 a:hover,.u-grey-40 a:hover,.u-grey-30 a:hover,.u-grey-90 a:hover,.u-grey-80 a:hover,.u-grey-75 a:hover,.u-black a:hover,.u-grey-70 a:hover,.u-grey-60 a:hover,.u-grey-50 a:hover,.u-grey-dark-3 a:hover,.u-grey-dark-2 a:hover,.u-grey-dark-1 a:hover,.u-grey a:hover
         {
@@ -41569,8 +41569,7 @@ a.u-link.u-text-hover-grey-90:hover {
 
 .u-header .u-image-1 {
   width: 126px;
-  height: 89px;
-  margin: 1px auto 0;
+  margin: 4vh 33vw;
 }
 
 .u-header .u-logo-image-1 {
@@ -41579,7 +41578,7 @@ a.u-link.u-text-hover-grey-90:hover {
 }
 
 .u-header .u-menu-1 {
-  margin: -63px auto 27px 0;
+  /* margin: -63px auto 27px 0; */
 }
 
 .u-header .u-nav-1 {
@@ -41594,42 +41593,50 @@ a.u-link.u-text-hover-grey-90:hover {
 @media (max-width: 1199px) {
   .u-header .u-image-1 {
     width: 126px;
-    height: 89px;
+    margin: 4vh 24px;
   }
+
+  .u-header .u-image-2 {
+    width: 57px;
+    height: 57px;
+    /* margin-top: -46px;
+    margin-right: 11px; */
+}
 
   .u-header .u-menu-1 {
     width: auto;
-    margin-top: -63px;
+    margin-top: 0px;
   }
 }
+
 @media (max-width: 991px) {
    .u-header {
     min-height: 91px;
   }
 
   .u-header .u-menu-1 {
-    margin-bottom: 28px;
+    margin-bottom: 0px;
   }
 }
 @media (max-width: 767px) {
    .u-header {
-    min-height: 100vh;
+    min-height: 90px;
   }
 
   .u-header .u-menu-1 {
-    margin-top: -61px;
+    margin-top: 0px;
     margin-bottom: 0;
-    margin-left: calc(((100% - 540px) / 2) + -38px);
+    /* margin-left: calc(((100% - 540px) / 2) + -38px); */
   }
 }
 @media (max-width: 575px) {
   .u-header .u-image-1 {
-    margin-top: 1px;
+    margin-top: 24px;
   }
 
   .u-header .u-menu-1 {
-    margin-top: -62px;
-    margin-left: calc(((100% - 340px) / 2) + -24px);
+    margin-top: -0px;
+    /* margin-left: calc(((100% - 340px) / 2) + -24px); */
   }
 }
 .u-footer .u-sheet-1 {
@@ -41699,7 +41706,7 @@ a.u-link.u-text-hover-grey-90:hover {
 
 .u-footer .u-btn-1 {
   background-image: none;
-  margin: 23px 30px 0 auto;
+  margin: 23px 30px 5vh 0px;
   padding: 0;
 }
 
@@ -41761,7 +41768,7 @@ a.u-link.u-text-hover-grey-90:hover {
 
 .u-footer .u-text-4 {
   font-size: 1.25rem;
-  margin: 49px 16px 0;
+  margin: -1vh 1vw -6vh 1vw;
 }
 
 .u-footer .u-layout-cell-6 {
@@ -41774,7 +41781,7 @@ a.u-link.u-text-hover-grey-90:hover {
 
 .u-footer .u-btn-5 {
   border-style: solid;
-  margin: 72px auto 0 14px;
+  margin: 14px auto 0 14px;
   padding: 0;
 }
 
@@ -41943,8 +41950,8 @@ a.u-link.u-text-hover-grey-90:hover {
   }
 
   .u-footer .u-container-layout-6 {
-    padding-left: 10px;
-    padding-right: 10px;
+    padding-left: 21vw;
+    padding-bottom: 4vh;
   }
 }
 @media (max-width: 575px) {
@@ -41956,3 +41963,33 @@ a.u-link.u-text-hover-grey-90:hover {
  /*begin-variables base-font-size*/ 
  html { font-size: 16px; }
  /*end-variables base-font-size*/
+
+.u-menu.u-menu-one-level.u-offcanvas-shift.u-menu-1{
+  display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.u-menu.u-menu-one-level.u-offcanvas-shift.u-menu-1 nav{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.logo{
+  width: 40px;
+  height: 40px;
+}
+
+.email_id{
+  position: relative;
+  color: black;
+}
+
+.container-six-imgs{
+     display: flex;
+      flex-wrap: wrap;
+      justify-content: space-around;
+}
+.container-six-imgs img {
+    height: 40%;
+    width: 51%;
+}

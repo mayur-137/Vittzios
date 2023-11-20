@@ -1,17 +1,21 @@
 from django.contrib import admin
-from .models import VitaminGummies, EffervescentTablets, VitaminCapsules, AyurvedicJuice, AyurvedicPower, \
-    TropicalSkinHair, CartModel, ContactModel , user_data
+from .models import (VitaminGummies, EffervescentTablets, VitaminCapsules, AyurvedicJuice, AyurvedicPower, \
+                     TropicalSkinHair, ContactModel, user_data, orders, final_order_list, user_email,
+                     subscribed_user,
+                     WishList, PromoCode, PromoCodeVerify, cart_data)
 
 
 # Register your models here.
 class AuthorAdmin(admin.ModelAdmin):
-    list_display = ["id", "email","building","street","street",'area','pincode' ,'city']
-    
-admin.site.register(user_data,AuthorAdmin)    
+    list_display = ["id", "email", "building", "street", "street", 'area', 'pincode', 'city', 'state']
+
+
+admin.site.register(user_data, AuthorAdmin)
+
 
 class AuthorAdmin(admin.ModelAdmin):
-    list_display = ["id", "name", "description", "price", "discount", "slug", "quantity", "picture",
-                    "created_on"]
+    list_display = ["id", "name", "description", "price", "discount", "slug", "max_quantity", "picture",
+                    "created_on", "image"]
 
 
 admin.site.register(VitaminGummies, AuthorAdmin)
@@ -20,8 +24,59 @@ admin.site.register(VitaminCapsules, AuthorAdmin)
 admin.site.register(AyurvedicPower, AuthorAdmin)
 admin.site.register(AyurvedicJuice, AuthorAdmin)
 admin.site.register(TropicalSkinHair, AuthorAdmin)
-admin.site.register(CartModel, AuthorAdmin)
+
+
+class AuthorAdmin_cart(admin.ModelAdmin):
+    list_display = ["id", "name", "description", "price", "discount", "slug", "max_quantity", "picture",
+                    "created_on"]
+
 
 @admin.register(ContactModel)
 class ContactModelAdmin(admin.ModelAdmin):
     list_display = ["id", "name", "email", "created_on"]
+
+
+@admin.register(subscribed_user)
+class subscribed(admin.ModelAdmin):
+    list_display = ["id", "email", "created_on"]
+
+
+@admin.register(orders)
+class AuthorAdmin_order(admin.ModelAdmin):
+    list_display = ["order_id", "email", "address_1", "products_detail", "order_total"]
+
+
+# admin.site.register(orders,AuthorAdmin_order)
+
+@admin.register(final_order_list)
+class AuthorAdmin_final_order(admin.ModelAdmin):
+    list_display = ["order_id", "email", "address", "products_detail", "order_total", "shiprocket_dashboard"]
+
+
+# admin.site.register(final_order_list,AuthorAdmin_final_order)
+
+class AuthorAdmin_user_email(admin.ModelAdmin):
+    list_display = ["email", "otp"]
+
+
+admin.site.register(user_email, AuthorAdmin_user_email)
+
+
+@admin.register(WishList)
+class WishListAdmin(admin.ModelAdmin):
+    list_display = ["id"]
+
+
+@admin.register(PromoCode)
+class PromoCodeAdmin(admin.ModelAdmin):
+    list_display = ["code", "discount", "min_amount"]
+
+
+@admin.register(PromoCodeVerify)
+class PromoCodeAdmin(admin.ModelAdmin):
+    list_display = ["code", "email"]
+
+
+@admin.register(cart_data)
+class PromoCodeAdmin(admin.ModelAdmin):
+    list_display = ["order_id", "email", "address_1", "products_detail", "order_total"]

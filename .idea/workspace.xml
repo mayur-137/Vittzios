@@ -4,55 +4,29 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="afcf584f-7dca-488e-b20f-e9c0e8eb836a" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/7d039dd5-7ae5-442f-8c4d-457779b5f962.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/7d039dd5-7ae5-442f-8c4d-457779b5f962.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Hydrations/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/Hydrations/forms.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Hydrations/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/Hydrations/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Hydrations/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/Hydrations/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/js/nicepage.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/js/script.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/js/script.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/Base.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/Base.html" afterDir="false" />
-    </list>
+    <list default="true" id="de8e0a37-050d-42c3-a296-1d581c4c6e45" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="Git.Settings">
-    <option name="RECENT_BRANCH_BY_REPOSITORY">
-      <map>
-        <entry key="$PROJECT_DIR$" value="login-11-8" />
-      </map>
-    </option>
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
-  </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
   <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
   &quot;associatedIndex&quot;: 4
 }</component>
-  <component name="ProjectId" id="2TXEWA4JO4sgraGsK6PKt00BaDP" />
-  <component name="ProjectLevelVcsManager">
-    <ConfirmationsSetting value="2" id="Add" />
-  </component>
+  <component name="ProjectId" id="2YIVt0NzICrNzKosL799JQ5yAWe" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
-    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
-    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;codeWithMe.voiceChat.enabledByDefault&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/_Code_PlayGround/Vittzios&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -60,7 +34,7 @@
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
-  <component name="RunManager" selected="Django Server.Vittzios">
+  <component name="RunManager">
     <configuration name="Vittzios" type="Python.DjangoServer" factoryName="Django server">
       <module name="Vittzios" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -85,75 +59,25 @@
       <option name="customRunCommand" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="Vittzios_v2" type="Python.DjangoServer" factoryName="Django server">
-      <module name="Vittzios_v2" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-        <env name="DJANGO_SETTINGS_MODULE" value="Vittzios_v2.settings" />
-      </envs>
-      <option name="SDK_HOME" value="C:\Users\mayur\anaconda3\envs\vittenv\python.exe" />
-      <option name="SDK_NAME" value="vittenv" />
-      <option name="WORKING_DIRECTORY" value="" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="launchJavascriptDebuger" value="false" />
-      <option name="port" value="8000" />
-      <option name="host" value="" />
-      <option name="additionalOptions" value="" />
-      <option name="browserUrl" value="" />
-      <option name="runTestServer" value="false" />
-      <option name="runNoReload" value="false" />
-      <option name="useCustomRunCommand" value="false" />
-      <option name="customRunCommand" value="" />
-      <method v="2" />
-    </configuration>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="afcf584f-7dca-488e-b20f-e9c0e8eb836a" name="Changes" comment="" />
-      <created>1691181056707</created>
+      <changelist id="de8e0a37-050d-42c3-a296-1d581c4c6e45" name="Changes" comment="" />
+      <created>1700213294950</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1691181056707</updated>
-      <workItem from="1691181061843" duration="6068000" />
-      <workItem from="1691226583446" duration="5557000" />
-      <workItem from="1691239042002" duration="1310000" />
-      <workItem from="1691244185779" duration="878000" />
-      <workItem from="1691263981522" duration="1202000" />
-      <workItem from="1691329205203" duration="1302000" />
-      <workItem from="1691344551501" duration="1222000" />
-      <workItem from="1691392564302" duration="3177000" />
-      <workItem from="1691480027223" duration="627000" />
-      <workItem from="1691529887701" duration="1224000" />
-      <workItem from="1691560751342" duration="1249000" />
-      <workItem from="1691566718616" duration="2519000" />
-      <workItem from="1691653783446" duration="4505000" />
-      <workItem from="1691781914026" duration="338000" />
-      <workItem from="1691949837965" duration="3672000" />
-      <workItem from="1692000487420" duration="3694000" />
-      <workItem from="1692429398934" duration="884000" />
+      <updated>1700213294950</updated>
+      <workItem from="1700213299910" duration="2811000" />
+      <workItem from="1700222400749" duration="19000" />
+      <workItem from="1700374414306" duration="11905000" />
+      <workItem from="1700414128473" duration="4643000" />
+      <workItem from="1700467996119" duration="3391000" />
+      <workItem from="1700513861894" duration="8167000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
-  </component>
-  <component name="Vcs.Log.Tabs.Properties">
-    <option name="TAB_STATES">
-      <map>
-        <entry key="MAIN">
-          <value>
-            <State />
-          </value>
-        </entry>
-      </map>
-    </option>
-  </component>
-  <component name="VcsManagerConfiguration">
-    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
   </component>
 </project>

@@ -1,5 +1,5 @@
  .u-section-1 {
-  min-height: 826px;
+  min-height: 400px;
 }
 
 .u-section-1 .u-image-1 {
@@ -13,7 +13,7 @@
   margin-top: 30px;
   margin-bottom: 60px;
 }.u-section-2 .u-sheet-1 {
-  height: 40px;
+  min-height: -30px;
 }
 
 .u-section-2 .u-products-1 {
