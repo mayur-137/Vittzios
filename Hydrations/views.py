@@ -780,6 +780,20 @@ def Refund_policies(request):
         return redirect("/")
 
 
+@csrf_exempt
+def Privacy_Policy(request):
+    if request.method:
+        return render(request, 'cont_term/Privacy_Policy.html')
+    else:
+        return redirect("/")
+
+@csrf_exempt
+def Payment_Shipping_Delivery(request):
+    if request.method:
+        return render(request, 'cont_term/Payment_Shipping_Delivery.html')
+    else:
+        return redirect("/")
+
 class CashOnDelivery(MailView):
 
     def get(self, request, *args, **kwargs):

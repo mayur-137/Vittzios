@@ -12,7 +12,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-*m&2r8hcncum*$phne&i5pnzm6434aizuw-o(kb8fkoy4_mymv'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 CORS_ALLOW_CREDENTIALS = True
 
@@ -24,7 +24,7 @@ CSRF_TRUSTED_ORIGINS = ['https://vittzios.com']
 
 CSRF_COOKIE_DOMAIN = 'vittzios.com'
 
-ALLOWED_HOSTS = ["vittzios.com", "*"]
+ALLOWED_HOSTS = ["vittzios.com"]
 
 # Application definition
 
@@ -87,9 +87,9 @@ WSGI_APPLICATION = 'Vittzios_v2.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'Vittdb',
-        'USER': 'Vittzios',
-        'PASSWORD': 'MYSQL3306#Vittzios',  # dfghj5678io345tgb45tgfb
+        'NAME': 'vittzios',
+        'USER': 'root',
+        'PASSWORD': 'password',  # dfghj5678io345tgb45tgfb
         'HOST': 'localhost',
         'PORT': '3306',
         'OPTIONS': {

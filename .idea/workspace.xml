@@ -4,11 +4,53 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="de8e0a37-050d-42c3-a296-1d581c4c6e45" name="Changes" comment="" />
+    <list default="true" id="de8e0a37-050d-42c3-a296-1d581c4c6e45" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/templates/cont_term/Payment_Shipping_Delivery.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/cont_term/Privacy_Policy.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/7d039dd5-7ae5-442f-8c4d-457779b5f962.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/7d039dd5-7ae5-442f-8c4d-457779b5f962.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Hydrations/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/Hydrations/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Hydrations/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/Hydrations/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/demo/db.sqlite3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/demo/demo/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/demo/demo/asgi.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/demo/demo/settings.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/demo/demo/urls.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/demo/demo/wsgi.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/demo/manage.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/demo/users/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/demo/users/admin.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/demo/users/apps.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/demo/users/forms.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/demo/users/migrations/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/demo/users/models.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/demo/users/templates/users/base.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/demo/users/templates/users/home.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/demo/users/templates/users/login.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/demo/users/templates/users/logout.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/demo/users/templates/users/register.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/demo/users/tests.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/demo/users/views.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/Base.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/Base.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/cont_term/Refund_policies.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/cont_term/Refund_policies.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/cont_term/terms_conditions.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/cont_term/terms_conditions.html" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="HTML File" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -24,9 +66,11 @@
   </component>
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
+    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;21-11&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -74,6 +118,8 @@
       <workItem from="1700414128473" duration="4643000" />
       <workItem from="1700467996119" duration="3391000" />
       <workItem from="1700513861894" duration="8167000" />
+      <workItem from="1700551829661" duration="5712000" />
+      <workItem from="1700685767361" duration="3271000" />
     </task>
     <servers />
   </component>
